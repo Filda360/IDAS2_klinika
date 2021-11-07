@@ -7,6 +7,9 @@
 //token Filda360 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
 package veterinarniklinika;
 
+import java.io.IOException;
+import registrace.*;
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,8 +20,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -29,7 +38,6 @@ import javafx.scene.control.TextField;
 public class FXMLUvodniController implements Initializable {
     
     PreparedStatement pstmt=null;
-    Connection con=null;
     ResultSet rs=null;   
     
     @FXML
@@ -43,7 +51,9 @@ public class FXMLUvodniController implements Initializable {
     @FXML
     private Label labelInfo;
     @FXML
-    private Button btnKonec;
+    private ComboBox<enumRole> cbRole;
+    
+    
     
     private void handleButtonAction(ActionEvent event) {
 
@@ -51,44 +61,88 @@ public class FXMLUvodniController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try{
-            con=DBUtil.getConnection();
-            System.out.println("pripojeno");
-            con.createStatement();
-//            String sql = "select * from login where username=? and password=?";
-//            pstmt = con.prepareStatement(sql);
-//            pstmt.setString(1,tfJmeno.getText());
-//            pstmt.setString(2, tfHeslo.getText());
-//            rs = pstmt.executeQuery();
-//            System.out.println(rs);
-//            if(rs.next()) {
-//                    labelInfo.setText("Login Sucessfully!");
-//            }else{
-//                    labelInfo.setText("Login Not Sucessfully!");
-//            }
-        } catch (SQLException e) {
-                System.out.println("sql exception");
-                e.printStackTrace();
-        }
+        cbRole.getItems().setAll(enumRole.values());
+        cbRole.setValue(enumRole.UZIVATEL);
     }    
 
     @FXML
     private void btnPrihlasitOnAction(ActionEvent event) {
 
+        try {
+            switch(cbRole.getValue()){ 
+                case DOKTOR:{
+                    String jmeno = tfJmeno.getText();
+                    String heslo = tfHeslo.getText();
+                    String sql = "SELECT * FROM prihlasovaci_udaje_doktori WHERE prihlasovaci_jmeno LIKE '" + jmeno + "' AND heslo LIKE '" + heslo + "'";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    if(rs.next()){ 
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Succes !");
+                        alert.setHeaderText("Přihlášení proběhlo úspěšně !");
+                        alert.showAndWait();
+                        
+                        //TODO zavreni prihlasovaciho dialogu a otevreni dailogu doktora
+                                           
+                    }else{
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Error !");
+                        alert.setHeaderText("Nepodařilo se přihlásit se zadaným jménem a heslem");
+                        alert.setContentText("zkontroluj správnost jména a hesla!");
+                        alert.showAndWait();
+                    }
+                }
+                break;
+                case UZIVATEL:{ 
+                                        String jmeno = tfJmeno.getText();
+                    String heslo = tfHeslo.getText();
+                    String sql = "SELECT * FROM prihlasovaci_udaje_zakaznici WHERE prihlasovaci_jmeno LIKE '" + jmeno + "' AND heslo LIKE '" + heslo + "'";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    if(rs.next()){ 
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Succes !");
+                        alert.setHeaderText("Přihlášení proběhlo úspěšně !");
+                        alert.showAndWait();
+                        
+                        //TODO zavreni prihlasovaciho dialogu a otevreni dailogu prihlaseneho uzivatele
+                        
+                        
+                    }else{
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Error !");
+                        alert.setHeaderText("Nepodařilo se přihlásit se zadaným jménem a heslem");
+                        alert.setContentText("zkontroluj správnost jména a hesla!");
+                        alert.showAndWait();
+                    }
+                }
+                break;
+            }
+
+        } catch (SQLException ex) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Chyba SQL");
+            alert.setHeaderText(ex.getSQLState());
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
+        }
+
     }
 
     @FXML
     private void handleBtnRegistraceOnAction(ActionEvent event) {
-        
-    }
-
-    @FXML
-    private void handleBtnKonecOnAction(ActionEvent event) {
+        Parent root;
         try {
-            DBUtil.closeConnection(con);
-        } catch (SQLException ex) {
-            System.out.println("chyba ukonceni spojeni !");
+            root = FXMLLoader.load(getClass().getResource("/registrace/FXMLRegistrace.fxml"));
+            Scene scene = new Scene(root);
+        } catch (IOException ex) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error !");
+            alert.setHeaderText("Nepodařilo se načíst dialog pro přihlášení");
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
         }
     }
+    
     
 }

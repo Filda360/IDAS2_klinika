@@ -20,7 +20,6 @@ public final class DBUtil {
             }
     }
 
-    //private final static String url="jdbc:oracle:thin:@localhost:1521:XE"; //fei-sql1.upceucebny.cz
     private final static String url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS =(PROTOCOL=TCP)(HOST=fei-sql1.upceucebny.cz)(PORT=1521)))(CONNECT_DATA=(SID=IDAS)))";
     private final static String user="ST61021"; //STecko
     private final static String password="Flynn177";//heslo

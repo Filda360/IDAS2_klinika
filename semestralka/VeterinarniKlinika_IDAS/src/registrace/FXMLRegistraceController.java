@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package registrace;
 
 import java.net.URL;
@@ -11,13 +7,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-/**
- * FXML Controller class
- *
- * @author 42060
- */
+
 public class FXMLRegistraceController implements Initializable {
 
     @FXML
@@ -38,6 +31,10 @@ public class FXMLRegistraceController implements Initializable {
     private TextField tfTelefon;
     @FXML
     private TextField tfEmail;
+    @FXML
+    private PasswordField tfHeslo;
+    @FXML
+    private TextField tfPrihlasovaciJmeno;
 
 
     @Override
@@ -45,8 +42,11 @@ public class FXMLRegistraceController implements Initializable {
 
     }    
 
+    //přidá nového majitele do databáze
     @FXML
     private void handleBtnRegistrovatOnAction(ActionEvent event) {
+        
+        
     }
     
 }
