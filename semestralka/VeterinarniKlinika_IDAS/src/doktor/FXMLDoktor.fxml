@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doktor.FXMLDoktorController">
+   <top>
+      <VBox prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="28.0" prefWidth="600.0">
+               <children>
+                  <Label text="Vyhledat zvíře" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="10.0">
+               <children>
+                  <Label text="jméno zvířete: " />
+                  <TextField fx:id="tfJmenoZvirete" />
+                  <Label text="druh:" />
+                  <ComboBox fx:id="cbDruh" prefWidth="150.0" />
+                  <Button fx:id="btnVyhledat" mnemonicParsing="false" onAction="#handleBtnVyhledatOnAction" text="vyhledat" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnMojeUdaje" mnemonicParsing="false" onAction="#handleBtnMojeUdajeOnAction" text="moje údaje" />
+            <Button fx:id="btnOdhlasit" mnemonicParsing="false" onAction="#handleBtnOdhlasitOnAction" text="odhlásit" />
+         </children>
+      </HBox>
+   </bottom>
+   <right>
+      <VBox alignment="TOP_CENTER" prefHeight="306.0" prefWidth="115.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnZakroky" mnemonicParsing="false" onAction="#handleBtnZakrokyOnAction" prefWidth="105.0" text="zobraz zákroky" />
+            <Button fx:id="btnOdbery" mnemonicParsing="false" onAction="#handleBtnOdberyOnAction" prefWidth="105.0" text="zobraz odběry" />
+            <Button fx:id="btnVysetreni" mnemonicParsing="false" onAction="#handleBtnVysetreniOnAction" prefWidth="105.0" text="zobraz vyšetření">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </Button>
+            <Label text="přidat položku:" />
+            <ComboBox fx:id="cbPridatPolozku" prefWidth="150.0" promptText="zákrok/odběr/vyšetření" />
+            <Button fx:id="btnPridatPolozku" mnemonicParsing="false" text="přidat">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnVystavitFakturu" mnemonicParsing="false" onAction="#handleBtnVystavitFakturuOnAction" prefWidth="105.0" text="vystavit fakturu" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
