@@ -23,6 +23,7 @@ public class VeterinarniKlinika extends Application {
         
         Scene scene = new Scene(root);
         
+        stage.setTitle("IDAS2 - Semestralni prace - Veterinarní klinika - Filip Micka, Tomas Zlatohlavek");
         stage.setScene(scene);
         stage.show();
     }
