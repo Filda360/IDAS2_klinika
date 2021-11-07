@@ -44,7 +44,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="tfJmeno" GridPane.columnIndex="1" />
+                  <TextField fx:id="tfJmenoR" GridPane.columnIndex="1" />
                   <TextField fx:id="tfPrijmeni" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="tfUlice" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label prefHeight="17.0" prefWidth="327.0" text="jméno:" />
@@ -62,7 +62,7 @@
                   <TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <Label text="přihlašovací jméno: " GridPane.rowIndex="8" />
                   <Label text="heslo: " GridPane.rowIndex="9" />
-                  <PasswordField fx:id="tfHeslo" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <PasswordField fx:id="tfHesloR" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                   <TextField fx:id="tfPrihlasovaciJmeno" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                </children>
                <VBox.margin>
@@ -75,7 +75,8 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnRegistrovat" mnemonicParsing="false" onAction="#handleBtnRegistrovatOnAction" text="Registrovat" />
+            <Button fx:id="btnZpet" mnemonicParsing="false" onAction="#handleBtnZpetOnAction" text="Zpět na přihlášení" />
+            <Button fx:id="btnZaregistrovat" mnemonicParsing="false" onAction="#handleBtnZaregistrovatOnAction" text="Registrovat" />
          </children>
       </HBox>
    </bottom>

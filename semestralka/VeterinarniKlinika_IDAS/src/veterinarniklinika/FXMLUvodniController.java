@@ -22,6 +22,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -29,7 +30,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  *
@@ -40,31 +45,26 @@ public class FXMLUvodniController implements Initializable {
     PreparedStatement pstmt=null;
     ResultSet rs=null;   
     
+    //Prvky uvodní prihlasovaci obrazovky
     @FXML
     private TextField tfJmeno;
+    @FXML
+    private TextField tfHeslo;
+    @FXML
+    private ComboBox<enumRole> cbRole;
     @FXML
     private Button btnPrihlasit;
     @FXML
     private Button btnRegistrovat;
     @FXML
-    private TextField tfHeslo;
-    @FXML
     private Label labelInfo;
-    @FXML
-    private ComboBox<enumRole> cbRole;
     
-    
-    
-    private void handleButtonAction(ActionEvent event) {
-
-    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cbRole.getItems().setAll(enumRole.values());
         cbRole.setValue(enumRole.UZIVATEL);
     }    
-
     @FXML
     private void btnPrihlasitOnAction(ActionEvent event) {
 
@@ -81,15 +81,16 @@ public class FXMLUvodniController implements Initializable {
                         alert.setTitle("Succes !");
                         alert.setHeaderText("Přihlášení proběhlo úspěšně !");
                         alert.showAndWait();
-                        
-                        //TODO zavreni prihlasovaciho dialogu a otevreni dailogu doktora
+                                   
+                        try {
+                            //TODO otevreni dailogu doktora
+                            zobrazDialogDoktor(event);
+                        } catch (IOException ex) {
+                            zobrazErrorDialog("Chyba při přechodu do dialogu doktora !", ex.getMessage());
+                        }
                                            
                     }else{
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Error !");
-                        alert.setHeaderText("Nepodařilo se přihlásit se zadaným jménem a heslem");
-                        alert.setContentText("zkontroluj správnost jména a hesla!");
-                        alert.showAndWait();
+                        zobrazErrorDialog("Nepodařilo se přihlásit se zadaným jménem a heslem", "zkontroluj správnost jména a hesla!");
                     }
                 }
                 break;
@@ -105,44 +106,63 @@ public class FXMLUvodniController implements Initializable {
                         alert.setHeaderText("Přihlášení proběhlo úspěšně !");
                         alert.showAndWait();
                         
-                        //TODO zavreni prihlasovaciho dialogu a otevreni dailogu prihlaseneho uzivatele
-                        
+                        try {
+                            //TODO otevreni dailogu prihlaseneho uzivatele
+                            zobrazDialogUzivatel(event);
+                        } catch (IOException ex) {
+                            zobrazErrorDialog("Chyba při přechodu do dialogu uzivatele !", ex.getMessage());
+                        }
                         
                     }else{
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Error !");
-                        alert.setHeaderText("Nepodařilo se přihlásit se zadaným jménem a heslem");
-                        alert.setContentText("zkontroluj správnost jména a hesla!");
-                        alert.showAndWait();
+                        zobrazErrorDialog("Nepodařilo se přihlásit se zadaným jménem a heslem", "zkontroluj správnost jména a hesla!");
                     }
                 }
                 break;
             }
 
         } catch (SQLException ex) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Chyba SQL");
-            alert.setHeaderText(ex.getSQLState());
-            alert.setContentText(ex.getMessage());
-            alert.showAndWait();
+            zobrazErrorDialog(ex.getSQLState(), ex.getMessage());
         }
 
     }
-
     @FXML
     private void handleBtnRegistraceOnAction(ActionEvent event) {
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/registrace/FXMLRegistrace.fxml"));
-            Scene scene = new Scene(root);
+        try {    
+            zobrazDialogRegistrace(event);         
         } catch (IOException ex) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error !");
-            alert.setHeaderText("Nepodařilo se načíst dialog pro přihlášení");
-            alert.setContentText(ex.getMessage());
-            alert.showAndWait();
+            zobrazErrorDialog("Chyba při přechodu do dialogu registrace !", ex.getMessage());
         }
     }
     
+    private void zobrazDialogDoktor(ActionEvent event) throws IOException{ 
+        Parent root = FXMLLoader.load(getClass().getResource("/doktor/FXMLDoktor.fxml"));
+        Scene scene = new Scene(root);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
+    }
     
+    private void zobrazDialogRegistrace(ActionEvent event) throws IOException{ 
+        Parent root = FXMLLoader.load(getClass().getResource("/registrace/FXMLRegistrace.fxml"));
+        Scene scene = new Scene(root);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
+    }
+    
+    private void zobrazDialogUzivatel(ActionEvent event) throws IOException{ 
+        Parent root = FXMLLoader.load(getClass().getResource("/uzivatel/FXMLUzivatel.fxml"));
+        Scene scene = new Scene(root);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
+    }
+    
+    private void zobrazErrorDialog(String headText, String content){ 
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error !");
+        alert.setHeaderText(headText);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

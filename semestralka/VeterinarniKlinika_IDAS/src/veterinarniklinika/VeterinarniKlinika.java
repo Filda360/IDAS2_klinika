@@ -25,7 +25,8 @@ public class VeterinarniKlinika extends Application {
     
     PreparedStatement pstmt=null;
     static Connection con=null;
-    ResultSet rs=null;   
+    ResultSet rs=null; 
+    static Stage primaryStage;
 
     
     @Override
@@ -37,6 +38,8 @@ public class VeterinarniKlinika extends Application {
         stage.setTitle("IDAS2 - Semestralni prace - Veterinarní klinika - Filip Micka, Tomas Zlatohlavek");
         stage.setScene(scene);
         stage.show();
+        
+        primaryStage = stage;
         
         try{
             con=DBUtil.getConnection();
