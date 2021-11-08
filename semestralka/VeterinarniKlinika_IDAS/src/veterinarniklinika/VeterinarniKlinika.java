@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -47,27 +48,30 @@ public class VeterinarniKlinika extends Application {
         
         boolean nepripojeno = true;
         do{
-        try{
-            con=DBUtil.getConnection();
-            con.createStatement();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Succes !");
-            alert.setHeaderText("Připojení k databázi proběhlo úspěšně !");
-            alert.showAndWait();
-            nepripojeno = false;
-            
-        } catch (SQLException e) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Error !");
-            alert.setHeaderText("Chyba připojení k databázi, nejsi připojen k VPN - připoj se !");
+            try{
+                con=DBUtil.getConnection();
+                con.createStatement();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Succes !");
+                alert.setHeaderText("Připojení k databázi proběhlo úspěšně !");
+                alert.showAndWait();
+                nepripojeno = false;
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                nepripojeno = true;
-            } else {
-                stop();
-}
-        }
+            } catch (SQLException e) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Error !");
+                //alert.setHeaderText("Chyba připojení k databázi, nejsi připojen k VPN - připoj se !");
+                alert.setHeaderText(e.getMessage());
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    nepripojeno = true;
+                } else {
+                    nepripojeno = false;
+                    stop();
+                    Platform.exit();
+                }       
+            }
         }while(nepripojeno);
     }
 
