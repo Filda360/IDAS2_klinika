@@ -9,12 +9,15 @@ package veterinarniklinika;
 
 import java.io.IOException;
 import registrace.*;
+import dataTridy.Doktor;
+import dataTridy.PrihlasenyUzivatel;
 
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,8 +45,9 @@ import javafx.stage.Stage;
  */
 public class FXMLUvodniController implements Initializable {
     
-    PreparedStatement pstmt=null;
-    ResultSet rs=null;   
+    private PreparedStatement pstmt=null;
+    private ResultSet rs=null;   
+    private static PrihlasenyUzivatel prihlasenyUzivatel = null;
     
     //Prvky uvodní prihlasovaci obrazovky
     @FXML
@@ -67,23 +71,24 @@ public class FXMLUvodniController implements Initializable {
     }    
     @FXML
     private void btnPrihlasitOnAction(ActionEvent event) {
-
+        int idPrihlasenehoUzivatele;
         try {
             switch(cbRole.getValue()){ 
                 case DOKTOR:{
                     String jmeno = tfJmeno.getText();
                     String heslo = tfHeslo.getText();
-                    String sql = "SELECT * FROM prihlasovaci_udaje_doktori WHERE prihlasovaci_jmeno LIKE '" + jmeno + "' AND heslo LIKE '" + heslo + "'";
+                    String sql = "SELECT ID_DOKTORA FROM prihlasovaci_udaje_doktori WHERE prihlasovaci_jmeno LIKE '" + jmeno + "' AND heslo LIKE '" + heslo + "'";
                     pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                     rs = pstmt.executeQuery();
-                    if(rs.next()){ 
+                    if(rs.next()){
+                        idPrihlasenehoUzivatele = rs.getInt("ID_DOKTORA");
                         Alert alert = new Alert(AlertType.INFORMATION);
                         alert.setTitle("Succes !");
                         alert.setHeaderText("Přihlášení proběhlo úspěšně !");
                         alert.showAndWait();
-                                   
+                        nactiPrihlasenehoDoktora(idPrihlasenehoUzivatele);
+                        //otevreni dailogu doktora        
                         try {
-                            //TODO otevreni dailogu doktora
                             zobrazDialogDoktor(event);
                         } catch (IOException ex) {
                             zobrazErrorDialog("Chyba při přechodu do dialogu doktora !", ex.getMessage());
@@ -164,5 +169,38 @@ public class FXMLUvodniController implements Initializable {
         alert.setHeaderText(headText);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+    
+    private void nactiPrihlasenehoDoktora(int id) throws SQLException{ 
+        Doktor prihlasenyDoktor;
+        String sql = "SELECT * FROM doktori_udaje WHERE id_doktora = "+ id + "";
+        pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+        rs = pstmt.executeQuery();
+        if(rs.next()){ 
+            int id_doktora = rs.getInt("ID_DOKTORA");
+            String jmeno = rs.getString("JMENO");
+            String prijmeni = rs.getString("PRIJMENI");
+            String titul = rs.getString("TITUL");
+            Date datumNarozeni = rs.getDate("DATUM_NAROZENI");
+            String telefon = rs.getString("TELEFON");
+            String email = rs.getString("EMAIL");
+            String delkaUvazku = rs.getString("DELKA_UVAZKU");
+            int plat = rs.getInt("PLAT");
+            Date datumNastupu = rs.getDate("DATUM_NASTUPU");
+            String ulice = rs.getString("ULICE");
+            String cisloPopisne = rs.getString("CISLO_POPISNE");
+            String mesto = rs.getString("MESTO");
+            int psc = rs.getInt("PSC");
+            prihlasenyDoktor = new Doktor(id_doktora, titul, delkaUvazku, datumNastupu, plat, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc); 
+            prihlasenyUzivatel = prihlasenyDoktor;
+        }     
+    }
+    
+    public static void odhlasUzivatele(){ 
+        prihlasenyUzivatel = null;
+    }
+    
+    public static PrihlasenyUzivatel dejPrihlasenehoUzivatele(){ 
+        return prihlasenyUzivatel;
     }
 }
