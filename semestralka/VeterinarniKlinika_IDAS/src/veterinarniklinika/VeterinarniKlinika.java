@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -16,6 +17,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 /**
@@ -54,11 +57,16 @@ public class VeterinarniKlinika extends Application {
             nepripojeno = false;
             
         } catch (SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Error !");
-            alert.setHeaderText("Chyba připojení k databázi, nejsi připojen k VPN!");
-            alert.showAndWait();
-            nepripojeno = true;
+            alert.setHeaderText("Chyba připojení k databázi, nejsi připojen k VPN - připoj se !");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                nepripojeno = true;
+            } else {
+                stop();
+}
         }
         }while(nepripojeno);
     }
