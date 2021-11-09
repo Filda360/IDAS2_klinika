@@ -27,6 +27,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -48,8 +49,6 @@ public class FXMLDoktorController implements Initializable {
     private TextField tfJmenoZvirete;
     @FXML
     private ComboBox<?> cbDruh;
-    @FXML
-    private Button btnVyhledat;
     @FXML
     private Button btnMojeUdaje;
     @FXML
@@ -97,6 +96,8 @@ public class FXMLDoktorController implements Initializable {
     
     private PreparedStatement pstmt=null;
     private ResultSet rs=null; 
+    @FXML
+    private RadioButton rBtnZapniFiltry;
 
     /**
      * Initializes the controller class.
@@ -132,9 +133,6 @@ public class FXMLDoktorController implements Initializable {
         zakroky_delka_operace.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
     }    
 
-    @FXML
-    private void handleBtnVyhledatOnAction(ActionEvent event) {
-    }
 
     @FXML
     private void handleBtnMojeUdajeOnAction(ActionEvent event) {
@@ -158,8 +156,15 @@ public class FXMLDoktorController implements Initializable {
 
     @FXML
     private void handleBtnZakrokyOnAction(ActionEvent event) throws SQLException {
+    
     zakrokData.clear();
-        String sql = "SELECT * FROM P_ZAKROKY";
+    String sql;
+    if(tfJmenoZvirete.getText().isEmpty() || !rBtnZapniFiltry.isSelected()){
+        sql = "SELECT * FROM P_ZAKROKY";
+    }else{ 
+        sql = "SELECT * FROM P_ZAKROKY WHERE JMENO LIKE '" + tfJmenoZvirete.getText() + "'";
+    }
+        
     pstmt = VeterinarniKlinika.con.prepareStatement(sql);
     rs = pstmt.executeQuery();
     while(rs.next()){
