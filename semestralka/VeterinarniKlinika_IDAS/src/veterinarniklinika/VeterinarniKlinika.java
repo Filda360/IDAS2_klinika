@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 public class VeterinarniKlinika extends Application {
     
     PreparedStatement pstmt=null;
-    static Connection con=null;
+    public static Connection con=null;
     ResultSet rs=null; 
     static Stage primaryStage;
 

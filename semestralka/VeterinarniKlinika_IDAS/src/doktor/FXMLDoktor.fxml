@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doktor.FXMLDoktorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doktor.FXMLDoktorController">
    <top>
       <VBox prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -64,8 +64,18 @@
    <center>
       <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="zakroky_datum" prefWidth="57.0" text="datum" />
+          <TableColumn fx:id="zakroky_poznamka" prefWidth="62.0" text="poznamka" />
+            <TableColumn fx:id="zakroky_jmeno" prefWidth="92.0" text="jmeno_zvirete" />
+            <TableColumn fx:id="zakroky_druh" prefWidth="67.0" text="druh" />
+            <TableColumn fx:id="zakroky_pohlavi" prefWidth="111.0" text="pohlavi" />
+            <TableColumn fx:id="zakroky_datum_narozeni" prefWidth="95.0" text="datum_narozeni" />
+            <TableColumn fx:id="zakroky_vaha" prefWidth="75.0" text="Vaha" />
+            <TableColumn fx:id="zakroky_poznamka_zvirete" prefWidth="75.0" text="Poznamka_zvire" />
+            <TableColumn fx:id="zakroky_typ_operace" prefWidth="75.0" text="typ_operace" />
+            <TableColumn fx:id="zakroky_delka_operace" prefWidth="75.0" text="delka_operace" />
+            <TableColumn fx:id="zakroky_jmeno_lekare" prefWidth="75.0" text="jmeno_lekare" />
+            <TableColumn fx:id="zakroky_prijmeni_lekare" prefWidth="75.0" text="prijmeni_lekare" />
         </columns>
       </TableView>
    </center>
