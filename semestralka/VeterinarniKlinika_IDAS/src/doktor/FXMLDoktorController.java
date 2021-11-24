@@ -34,6 +34,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import veterinarniklinika.FXMLUvodniController;
 import veterinarniklinika.VeterinarniKlinika;
@@ -80,13 +81,13 @@ public class FXMLDoktorController implements Initializable {
     @FXML
     private TableColumn<Zakrok, String> zakroky_datum_narozeni;
     @FXML
-    private TableColumn<Zakrok, Integer> zakroky_vaha;
+    private TableColumn<Zakrok, Double> zakroky_vaha;
     @FXML
     private TableColumn<Zakrok, String> zakroky_poznamka_zvirete;
     @FXML
     private TableColumn<Zakrok, String> zakroky_typ_operace;
     @FXML
-    private TableColumn<Zakrok, Integer> zakroky_delka_operace;
+    private TableColumn<Zakrok, Double> zakroky_delka_operace;
     @FXML
     private TableColumn<Zakrok, String> zakroky_jmeno_lekare;
     @FXML
@@ -119,7 +120,7 @@ public class FXMLDoktorController implements Initializable {
         zakroky_prijmeni_lekare.setCellValueFactory(new PropertyValueFactory("prijmeniLekare"));
 
         tableView.setEditable(true);
-        zakroky_vaha.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        zakroky_vaha.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         zakroky_datum.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -130,7 +131,7 @@ public class FXMLDoktorController implements Initializable {
         zakroky_typ_operace.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_jmeno_lekare.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_prijmeni_lekare.setCellFactory(TextFieldTableCell.forTableColumn());
-        zakroky_delka_operace.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        zakroky_delka_operace.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
     }    
 
 
@@ -168,7 +169,14 @@ public class FXMLDoktorController implements Initializable {
     pstmt = VeterinarniKlinika.con.prepareStatement(sql);
     rs = pstmt.executeQuery();
     while(rs.next()){
-    Zakrok za = new Zakrok(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getInt(8),rs.getString(9),rs.getString(10),rs.getInt(11),rs.getString(12),rs.getString(13));   
+    Zakrok za = new Zakrok(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),
+            rs.getString(6),rs.getDouble(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11),
+            rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15),rs.getString(16),rs.getInt(17),
+            rs.getString(18),rs.getString(19),rs.getInt(20),rs.getString(21),rs.getString(22),rs.getInt(23),
+            rs.getString(24),rs.getInt(25),rs.getString(26),rs.getInt(27),rs.getString(28),rs.getString(29),
+            rs.getString(30),rs.getDouble(31),rs.getString(32),rs.getString(33),rs.getString(34),rs.getString(35),
+            rs.getString(36),rs.getInt(37),rs.getString(38),rs.getString(39),rs.getInt(40),rs.getString(41),
+            rs.getString(42),rs.getInt(43),rs.getString(44),rs.getString(45),rs.getDouble(46),rs.getString(47));   
     zakrokData.add(za);
     }
     tableView.refresh();
