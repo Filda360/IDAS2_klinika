@@ -44,6 +44,8 @@ public class FXMLRegistraceController implements Initializable {
     private PasswordField tfHesloR;
     @FXML
     private Button btnZpet;
+    @FXML
+    private TextField tfDatumNarozeni;
 
 
     @Override
