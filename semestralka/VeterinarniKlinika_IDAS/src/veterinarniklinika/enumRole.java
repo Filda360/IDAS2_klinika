@@ -10,5 +10,5 @@ package veterinarniklinika;
  * @author 42060
  */
 public enum enumRole {
-    DOKTOR, UZIVATEL
+    DOKTOR, UZIVATEL, ADMIN
 }

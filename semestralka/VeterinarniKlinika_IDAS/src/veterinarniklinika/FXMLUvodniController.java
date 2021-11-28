@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-//token Filda360 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
 package veterinarniklinika;
 
 import java.io.IOException;
@@ -13,10 +7,14 @@ import dataTridy.Doktor;
 import dataTridy.PrihlasenyUzivatel;
 
 import java.net.URL;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.JDBCType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
+import java.sql.Types;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -45,6 +43,7 @@ import javafx.stage.Stage;
  */
 public class FXMLUvodniController implements Initializable {
     
+    private CallableStatement cst=null;
     private PreparedStatement pstmt=null;
     private ResultSet rs=null;   
     private static PrihlasenyUzivatel prihlasenyUzivatel = null;
@@ -75,37 +74,55 @@ public class FXMLUvodniController implements Initializable {
         try {
             switch(cbRole.getValue()){ 
                 case DOKTOR:{
-                    String jmeno = tfJmeno.getText();
                     String heslo = tfHeslo.getText();
-                    String sql = "SELECT ID_DOKTORA FROM prihlasovaci_udaje_doktori WHERE prihlasovaci_jmeno LIKE '" + jmeno + "' AND heslo LIKE '" + heslo + "'";
-                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                    rs = pstmt.executeQuery();
-                    if(rs.next()){
-                        idPrihlasenehoUzivatele = rs.getInt("ID_DOKTORA");
+                    String hashHesla = "";
+                    try {
+                        hashHesla = HashFunkce.dejHash(heslo.getBytes());
+                    } catch (Exception ex) {
+                        zobrazErrorDialog("Chyba při hashování hesla !", ex.getMessage());
+                    }
+                    
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL ?:=prihlasdoktora(?,?)}");
+                    cst.registerOutParameter(1, Types.NUMERIC);
+                    cst.setString(2, tfJmeno.getText());
+                    cst.setString(3, hashHesla);
+                    
+                    try{ 
+                        cst.executeUpdate();
+                        int id = cst.getInt(1);
                         Alert alert = new Alert(AlertType.INFORMATION);
                         alert.setTitle("Succes !");
                         alert.setHeaderText("Přihlášení proběhlo úspěšně !");
                         alert.showAndWait();
-                        nactiPrihlasenehoDoktora(idPrihlasenehoUzivatele);
-                        //otevreni dailogu doktora        
+                        
                         try {
+                            //TODO otevreni dailogu prihlaseneho uzivatele
                             zobrazDialogDoktor(event);
                         } catch (IOException ex) {
-                            zobrazErrorDialog("Chyba při přechodu do dialogu doktora !", ex.getMessage());
+                            zobrazErrorDialog("Chyba při přechodu do dialogu uzivatele !", ex.getMessage());
                         }
-                                           
-                    }else{
+                    }catch(Exception e){ 
                         zobrazErrorDialog("Nepodařilo se přihlásit se zadaným jménem a heslem", "zkontroluj správnost jména a hesla!");
                     }
                 }
                 break;
                 case UZIVATEL:{ 
-                                        String jmeno = tfJmeno.getText();
                     String heslo = tfHeslo.getText();
-                    String sql = "SELECT * FROM prihlasovaci_udaje_zakaznici WHERE prihlasovaci_jmeno LIKE '" + jmeno + "' AND heslo LIKE '" + heslo + "'";
-                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                    rs = pstmt.executeQuery();
-                    if(rs.next()){ 
+                    String hashHesla = "";
+                    try {
+                        hashHesla = HashFunkce.dejHash(heslo.getBytes());
+                    } catch (Exception ex) {
+                        zobrazErrorDialog("Chyba při hashování hesla !", ex.getMessage());
+                    }
+                    
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL ?:=prihlasmajitele(?,?)}");
+                    cst.registerOutParameter(1, Types.NUMERIC);
+                    cst.setString(2, tfJmeno.getText());
+                    cst.setString(3, hashHesla);
+
+                    try{ 
+                        cst.executeUpdate();
+                        int id = cst.getInt(1);
                         Alert alert = new Alert(AlertType.INFORMATION);
                         alert.setTitle("Succes !");
                         alert.setHeaderText("Přihlášení proběhlo úspěšně !");
@@ -117,12 +134,14 @@ public class FXMLUvodniController implements Initializable {
                         } catch (IOException ex) {
                             zobrazErrorDialog("Chyba při přechodu do dialogu uzivatele !", ex.getMessage());
                         }
-                        
-                    }else{
+                    }catch(Exception e){ 
                         zobrazErrorDialog("Nepodařilo se přihlásit se zadaným jménem a heslem", "zkontroluj správnost jména a hesla!");
                     }
                 }
                 break;
+                case ADMIN:{ 
+                    
+                }
             }
 
         } catch (SQLException ex) {
