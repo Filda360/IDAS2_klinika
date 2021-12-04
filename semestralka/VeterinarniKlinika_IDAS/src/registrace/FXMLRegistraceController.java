@@ -28,6 +28,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import veterinarniklinika.VeterinarniKlinika;
+import veterinarniklinika.Bezpecnost;
 
 
 public class FXMLRegistraceController implements Initializable {
@@ -69,10 +70,14 @@ public class FXMLRegistraceController implements Initializable {
     }    
 
     //přidá nového majitele do databáze
+    //v aplikaci se kontroluje prázdnost vyplněných polí, silnost hesla
+    //další validace: email, psc, telefon probíhá na straně databáze
+    
     @FXML
     private void handleBtnZaregistrovatOnAction(ActionEvent event){
         
-        if(tfPrijmeni.getText().isEmpty() ||
+        if(
+                tfPrijmeni.getText().isEmpty() ||
                 tfJmenoR.getText().isEmpty() ||
                 tfUlice.getText().isEmpty() ||
                 tfCp.getText().isEmpty() ||
@@ -81,51 +86,72 @@ public class FXMLRegistraceController implements Initializable {
                 tfTelefon.getText().isEmpty() ||
                 tfEmail.getText().isEmpty() ||
                 tfPrihlasovaciJmeno.getText().isEmpty() ||
-                tfHesloR.getText().isEmpty()
-                //TODO kontrolu datepickeru zda neni nevybran
+                tfHesloR.getText().isEmpty() ||
+                datePicker.getValue() == null               
                 ){ 
             zobrazErrorDialog("Error !", "Formulář není řádně vyplněn, některá pole jsou prázdná !" );
         }else{ 
-            try {
-                cst = VeterinarniKlinika.con.prepareCall("{CALL ?:=vytvor_registraci_majitele(?,?,?,?,?,?,?,?,?,?,?)}");
-                
-                cst.registerOutParameter(1, Types.NUMERIC);
-                cst.setString(2, tfJmenoR.getText());
-                cst.setString(3, tfPrijmeni.getText());
-                cst.setDate(4, Date.valueOf(datePicker.getValue()));
-                cst.setString(5, tfUlice.getText());
-                cst.setString(6, tfCp.getText());
-                cst.setString(7, tfMesto.getText());
-                cst.setString(8, tfPsc.getText());
-                cst.setString(9, tfTelefon.getText());
-                cst.setString(10, tfEmail.getText());
-                cst.setString(11, tfPrihlasovaciJmeno.getText());
-                cst.setString(12, tfHesloR.getText());
-
-                cst.executeUpdate();
-                int vytvoren = cst.getInt(1);
-                //String zprava = cst.getString(13);
-
-                if(vytvoren==1){ 
-                    zobrazConfDialog("Registrace proběhla úspěšně !", "TRUE");
-                    try {          
-                        Parent root = FXMLLoader.load(getClass().getResource("/veterinarniklinika/FXMLUvodni.fxml"));
-
-                        Scene scene = new Scene(root);
-                        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-                        window.setScene(scene);
-                        window.show();
-                    } catch (IOException ex) {
-                        zobrazErrorDialog("Error !", "Chyba při přechodu do registračního formuláře" );
-                    }
+            if(
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfPrijmeni.getText()) ||
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfJmenoR.getText()) ||
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfUlice.getText()) ||
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfCp.getText()) ||
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfMesto.getText()) ||
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfPsc.getText()) ||
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfTelefon.getText()) ||
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfEmail.getText()) ||
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfPrihlasovaciJmeno.getText()) ||
+                    Bezpecnost.obsahujeNebezpecneZnaky(tfHesloR.getText())
+                    ){ 
+                zobrazErrorDialog("Error !", "některé z polí obsahuje nepovolené řetězce znaků:\nNepovolené řetězce: SELECT, DROP, --, ', UNION, CONCAT, IF, ;");
+            }else{ 
+                if(!Bezpecnost.jeHesloDostatecne(tfHesloR.getText())){ 
+                zobrazErrorDialog("Error !", "Heslo není dostatečně silné, je požadován alespoň jedno velké písmeno, malé písmeno a číslo, minimální délka je 6 znaků !" );
                 }else{ 
-                    zobrazErrorDialog("Registrace se nezdařila !", "FALSE");
+                    try {                
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL ?:=vytvor_registraci_majitele(?,?,?,?,?,?,?,?,?,?,?,?)}");
+
+                        cst.registerOutParameter(1, Types.NUMERIC);
+                        cst.setString(2, tfJmenoR.getText());
+                        cst.setString(3, tfPrijmeni.getText());
+                        cst.setDate(4, Date.valueOf(datePicker.getValue()));
+                        cst.setString(5, tfUlice.getText());
+                        cst.setString(6, tfCp.getText());
+                        cst.setString(7, tfMesto.getText());
+                        cst.setString(8, tfPsc.getText());
+                        cst.setString(9, tfTelefon.getText());
+                        cst.setString(10, tfEmail.getText());
+                        cst.setString(11, tfPrihlasovaciJmeno.getText());
+                        cst.setString(12, tfHesloR.getText());
+                        cst.registerOutParameter(13, Types.VARCHAR);
+
+                        cst.executeUpdate();
+                        int vytvoren = cst.getInt(1);
+                        String zprava = cst.getString(13);
+
+                        if(vytvoren==1){ 
+                            zobrazConfDialog("Děkujeme !", zprava);
+                            try {          
+                                Parent root = FXMLLoader.load(getClass().getResource("/veterinarniklinika/FXMLUvodni.fxml"));
+
+                                Scene scene = new Scene(root);
+                                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+                                window.setScene(scene);
+                                window.show();
+                            } catch (IOException ex) {
+                                zobrazErrorDialog("Error !", "Chyba, nezdařil se přechod na úvodní okno !");
+                            }
+                        }else{ 
+                            zobrazErrorDialog("Registrace se nezdařila !", zprava);
+                        }
+
+                    } catch (SQLException ex) {
+                        zobrazErrorDialog("Ups neco se nepovedlo, SQL exception !",ex.getMessage());
+                    }    
                 }
-                    
-            } catch (SQLException ex) {
-                zobrazErrorDialog("Ups neco se nepovedlo !",ex.getMessage());
-            }        
+            }
+                            
         }
         
         

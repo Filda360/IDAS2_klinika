@@ -77,7 +77,7 @@ public class FXMLUvodniController implements Initializable {
                     String heslo = tfHeslo.getText();
                     String hashHesla = "";
                     try {
-                        hashHesla = HashFunkce.dejHash(heslo.getBytes());
+                        hashHesla = Bezpecnost.dejHash(heslo.getBytes());
                     } catch (Exception ex) {
                         zobrazErrorDialog("Chyba při hashování hesla !", ex.getMessage());
                     }
@@ -109,7 +109,7 @@ public class FXMLUvodniController implements Initializable {
                     String heslo = tfHeslo.getText();
                     String hashHesla = "";
                     try {
-                        hashHesla = HashFunkce.dejHash(heslo.getBytes());
+                        hashHesla = Bezpecnost.dejHash(heslo.getBytes());
                     } catch (Exception ex) {
                         zobrazErrorDialog("Chyba při hashování hesla !", ex.getMessage());
                     }

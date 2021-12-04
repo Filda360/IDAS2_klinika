@@ -4,7 +4,7 @@ package veterinarniklinika;
 import java.security.MessageDigest;
 import javax.xml.bind.DatatypeConverter;
 
-public class HashFunkce {
+public class Bezpecnost {
     //použitý algoritmus v databazove aplikaci: SHA-1
     public static String dejHash(byte[] inputBytes) throws Exception{ 
         String vytvorenyHash = "";
@@ -27,24 +27,44 @@ public class HashFunkce {
         }  
     }
     
-    public boolean jeHesloDostatecne(String heslo){ 
+    public static boolean jeHesloDostatecne(String heslo){ 
         char ch;
-        boolean capitalFlag = false;
-        boolean lowerCaseFlag = false;
-        boolean numberFlag = false;
+        boolean velkeP = false;
+        boolean maleP = false;
+        boolean cislo = false;
         for(int i=0;i < heslo.length();i++) {
             ch = heslo.charAt(i);
             if( Character.isDigit(ch)) {
-                numberFlag = true;
+                cislo = true;
             }
             else if (Character.isUpperCase(ch)) {
-                capitalFlag = true;
+                velkeP = true;
             } else if (Character.isLowerCase(ch)) {
-                lowerCaseFlag = true;
+                maleP = true;
             }
-            if(numberFlag && capitalFlag && lowerCaseFlag)
-                return true;
+            if(cislo && maleP && velkeP)
+                return heslo.length() >= 6;
         }
+        return false;
+    }
+    
+    public static boolean obsahujeNebezpecneZnaky(String text){
+        String koment = "--";
+        String drop = "DROP";
+        String sel = "SELECT";
+        String strednik = ";";
+        String podm = "IF";
+        String str = "'";
+        String con = "CONCAT";
+        String un = "UNION";
+        if(text.contains(koment)) return true;
+        if(text.contains(drop)) return true;
+        if(text.contains(sel)) return true;
+        if(text.contains(strednik)) return true;
+        if(text.contains(podm)) return true;
+        if(text.contains(str)) return true;
+        if(text.contains(con)) return true;
+        if(text.contains(un)) return true;
         return false;
     }
 }
