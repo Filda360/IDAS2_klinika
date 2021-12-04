@@ -42,10 +42,15 @@
                   <ComboBox fx:id="cbRole" prefWidth="150.0" promptText="uzivatel/doktor" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
                <children>
                   <Button fx:id="btnPrihlasit" mnemonicParsing="false" onAction="#btnPrihlasitOnAction" text="prihlásit se" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="600.0" spacing="10.0">
+               <children>
                   <Button fx:id="btnRegistrovat" mnemonicParsing="false" onAction="#handleBtnRegistraceOnAction" text="registrovat se" />
+                  <Button fx:id="btnNeprihlaseny" mnemonicParsing="false" onAction="#handleBtnNeprihlasenyOnAction" text="Nepřihlášený uživatel" />
                </children>
                <VBox.margin>
                   <Insets />

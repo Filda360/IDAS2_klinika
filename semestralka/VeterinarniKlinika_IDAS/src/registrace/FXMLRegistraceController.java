@@ -122,7 +122,11 @@ public class FXMLRegistraceController implements Initializable {
                         cst.setString(9, tfTelefon.getText());
                         cst.setString(10, tfEmail.getText());
                         cst.setString(11, tfPrihlasovaciJmeno.getText());
-                        cst.setString(12, tfHesloR.getText());
+                        try {
+                            cst.setString(12, Bezpecnost.dejHash(tfHesloR.getText().getBytes()));
+                        } catch (Exception ex) {
+                            zobrazErrorDialog("Error !", "Chyba při hashovani hesla !");
+                        }
                         cst.registerOutParameter(13, Types.VARCHAR);
 
                         cst.executeUpdate();
