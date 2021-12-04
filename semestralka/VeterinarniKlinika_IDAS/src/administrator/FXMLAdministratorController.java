@@ -114,6 +114,11 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private Button btnVystavitFakturu;
 
+    @FXML
+    private ComboBox<?> cbVyberTabulku;
+    @FXML
+    private TableView<?> tableView;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
