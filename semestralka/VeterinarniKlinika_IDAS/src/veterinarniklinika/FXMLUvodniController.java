@@ -61,6 +61,8 @@ public class FXMLUvodniController implements Initializable {
     private Button btnRegistrovat;
     @FXML
     private Label labelInfo;
+    @FXML
+    private Button btnNeprihlaseny;
     
     
     @Override
@@ -156,6 +158,22 @@ public class FXMLUvodniController implements Initializable {
             zobrazErrorDialog("Chyba při přechodu do dialogu registrace !", ex.getMessage());
         }
     }
+    @FXML
+    private void handleBtnNeprihlasenyOnAction(ActionEvent event) throws IOException {
+        try {    
+            zobrazDialogNeprihlaseny(event);         
+        } catch (IOException ex) {
+            zobrazErrorDialog("Chyba při přechodu do dialogu nepřihlášeného uživatele !", ex.getMessage());
+        }
+    }
+    
+    private void zobrazDialogNeprihlaseny(ActionEvent event) throws IOException{ 
+        Parent root = FXMLLoader.load(getClass().getResource("/uzivatelNeprihlaseny/FXMLNeprihlasenyUzivatel.fxml"));
+        Scene scene = new Scene(root);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
+    }
     
     private void zobrazDialogDoktor(ActionEvent event) throws IOException{ 
         Parent root = FXMLLoader.load(getClass().getResource("/doktor/FXMLDoktor.fxml"));
@@ -221,4 +239,5 @@ public class FXMLUvodniController implements Initializable {
     public static PrihlasenyUzivatel dejPrihlasenehoUzivatele(){ 
         return prihlasenyUzivatel;
     }
+
 }
