@@ -9,27 +9,27 @@ package dataTridy;
  *
  * @author tzlat
  */
-public class Vysetreni {
-    int idVysetreni;
+public class Zakroky {
+    int idZakroku;
     String datum;
     String poznamka;
-    int idDiagnozy;
     int idZvirete;
+    int idOperace;
 
-    public Vysetreni(int idVysetreni, String datum, String poznamka, int idDiagnozy, int idZvirete) {
-        this.idVysetreni = idVysetreni;
+    public Zakroky(int idZakroku, String datum, String poznamka, int idZvirete, int idOperace) {
+        this.idZakroku = idZakroku;
         this.datum = datum;
         this.poznamka = poznamka;
-        this.idDiagnozy = idDiagnozy;
         this.idZvirete = idZvirete;
+        this.idOperace = idOperace;
     }
 
-    public int getIdVysetreni() {
-        return idVysetreni;
+    public int getIdZakroku() {
+        return idZakroku;
     }
 
-    public void setIdVysetreni(int idVysetreni) {
-        this.idVysetreni = idVysetreni;
+    public void setIdZakroku(int idZakroku) {
+        this.idZakroku = idZakroku;
     }
 
     public String getDatum() {
@@ -48,20 +48,20 @@ public class Vysetreni {
         this.poznamka = poznamka;
     }
 
-    public int getIdDiagnozy() {
-        return idDiagnozy;
-    }
-
-    public void setIdDiagnozy(int idDiagnozy) {
-        this.idDiagnozy = idDiagnozy;
-    }
-
     public int getIdZvirete() {
         return idZvirete;
     }
 
     public void setIdZvirete(int idZvirete) {
         this.idZvirete = idZvirete;
+    }
+
+    public int getIdOperace() {
+        return idOperace;
+    }
+
+    public void setIdOperace(int idOperace) {
+        this.idOperace = idOperace;
     }
     
 }

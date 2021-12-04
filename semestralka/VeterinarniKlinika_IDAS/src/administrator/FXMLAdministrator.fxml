@@ -3,42 +3,107 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <TableView fx:id="tableView" prefHeight="315.0" prefWidth="480.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
-      </TableView>
-   </center>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administrator.FXMLAdministratorController">
    <top>
-      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <ComboBox fx:id="cbVyberTabulku" prefWidth="150.0" promptText="vyber tabulku" />
+            <HBox alignment="CENTER" prefHeight="28.0" prefWidth="600.0">
+               <children>
+                  <Label text="Zobraz Tabulku" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="10.0">
+               <children>
+                  <Label text="Uzivatel" />
+                  <ComboBox prefWidth="150.0" />
+                  <ComboBox fx:id="comboTabulky" prefWidth="150.0" />
+                  <Button mnemonicParsing="false" onAction="#button_obnovit" text="Obnovit" />
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </top>
    <bottom>
-      <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="moje údaje" />
-            <Button mnemonicParsing="false" text="odhlásit">
-               <HBox.margin>
-                  <Insets right="5.0" />
-               </HBox.margin>
-            </Button>
+            <Button fx:id="btnMojeUdaje" mnemonicParsing="false" onAction="#handleBtnMojeUdajeOnAction" text="moje údaje" />
+            <Button fx:id="btnOdhlasit" mnemonicParsing="false" onAction="#handleBtnOdhlasitOnAction" text="odhlásit" />
          </children>
       </HBox>
    </bottom>
    <right>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER" />
+      <VBox alignment="TOP_CENTER" prefHeight="306.0" prefWidth="115.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="přidat položku:" />
+            <ComboBox fx:id="cbPridatPolozku" prefWidth="150.0" promptText="zákrok/odběr/vyšetření" />
+            <Button fx:id="btnPridatPolozku" mnemonicParsing="false" text="přidat">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnVystavitFakturu" mnemonicParsing="false" onAction="#handleBtnVystavitFakturuOnAction" prefWidth="105.0" text="vystavit fakturu" />
+         </children>
+      </VBox>
    </right>
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tableViewZakroky" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="zakroky_datum" prefWidth="57.0" text="datum" />
+                <TableColumn fx:id="zakroky_poznamka" prefWidth="62.0" text="poznamka" />
+                  <TableColumn fx:id="zakroky_jmeno" prefWidth="92.0" text="jmeno_zvirete" />
+                  <TableColumn fx:id="zakroky_druh" prefWidth="67.0" text="druh" />
+                  <TableColumn fx:id="zakroky_pohlavi" prefWidth="111.0" text="pohlavi" />
+                  <TableColumn fx:id="zakroky_datum_narozeni" prefWidth="95.0" text="datum_narozeni" />
+                  <TableColumn fx:id="zakroky_vaha" prefWidth="75.0" text="Vaha" />
+                  <TableColumn fx:id="zakroky_poznamka_zvirete" prefWidth="75.0" text="Poznamka_zvire" />
+                  <TableColumn fx:id="zakroky_typ_operace" prefWidth="75.0" text="typ_operace" />
+                  <TableColumn fx:id="zakroky_delka_operace" prefWidth="75.0" text="delka_operace" />
+                  <TableColumn fx:id="zakroky_jmeno_lekare" prefWidth="75.0" text="jmeno_lekare" />
+                  <TableColumn fx:id="zakroky_prijmeni_lekare" prefWidth="75.0" text="prijmeni_lekare" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewVysetreni" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="vysetreni_datum" prefWidth="57.0" text="datum" />
+                  <TableColumn fx:id="vysetreni_poznamka" prefWidth="62.0" text="poznamka" />
+                  <TableColumn fx:id="vysetreni_diagnoza" prefWidth="75.0" text="diagnoza" />
+                  <TableColumn fx:id="vysetreni_oznaceni" prefWidth="75.0" text="oznaceni" />
+                  <TableColumn fx:id="vysetreni_stupen_zavaznosti" prefWidth="75.0" text="stupen_zavaznosti" />
+                  <TableColumn fx:id="vysetreni_jmeno" prefWidth="92.0" text="jmeno_zvirete" />
+                  <TableColumn fx:id="vysetreni_druh" prefWidth="67.0" text="druh" />
+                  <TableColumn fx:id="vysetreni_pohlavi" prefWidth="111.0" text="pohlavi" />
+                  <TableColumn fx:id="vysetreni_datum_narozeni" prefWidth="95.0" text="datum_narozeni" />
+                  <TableColumn fx:id="vysetreni_vaha" prefWidth="75.0" text="Vaha" />
+                  <TableColumn fx:id="vysetreni_poznamka_zvirete" prefWidth="75.0" text="poznamka_zvire" />
+                  <TableColumn fx:id="vysetreni_jmeno_lekare" prefWidth="75.0" text="jmeno_lekare" />
+                  <TableColumn fx:id="vysetreni_prijmeni_lekare" prefWidth="75.0" text="prijmeni_lekare" />
+               </columns>
+            </TableView>
+            <TableView fx:id="tableViewOdbery" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="odbery_datum" prefWidth="57.0" text="datum" />
+                  <TableColumn fx:id="odbery_poznamka" prefWidth="62.0" text="poznamka" />
+                  <TableColumn fx:id="odbery_jmeno" prefWidth="92.0" text="jmeno_zvirete" />
+                  <TableColumn fx:id="odbery_druh" prefWidth="67.0" text="druh" />
+                  <TableColumn fx:id="odbery_pohlavi" prefWidth="111.0" text="pohlavi" />
+                  <TableColumn fx:id="odbery_datum_narozeni" prefWidth="95.0" text="datum_narozeni" />
+                  <TableColumn fx:id="odbery_vaha" prefWidth="75.0" text="Vaha" />
+                  <TableColumn fx:id="odbery_poznamka_zvirete" prefWidth="75.0" text="poznamka_zvire" />
+                  <TableColumn fx:id="odbery_jmeno_lekare" prefWidth="75.0" text="jmeno_lekare" />
+                  <TableColumn fx:id="odbery_prijmeni_lekare" prefWidth="75.0" text="prijmeni_lekare" />
+               </columns>
+            </TableView>
+         </children>
+      </StackPane>
+   </center>
 </BorderPane>

@@ -5,9 +5,9 @@
  */
 package doktor;
 
-import dataTridy.Odbery;
-import dataTridy.Vysetreni;
-import dataTridy.Zakrok;
+import dataTridy.OdberyOld;
+import dataTridy.VysetreniOld;
+import dataTridy.ZakrokOld;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -69,92 +69,92 @@ public class FXMLDoktorController implements Initializable {
     @FXML
     private Button btnVystavitFakturu;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_datum;
+    private TableColumn<ZakrokOld, String> zakroky_datum;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_poznamka;
+    private TableColumn<ZakrokOld, String> zakroky_poznamka;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_jmeno;
+    private TableColumn<ZakrokOld, String> zakroky_jmeno;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_druh;
+    private TableColumn<ZakrokOld, String> zakroky_druh;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_pohlavi;
+    private TableColumn<ZakrokOld, String> zakroky_pohlavi;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_datum_narozeni;
+    private TableColumn<ZakrokOld, String> zakroky_datum_narozeni;
     @FXML
-    private TableColumn<Zakrok, Double> zakroky_vaha;
+    private TableColumn<ZakrokOld, Double> zakroky_vaha;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_poznamka_zvirete;
+    private TableColumn<ZakrokOld, String> zakroky_poznamka_zvirete;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_typ_operace;
+    private TableColumn<ZakrokOld, String> zakroky_typ_operace;
     @FXML
-    private TableColumn<Zakrok, Double> zakroky_delka_operace;
+    private TableColumn<ZakrokOld, Double> zakroky_delka_operace;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_jmeno_lekare;
+    private TableColumn<ZakrokOld, String> zakroky_jmeno_lekare;
     @FXML
-    private TableColumn<Zakrok, String> zakroky_prijmeni_lekare;
+    private TableColumn<ZakrokOld, String> zakroky_prijmeni_lekare;
     
      @FXML
     private RadioButton rBtnZapniFiltry;
     @FXML
-    private TableView<Zakrok> tableViewZakroky;
+    private TableView<ZakrokOld> tableViewZakroky;
     
     @FXML
-    private TableColumn<Odbery, String> odbery_datum;
+    private TableColumn<OdberyOld, String> odbery_datum;
     @FXML
-    private TableColumn<Odbery, String> odbery_poznamka;
+    private TableColumn<OdberyOld, String> odbery_poznamka;
     @FXML
-    private TableColumn<Odbery, String> odbery_jmeno;
+    private TableColumn<OdberyOld, String> odbery_jmeno;
     @FXML
-    private TableColumn<Odbery, String> odbery_druh;
+    private TableColumn<OdberyOld, String> odbery_druh;
     @FXML
-    private TableColumn<Odbery, String> odbery_pohlavi;
+    private TableColumn<OdberyOld, String> odbery_pohlavi;
     @FXML
-    private TableColumn<Odbery, String> odbery_datum_narozeni;
+    private TableColumn<OdberyOld, String> odbery_datum_narozeni;
     @FXML
-    private TableColumn<Odbery, Double> odbery_vaha;
+    private TableColumn<OdberyOld, Double> odbery_vaha;
     @FXML
-    private TableColumn<Odbery, String> odbery_poznamka_zvirete;
+    private TableColumn<OdberyOld, String> odbery_poznamka_zvirete;
     @FXML
-    private TableColumn<Odbery, String> odbery_jmeno_lekare;
+    private TableColumn<OdberyOld, String> odbery_jmeno_lekare;
     @FXML
-    private TableColumn<Odbery, String> odbery_prijmeni_lekare;
+    private TableColumn<OdberyOld, String> odbery_prijmeni_lekare;
     
-    public static ObservableList<Zakrok> zakrokData = FXCollections.observableArrayList();
-    public static ObservableList<Vysetreni> vysetreniData = FXCollections.observableArrayList();
-    public static ObservableList<Odbery> odberyData = FXCollections.observableArrayList();
+    public static ObservableList<ZakrokOld> zakrokData = FXCollections.observableArrayList();
+    public static ObservableList<VysetreniOld> vysetreniData = FXCollections.observableArrayList();
+    public static ObservableList<OdberyOld> odberyData = FXCollections.observableArrayList();
     
     private PreparedStatement pstmt=null;
     private ResultSet rs=null; 
     @FXML
-    private TableView<Vysetreni> tableViewVysetreni;
+    private TableView<VysetreniOld> tableViewVysetreni;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_datum;
+    private TableColumn<VysetreniOld, String> vysetreni_datum;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_poznamka;
+    private TableColumn<VysetreniOld, String> vysetreni_poznamka;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_diagnoza;
+    private TableColumn<VysetreniOld, String> vysetreni_diagnoza;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_oznaceni;
+    private TableColumn<VysetreniOld, String> vysetreni_oznaceni;
     @FXML
-    private TableColumn<Vysetreni, Integer> vysetreni_stupen_zavaznosti;
+    private TableColumn<VysetreniOld, Integer> vysetreni_stupen_zavaznosti;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_jmeno;
+    private TableColumn<VysetreniOld, String> vysetreni_jmeno;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_druh;
+    private TableColumn<VysetreniOld, String> vysetreni_druh;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_pohlavi;
+    private TableColumn<VysetreniOld, String> vysetreni_pohlavi;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_datum_narozeni;
+    private TableColumn<VysetreniOld, String> vysetreni_datum_narozeni;
     @FXML
-    private TableColumn<Vysetreni, Double> vysetreni_vaha;
+    private TableColumn<VysetreniOld, Double> vysetreni_vaha;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_poznamka_zvirete;
+    private TableColumn<VysetreniOld, String> vysetreni_poznamka_zvirete;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_jmeno_lekare;
+    private TableColumn<VysetreniOld, String> vysetreni_jmeno_lekare;
     @FXML
-    private TableColumn<Vysetreni, String> vysetreni_prijmeni_lekare;
+    private TableColumn<VysetreniOld, String> vysetreni_prijmeni_lekare;
     @FXML
-    private TableView<Odbery> tableViewOdbery;
+    private TableView<OdberyOld> tableViewOdbery;
    
 
     /**
@@ -284,7 +284,7 @@ public class FXMLDoktorController implements Initializable {
     pstmt = VeterinarniKlinika.con.prepareStatement(sql);
     rs = pstmt.executeQuery();
     while(rs.next()){
-    Zakrok za = new Zakrok(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),
+    ZakrokOld za = new ZakrokOld(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),
             rs.getString(6),rs.getDouble(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11),
             rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15),rs.getString(16),rs.getInt(17),
             rs.getString(18),rs.getString(19),rs.getInt(20),rs.getString(21),rs.getString(22),rs.getInt(23),
@@ -314,7 +314,7 @@ public class FXMLDoktorController implements Initializable {
     pstmt = VeterinarniKlinika.con.prepareStatement(sql);
     rs = pstmt.executeQuery();
     while(rs.next()){
-    Odbery od = new Odbery(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),
+    OdberyOld od = new OdberyOld(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),
             rs.getString(6),rs.getDouble(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11),
             rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15),rs.getString(16),rs.getInt(17),
             rs.getString(18),rs.getString(19),rs.getInt(20),rs.getString(21),rs.getString(22),rs.getInt(23),
@@ -345,7 +345,7 @@ public class FXMLDoktorController implements Initializable {
     pstmt = VeterinarniKlinika.con.prepareStatement(sql);
     rs = pstmt.executeQuery();
     while(rs.next()){
-    Vysetreni vy = new Vysetreni(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),
+    VysetreniOld vy = new VysetreniOld(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),
             rs.getString(6),rs.getInt(7),rs.getInt(8),rs.getString(9),
             rs.getString(10),rs.getDouble(11),rs.getString(12),rs.getString(13),rs.getInt(14),rs.getString(15),
             rs.getString(16),rs.getString(17),rs.getString(18),rs.getString(19),rs.getString(20),rs.getInt(21),
