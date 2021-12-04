@@ -11,10 +11,10 @@ public class Vysetreni {
     private int idVysetreni;
     private String datum;
     private String poznamka;
-    private String idDiagnozy;
+    private int idDiagnozy;
     private String nazev;
     private String oznaceni;
-    private String stupenZavaznosti;
+    private int stupenZavaznosti;
     private int idZvirete;
     private String jmeno;
     private String datumNarozeni;
@@ -55,7 +55,7 @@ public class Vysetreni {
     private String mestoLekare;
     private String pscLekare;
 
-    public Vysetreni(int idVysetreni, String datum, String poznamka, String idDiagnozy, String nazev, String oznaceni, String stupenZavaznosti, int idZvirete, String jmeno, String datumNarozeni, double vaha, String zvirePoznamka, String cisloCipu, int idMajitele, String datumRegistrace, String jmenoMajitele, String prijmeniMajitele, String datumNarozeniMajitele, String telefonMajitele, String emailMajitele, int idAdresaMajitele, String uliceMajitele, String cisloPopisneMajitele, int id_postyMajitele, String mestoMajitele, String pscMajitele, int idPohlavi, String pohlavi, int idDruhu, String druh, int idDoktora, String titul, String delkaUvazku, String datumNastupu, double plat, String jmenoLekare, String prijmeniLekare, String datumNarozeniLekare, String telefonLekare, String emailLekare, int idAdresaLekare, String uliceLekare, String cisloPopisneLekare, int idPostyLekare, String mestoLekare, String pscLekare) {
+    public Vysetreni(int idVysetreni, String datum, String poznamka, int idDiagnozy, String nazev, String oznaceni, int stupenZavaznosti, int idZvirete, String jmeno, String datumNarozeni, double vaha, String zvirePoznamka, String cisloCipu, int idMajitele, String datumRegistrace, String jmenoMajitele, String prijmeniMajitele, String datumNarozeniMajitele, String telefonMajitele, String emailMajitele, int idAdresaMajitele, String uliceMajitele, String cisloPopisneMajitele, int id_postyMajitele, String mestoMajitele, String pscMajitele, int idPohlavi, String pohlavi, int idDruhu, String druh, int idDoktora, String titul, String delkaUvazku, String datumNastupu, double plat, String jmenoLekare, String prijmeniLekare, String datumNarozeniLekare, String telefonLekare, String emailLekare, int idAdresaLekare, String uliceLekare, String cisloPopisneLekare, int idPostyLekare, String mestoLekare, String pscLekare) {
         this.idVysetreni = idVysetreni;
         this.datum = datum;
         this.poznamka = poznamka;
@@ -108,7 +108,7 @@ public class Vysetreni {
         this.idVysetreni = idVysetreni;
     }
 
-    public void setIdDiagnozy(String idDiagnozy) {
+    public void setIdDiagnozy(int idDiagnozy) {
         this.idDiagnozy = idDiagnozy;
     }
 
@@ -116,7 +116,7 @@ public class Vysetreni {
         this.nazev = nazev;
     }
 
-    public void setStupenZavaznosti(String stupenZavaznosti) {
+    public void setStupenZavaznosti(int stupenZavaznosti) {
         this.stupenZavaznosti = stupenZavaznosti;
     }
 
@@ -124,7 +124,7 @@ public class Vysetreni {
         return idVysetreni;
     }
 
-    public String getIdDiagnozy() {
+    public int getIdDiagnozy() {
         return idDiagnozy;
     }
 
@@ -132,7 +132,7 @@ public class Vysetreni {
         return nazev;
     }
 
-    public String getStupenZavaznosti() {
+    public int getStupenZavaznosti() {
         return stupenZavaznosti;
     }
 
