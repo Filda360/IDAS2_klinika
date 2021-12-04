@@ -10,9 +10,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doktor.FXMLDoktorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doktor.FXMLDoktorController">
    <top>
       <VBox prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -63,21 +64,56 @@
       </VBox>
    </right>
    <center>
-      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn fx:id="zakroky_datum" prefWidth="57.0" text="datum" />
-          <TableColumn fx:id="zakroky_poznamka" prefWidth="62.0" text="poznamka" />
-            <TableColumn fx:id="zakroky_jmeno" prefWidth="92.0" text="jmeno_zvirete" />
-            <TableColumn fx:id="zakroky_druh" prefWidth="67.0" text="druh" />
-            <TableColumn fx:id="zakroky_pohlavi" prefWidth="111.0" text="pohlavi" />
-            <TableColumn fx:id="zakroky_datum_narozeni" prefWidth="95.0" text="datum_narozeni" />
-            <TableColumn fx:id="zakroky_vaha" prefWidth="75.0" text="Vaha" />
-            <TableColumn fx:id="zakroky_poznamka_zvirete" prefWidth="75.0" text="Poznamka_zvire" />
-            <TableColumn fx:id="zakroky_typ_operace" prefWidth="75.0" text="typ_operace" />
-            <TableColumn fx:id="zakroky_delka_operace" prefWidth="75.0" text="delka_operace" />
-            <TableColumn fx:id="zakroky_jmeno_lekare" prefWidth="75.0" text="jmeno_lekare" />
-            <TableColumn fx:id="zakroky_prijmeni_lekare" prefWidth="75.0" text="prijmeni_lekare" />
-        </columns>
-      </TableView>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tableViewZakroky" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="zakroky_datum" prefWidth="57.0" text="datum" />
+                <TableColumn fx:id="zakroky_poznamka" prefWidth="62.0" text="poznamka" />
+                  <TableColumn fx:id="zakroky_jmeno" prefWidth="92.0" text="jmeno_zvirete" />
+                  <TableColumn fx:id="zakroky_druh" prefWidth="67.0" text="druh" />
+                  <TableColumn fx:id="zakroky_pohlavi" prefWidth="111.0" text="pohlavi" />
+                  <TableColumn fx:id="zakroky_datum_narozeni" prefWidth="95.0" text="datum_narozeni" />
+                  <TableColumn fx:id="zakroky_vaha" prefWidth="75.0" text="Vaha" />
+                  <TableColumn fx:id="zakroky_poznamka_zvirete" prefWidth="75.0" text="Poznamka_zvire" />
+                  <TableColumn fx:id="zakroky_typ_operace" prefWidth="75.0" text="typ_operace" />
+                  <TableColumn fx:id="zakroky_delka_operace" prefWidth="75.0" text="delka_operace" />
+                  <TableColumn fx:id="zakroky_jmeno_lekare" prefWidth="75.0" text="jmeno_lekare" />
+                  <TableColumn fx:id="zakroky_prijmeni_lekare" prefWidth="75.0" text="prijmeni_lekare" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewVysetreni" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="vysetreni_datum" prefWidth="57.0" text="datum" />
+                  <TableColumn fx:id="vysetreni_poznamka" prefWidth="62.0" text="poznamka" />
+                  <TableColumn fx:id="vysetreni_diagnoza" prefWidth="75.0" text="diagnoza" />
+                  <TableColumn fx:id="vysetreni_oznaceni" prefWidth="75.0" text="oznaceni" />
+                  <TableColumn fx:id="vysetreni_stupen_zavaznosti" prefWidth="75.0" text="stupen_zavaznosti" />
+                  <TableColumn fx:id="vysetreni_jmeno" prefWidth="92.0" text="jmeno_zvirete" />
+                  <TableColumn fx:id="vysetreni_druh" prefWidth="67.0" text="druh" />
+                  <TableColumn fx:id="vysetreni_pohlavi" prefWidth="111.0" text="pohlavi" />
+                  <TableColumn fx:id="vysetreni_datum_narozeni" prefWidth="95.0" text="datum_narozeni" />
+                  <TableColumn fx:id="vysetreni_vaha" prefWidth="75.0" text="Vaha" />
+                  <TableColumn fx:id="vysetreni_poznamka_zvirete" prefWidth="75.0" text="poznamka_zvire" />
+                  <TableColumn fx:id="vysetreni_jmeno_lekare" prefWidth="75.0" text="jmeno_lekare" />
+                  <TableColumn fx:id="vysetreni_prijmeni_lekare" prefWidth="75.0" text="prijmeni_lekare" />
+               </columns>
+            </TableView>
+            <TableView fx:id="tableViewOdbery" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="odbery_datum" prefWidth="57.0" text="datum" />
+                  <TableColumn fx:id="odbery_poznamka" prefWidth="62.0" text="poznamka" />
+                  <TableColumn fx:id="odbery_jmeno" prefWidth="92.0" text="jmeno_zvirete" />
+                  <TableColumn fx:id="odbery_druh" prefWidth="67.0" text="druh" />
+                  <TableColumn fx:id="odbery_pohlavi" prefWidth="111.0" text="pohlavi" />
+                  <TableColumn fx:id="odbery_datum_narozeni" prefWidth="95.0" text="datum_narozeni" />
+                  <TableColumn fx:id="odbery_vaha" prefWidth="75.0" text="Vaha" />
+                  <TableColumn fx:id="odbery_poznamka_zvirete" prefWidth="75.0" text="poznamka_zvire" />
+                  <TableColumn fx:id="odbery_jmeno_lekare" prefWidth="75.0" text="jmeno_lekare" />
+                  <TableColumn fx:id="odbery_prijmeni_lekare" prefWidth="75.0" text="prijmeni_lekare" />
+               </columns>
+            </TableView>
+         </children>
+      </StackPane>
    </center>
 </BorderPane>

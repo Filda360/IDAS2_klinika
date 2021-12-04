@@ -5,6 +5,8 @@
  */
 package doktor;
 
+import dataTridy.Odbery;
+import dataTridy.Vysetreni;
 import dataTridy.Zakrok;
 import java.io.IOException;
 import java.net.URL;
@@ -67,8 +69,6 @@ public class FXMLDoktorController implements Initializable {
     @FXML
     private Button btnVystavitFakturu;
     @FXML
-    private TableView<Zakrok> tableView;
-    @FXML
     private TableColumn<Zakrok, String> zakroky_datum;
     @FXML
     private TableColumn<Zakrok, String> zakroky_poznamka;
@@ -93,19 +93,76 @@ public class FXMLDoktorController implements Initializable {
     @FXML
     private TableColumn<Zakrok, String> zakroky_prijmeni_lekare;
     
+     @FXML
+    private RadioButton rBtnZapniFiltry;
+    @FXML
+    private TableView<Zakrok> tableViewZakroky;
+    
+    @FXML
+    private TableColumn<Odbery, String> odbery_datum;
+    @FXML
+    private TableColumn<Odbery, String> odbery_poznamka;
+    @FXML
+    private TableColumn<Odbery, String> odbery_jmeno;
+    @FXML
+    private TableColumn<Odbery, String> odbery_druh;
+    @FXML
+    private TableColumn<Odbery, String> odbery_pohlavi;
+    @FXML
+    private TableColumn<Odbery, String> odbery_datum_narozeni;
+    @FXML
+    private TableColumn<Odbery, Double> odbery_vaha;
+    @FXML
+    private TableColumn<Odbery, String> odbery_poznamka_zvirete;
+    @FXML
+    private TableColumn<Odbery, String> odbery_jmeno_lekare;
+    @FXML
+    private TableColumn<Odbery, String> odbery_prijmeni_lekare;
+    
     public static ObservableList<Zakrok> zakrokData = FXCollections.observableArrayList();
+    public static ObservableList<Vysetreni> vysetreniData = FXCollections.observableArrayList();
+    public static ObservableList<Odbery> odberyData = FXCollections.observableArrayList();
     
     private PreparedStatement pstmt=null;
     private ResultSet rs=null; 
     @FXML
-    private RadioButton rBtnZapniFiltry;
+    private TableView<Vysetreni> tableViewVysetreni;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_datum;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_poznamka;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_diagnoza;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_oznaceni;
+    @FXML
+    private TableColumn<Vysetreni, Integer> vysetreni_stupen_zavaznosti;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_jmeno;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_druh;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_pohlavi;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_datum_narozeni;
+    @FXML
+    private TableColumn<Vysetreni, Double> vysetreni_vaha;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_poznamka_zvirete;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_jmeno_lekare;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_prijmeni_lekare;
+    @FXML
+    private TableView<Odbery> tableViewOdbery;
+   
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        tableView.setItems(zakrokData);
+        tableViewZakroky.setItems(zakrokData);
         zakroky_datum.setCellValueFactory(new PropertyValueFactory("datum"));
         zakroky_poznamka.setCellValueFactory(new PropertyValueFactory("poznamka"));
         zakroky_jmeno.setCellValueFactory(new PropertyValueFactory("jmeno"));
@@ -119,7 +176,7 @@ public class FXMLDoktorController implements Initializable {
         zakroky_jmeno_lekare.setCellValueFactory(new PropertyValueFactory("jmenoLekare"));
         zakroky_prijmeni_lekare.setCellValueFactory(new PropertyValueFactory("prijmeniLekare"));
 
-        tableView.setEditable(true);
+        tableViewZakroky.setEditable(true);
         zakroky_vaha.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         zakroky_datum.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -127,11 +184,65 @@ public class FXMLDoktorController implements Initializable {
         zakroky_druh.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_pohlavi.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_datum_narozeni.setCellFactory(TextFieldTableCell.forTableColumn());
-                zakroky_poznamka_zvirete.setCellFactory(TextFieldTableCell.forTableColumn());
+        zakroky_poznamka_zvirete.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_typ_operace.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_jmeno_lekare.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_prijmeni_lekare.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_delka_operace.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        
+        tableViewVysetreni.setItems(vysetreniData);
+        vysetreni_datum.setCellValueFactory(new PropertyValueFactory("datum"));
+        vysetreni_poznamka.setCellValueFactory(new PropertyValueFactory("poznamka"));
+        vysetreni_diagnoza.setCellValueFactory(new PropertyValueFactory("nazev"));
+        vysetreni_oznaceni.setCellValueFactory(new PropertyValueFactory("oznaceni"));
+        vysetreni_stupen_zavaznosti.setCellValueFactory(new PropertyValueFactory("stupenZavaznosti"));
+        vysetreni_jmeno.setCellValueFactory(new PropertyValueFactory("jmeno"));
+        vysetreni_druh.setCellValueFactory(new PropertyValueFactory("druh"));
+        vysetreni_pohlavi.setCellValueFactory(new PropertyValueFactory("pohlavi"));
+        vysetreni_datum_narozeni.setCellValueFactory(new PropertyValueFactory("datumNarozeni"));
+        vysetreni_vaha.setCellValueFactory(new PropertyValueFactory("vaha"));
+        vysetreni_poznamka_zvirete.setCellValueFactory(new PropertyValueFactory("zvirePoznamka"));
+        vysetreni_jmeno_lekare.setCellValueFactory(new PropertyValueFactory("jmenoLekare"));
+        vysetreni_prijmeni_lekare.setCellValueFactory(new PropertyValueFactory("prijmeniLekare"));
+
+        tableViewVysetreni.setEditable(true);
+        vysetreni_vaha.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        vysetreni_datum.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_diagnoza.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_oznaceni.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_stupen_zavaznosti.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        vysetreni_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_druh.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_pohlavi.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_datum_narozeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_poznamka_zvirete.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_jmeno_lekare.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_prijmeni_lekare.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        tableViewOdbery.setItems(odberyData);
+        odbery_datum.setCellValueFactory(new PropertyValueFactory("datum"));
+        odbery_poznamka.setCellValueFactory(new PropertyValueFactory("poznamka"));
+        odbery_jmeno.setCellValueFactory(new PropertyValueFactory("jmeno"));
+        odbery_druh.setCellValueFactory(new PropertyValueFactory("druh"));
+        odbery_pohlavi.setCellValueFactory(new PropertyValueFactory("pohlavi"));
+        odbery_datum_narozeni.setCellValueFactory(new PropertyValueFactory("datumNarozeni"));
+        odbery_vaha.setCellValueFactory(new PropertyValueFactory("vaha"));
+        odbery_poznamka_zvirete.setCellValueFactory(new PropertyValueFactory("zvirePoznamka"));
+        odbery_jmeno_lekare.setCellValueFactory(new PropertyValueFactory("jmenoLekare"));
+        odbery_prijmeni_lekare.setCellValueFactory(new PropertyValueFactory("prijmeniLekare"));
+
+        tableViewOdbery.setEditable(true);
+        odbery_vaha.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        odbery_datum.setCellFactory(TextFieldTableCell.forTableColumn());
+        odbery_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
+        odbery_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+        odbery_druh.setCellFactory(TextFieldTableCell.forTableColumn());
+        odbery_pohlavi.setCellFactory(TextFieldTableCell.forTableColumn());
+        odbery_datum_narozeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        odbery_poznamka_zvirete.setCellFactory(TextFieldTableCell.forTableColumn());
+        odbery_jmeno_lekare.setCellFactory(TextFieldTableCell.forTableColumn());
+        odbery_prijmeni_lekare.setCellFactory(TextFieldTableCell.forTableColumn());
     }    
 
 
@@ -157,6 +268,10 @@ public class FXMLDoktorController implements Initializable {
 
     @FXML
     private void handleBtnZakrokyOnAction(ActionEvent event) throws SQLException {
+        tableViewOdbery.setVisible(false);
+        tableViewVysetreni.setVisible(false);
+        tableViewZakroky.setVisible(true);
+        
     
     zakrokData.clear();
     String sql;
@@ -179,15 +294,71 @@ public class FXMLDoktorController implements Initializable {
             rs.getString(42),rs.getInt(43),rs.getString(44),rs.getString(45),rs.getDouble(46),rs.getString(47));   
     zakrokData.add(za);
     }
-    tableView.refresh();
+    tableViewZakroky.refresh();
     }
 
     @FXML
-    private void handleBtnOdberyOnAction(ActionEvent event) {
+    private void handleBtnOdberyOnAction(ActionEvent event) throws SQLException {
+    tableViewOdbery.setVisible(true);
+        tableViewVysetreni.setVisible(false);
+        tableViewZakroky.setVisible(false);
+        
+    odberyData.clear();
+    String sql;
+    if(tfJmenoZvirete.getText().isEmpty() || !rBtnZapniFiltry.isSelected()){
+        sql = "SELECT * FROM P_ODBERY";
+    }else{ 
+        sql = "SELECT * FROM P_ODBERY WHERE JMENO LIKE '" + tfJmenoZvirete.getText() + "'";
+    }
+        
+    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+    rs = pstmt.executeQuery();
+    while(rs.next()){
+    Odbery od = new Odbery(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),
+            rs.getString(6),rs.getDouble(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11),
+            rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15),rs.getString(16),rs.getInt(17),
+            rs.getString(18),rs.getString(19),rs.getInt(20),rs.getString(21),rs.getString(22),rs.getInt(23),
+            rs.getString(24),rs.getInt(25),rs.getString(26),rs.getInt(27),rs.getString(28),rs.getString(29),
+            rs.getString(30),rs.getDouble(31),rs.getString(32),rs.getString(33),rs.getString(34),rs.getString(35),
+            rs.getString(36),rs.getInt(37),rs.getString(38),rs.getString(39),rs.getInt(40),rs.getString(41),
+            rs.getString(42));   
+    odberyData.add(od);
+    }
+    tableViewOdbery.refresh();
+    
     }
 
     @FXML
-    private void handleBtnVysetreniOnAction(ActionEvent event) {
+    private void handleBtnVysetreniOnAction(ActionEvent event) throws SQLException {
+        tableViewOdbery.setVisible(false);
+        tableViewVysetreni.setVisible(true);
+        tableViewZakroky.setVisible(false);
+    
+    vysetreniData.clear();
+    String sql;
+    if(tfJmenoZvirete.getText().isEmpty() || !rBtnZapniFiltry.isSelected()){
+        sql = "SELECT * FROM P_VYSETRENI";
+    }else{ 
+        sql = "SELECT * FROM P_ODBERY WHERE JMENO LIKE '" + tfJmenoZvirete.getText() + "'";
+    }
+        
+    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+    rs = pstmt.executeQuery();
+    while(rs.next()){
+    Vysetreni vy = new Vysetreni(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),
+            rs.getString(6),rs.getInt(7),rs.getInt(8),rs.getString(9),
+            rs.getString(10),rs.getDouble(11),rs.getString(12),rs.getString(13),rs.getInt(14),rs.getString(15),
+            rs.getString(16),rs.getString(17),rs.getString(18),rs.getString(19),rs.getString(20),rs.getInt(21),
+            rs.getString(22),rs.getString(23),rs.getInt(24),rs.getString(25),rs.getString(26),rs.getInt(27),
+            rs.getString(28),rs.getInt(29),rs.getString(30),rs.getInt(31),rs.getString(32),rs.getString(33),
+            rs.getString(34),rs.getDouble(35),rs.getString(36),rs.getString(37),rs.getString(38),rs.getString(39),
+            rs.getString(40),rs.getInt(41),rs.getString(42),rs.getString(43),rs.getInt(44),rs.getString(45),
+            rs.getString(46));   
+    vysetreniData.add(vy);
+    }
+    tableViewVysetreni.refresh();
+    
+    
     }
 
     @FXML
