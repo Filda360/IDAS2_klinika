@@ -3,7 +3,16 @@ package registrace;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.CallableStatement;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,14 +21,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import veterinarniklinika.VeterinarniKlinika;
 
 
 public class FXMLRegistraceController implements Initializable {
 
+    private CallableStatement cst = null;
+    
     @FXML
     private TextField tfPrijmeni;
     @FXML
@@ -44,8 +58,9 @@ public class FXMLRegistraceController implements Initializable {
     private PasswordField tfHesloR;
     @FXML
     private Button btnZpet;
-    @FXML
     private TextField tfDatumNarozeni;
+    @FXML
+    private DatePicker datePicker;
 
 
     @Override
@@ -55,26 +70,65 @@ public class FXMLRegistraceController implements Initializable {
 
     //přidá nového majitele do databáze
     @FXML
-    private void handleBtnZaregistrovatOnAction(ActionEvent event) {
+    private void handleBtnZaregistrovatOnAction(ActionEvent event){
         
-        //TODO overeni korektnosti dat + ulozit do tabulky majitelu novyho majitele nebo vyhodit Alert
-        
-        try {          
-            Parent root = FXMLLoader.load(getClass().getResource("/veterinarniklinika/FXMLUvodni.fxml"));
+        if(tfPrijmeni.getText().isEmpty() ||
+                tfJmenoR.getText().isEmpty() ||
+                tfUlice.getText().isEmpty() ||
+                tfCp.getText().isEmpty() ||
+                tfMesto.getText().isEmpty() ||
+                tfPsc.getText().isEmpty() ||
+                tfTelefon.getText().isEmpty() ||
+                tfEmail.getText().isEmpty() ||
+                tfPrihlasovaciJmeno.getText().isEmpty() ||
+                tfHesloR.getText().isEmpty()
+                //TODO kontrolu datepickeru zda neni nevybran
+                ){ 
+            zobrazErrorDialog("Error !", "Formulář není řádně vyplněn, některá pole jsou prázdná !" );
+        }else{ 
+            try {
+                cst = VeterinarniKlinika.con.prepareCall("{CALL ?:=vytvor_registraci_majitele(?,?,?,?,?,?,?,?,?,?,?)}");
+                
+                cst.registerOutParameter(1, Types.NUMERIC);
+                cst.setString(2, tfJmenoR.getText());
+                cst.setString(3, tfPrijmeni.getText());
+                cst.setDate(4, Date.valueOf(datePicker.getValue()));
+                cst.setString(5, tfUlice.getText());
+                cst.setString(6, tfCp.getText());
+                cst.setString(7, tfMesto.getText());
+                cst.setString(8, tfPsc.getText());
+                cst.setString(9, tfTelefon.getText());
+                cst.setString(10, tfEmail.getText());
+                cst.setString(11, tfPrihlasovaciJmeno.getText());
+                cst.setString(12, tfHesloR.getText());
 
-            Scene scene = new Scene(root);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            
-            window.setScene(scene);
-            window.show();
-            
-        } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error !");
-            alert.setHeaderText("Chyba při přechodu do registračního formuláře");
-            alert.setContentText(ex.getMessage());
-            alert.showAndWait();
+                cst.executeUpdate();
+                int vytvoren = cst.getInt(1);
+                //String zprava = cst.getString(13);
+
+                if(vytvoren==1){ 
+                    zobrazConfDialog("Registrace proběhla úspěšně !", "TRUE");
+                    try {          
+                        Parent root = FXMLLoader.load(getClass().getResource("/veterinarniklinika/FXMLUvodni.fxml"));
+
+                        Scene scene = new Scene(root);
+                        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+                        window.setScene(scene);
+                        window.show();
+                    } catch (IOException ex) {
+                        zobrazErrorDialog("Error !", "Chyba při přechodu do registračního formuláře" );
+                    }
+                }else{ 
+                    zobrazErrorDialog("Registrace se nezdařila !", "FALSE");
+                }
+                    
+            } catch (SQLException ex) {
+                zobrazErrorDialog("Ups neco se nepovedlo !",ex.getMessage());
+            }        
         }
+        
+        
     }
 
     @FXML
@@ -96,6 +150,23 @@ public class FXMLRegistraceController implements Initializable {
             alert.setContentText(ex.getMessage());
             alert.showAndWait();
         }
+    }
+    
+    
+    private void zobrazErrorDialog(String headText, String content){ 
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error !");
+        alert.setHeaderText(headText);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+    
+    private void zobrazConfDialog(String headText, String content){ 
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Succes !");
+        alert.setHeaderText(headText);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
     
 }

@@ -96,7 +96,6 @@ public class FXMLUvodniController implements Initializable {
                         alert.showAndWait();
                         
                         try {
-                            //TODO otevreni dailogu prihlaseneho uzivatele
                             zobrazDialogDoktor(event);
                         } catch (IOException ex) {
                             zobrazErrorDialog("Chyba při přechodu do dialogu uzivatele !", ex.getMessage());
