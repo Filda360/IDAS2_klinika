@@ -36,6 +36,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import prihlasovani.Administrator;
+import prihlasovani.Majitel;
 
 /**
  *
@@ -98,6 +100,7 @@ public class FXMLUvodniController implements Initializable {
                         alert.showAndWait();
                         
                         try {
+                            nactiPrihlasenehoDoktora(id);
                             zobrazDialogDoktor(event);
                         } catch (IOException ex) {
                             zobrazErrorDialog("Chyba při přechodu do dialogu uzivatele !", ex.getMessage());
@@ -130,7 +133,7 @@ public class FXMLUvodniController implements Initializable {
                         alert.showAndWait();
                         
                         try {
-                            //TODO otevreni dailogu prihlaseneho uzivatele
+                            nactiPrihlasenehoUzivatele(id);
                             zobrazDialogUzivatel(event);
                         } catch (IOException ex) {
                             zobrazErrorDialog("Chyba při přechodu do dialogu uzivatele !", ex.getMessage());
@@ -162,7 +165,7 @@ public class FXMLUvodniController implements Initializable {
                         alert.showAndWait();
                         
                         try {
-                            //TODO otevreni dailogu prihlaseneho uzivatele
+                            nactiPrihlasenehoAdmina(id);
                             zobrazDialogAdmin(event);
                         } catch (IOException ex) {
                             zobrazErrorDialog("Chyba při přechodu do dialogu administratora !", ex.getMessage());
@@ -245,7 +248,7 @@ public class FXMLUvodniController implements Initializable {
     
     private void nactiPrihlasenehoDoktora(int id) throws SQLException{ 
         Doktor prihlasenyDoktor;
-        String sql = "SELECT * FROM doktori_udaje WHERE id_doktora = "+ id + "";
+        String sql = "SELECT * FROM udaje_doktori WHERE id_doktora = "+ id + "";
         pstmt = VeterinarniKlinika.con.prepareStatement(sql);
         rs = pstmt.executeQuery();
         if(rs.next()){ 
@@ -265,6 +268,49 @@ public class FXMLUvodniController implements Initializable {
             int psc = rs.getInt("PSC");
             prihlasenyDoktor = new Doktor(id_doktora, titul, delkaUvazku, datumNastupu, plat, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc); 
             prihlasenyUzivatel = prihlasenyDoktor;
+        }     
+    }
+    
+    private void nactiPrihlasenehoUzivatele(int id) throws SQLException{ 
+        Majitel prihlasenyMajitel;
+        String sql = "SELECT * FROM udaje_majitele WHERE id_majitele = "+ id + "";
+        pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+        rs = pstmt.executeQuery();
+        if(rs.next()){ 
+            int id_majitele = rs.getInt("ID_MAJITELE");
+            String jmeno = rs.getString("JMENO");
+            String prijmeni = rs.getString("PRIJMENI");
+            Date datumNarozeni = rs.getDate("DATUM_NAROZENI");
+            Date datumRegistrace = rs.getDate("DATUM_REGISTRACE");
+            String telefon = rs.getString("TELEFON");
+            String email = rs.getString("EMAIL");
+            String ulice = rs.getString("ULICE");
+            String cisloPopisne = rs.getString("CISLO_POPISNE");
+            String mesto = rs.getString("MESTO");
+            int psc = rs.getInt("PSC");
+            prihlasenyMajitel = new Majitel(id_majitele, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc, datumRegistrace); 
+            prihlasenyUzivatel = prihlasenyMajitel;
+        }     
+    }
+    
+    private void nactiPrihlasenehoAdmina(int id) throws SQLException{ 
+        Administrator prihlasenyAdministrator;
+        String sql = "SELECT * FROM udaje_administratori WHERE id_administratora = "+ id + "";
+        pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+        rs = pstmt.executeQuery();
+        if(rs.next()){ 
+            int id_administratora = rs.getInt("ID_administratora");
+            String jmeno = rs.getString("JMENO");
+            String prijmeni = rs.getString("PRIJMENI");
+            Date datumNarozeni = rs.getDate("DATUM_NAROZENI");
+            String telefon = rs.getString("TELEFON");
+            String email = rs.getString("EMAIL");
+            String ulice = rs.getString("ULICE");
+            String cisloPopisne = rs.getString("CISLO_POPISNE");
+            String mesto = rs.getString("MESTO");
+            int psc = rs.getInt("PSC");
+            prihlasenyAdministrator = new Administrator(id_administratora, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc); 
+            prihlasenyUzivatel = prihlasenyAdministrator;
         }     
     }
     

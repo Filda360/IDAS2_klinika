@@ -30,20 +30,29 @@ import dataTridy.ZakrokOld;
 import dataTridy.Zakroky;
 import dataTridy.Zvirata;
 import static doktor.FXMLDoktorController.zakrokData;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
+import prihlasovani.PrihlasenyUzivatel;
+import veterinarniklinika.FXMLUvodniController;
 
 public class FXMLAdministratorController implements Initializable {
 
@@ -359,17 +368,43 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void handleBtnMojeUdajeOnAction(ActionEvent event) {
-    
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Moje údaje !");
+        alert.setHeaderText(FXMLUvodniController.dejPrihlasenehoUzivatele().toString());
+        alert.showAndWait();
     }
 
     @FXML
     private void handleBtnOdhlasitOnAction(ActionEvent event) {
+        try {
+            //odhlášení přihlášeného uživatele
+            FXMLUvodniController.odhlasUzivatele();
+            //přechod zpět na úvodní dialog
+            zobrazDialogUvodni(event);
+        } catch (IOException ex) {
+            zobrazErrorDialog("Chyba odhlášení uživatele !", ex.getMessage());
+        }
     }
 
     @FXML
     private void handleBtnVystavitFakturuOnAction(ActionEvent event) {
     }
-
+    
+    private void zobrazDialogUvodni(ActionEvent event) throws IOException{ 
+        Parent root = FXMLLoader.load(getClass().getResource("/veterinarniklinika/FXMLUvodni.fxml"));
+        Scene scene = new Scene(root);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
+    }
+    
+    private void zobrazErrorDialog(String headText, String content){ 
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error !");
+        alert.setHeaderText(headText);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
     
     
 }

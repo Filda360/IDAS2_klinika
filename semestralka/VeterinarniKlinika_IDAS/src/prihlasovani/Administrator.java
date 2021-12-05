@@ -1,15 +1,11 @@
-/*
- * třída pro prihalseneho majitele
- */
+
 package prihlasovani;
 
 import java.util.Date;
 
-public class Majitel extends PrihlasenyUzivatel{
-    private Date datumRegistrace;
-
-    public Majitel(int id, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc, Date datumRegistrace) {
-        this.datumRegistrace = datumRegistrace;
+public class Administrator extends PrihlasenyUzivatel{
+    
+    public Administrator(int id, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc) {
         this.id = id;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
@@ -21,10 +17,10 @@ public class Majitel extends PrihlasenyUzivatel{
         this.mesto = mesto;
         this.psc = psc;
     }
-    
-    public Majitel() {
+        
+    public Administrator(){ 
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -103,32 +99,5 @@ public class Majitel extends PrihlasenyUzivatel{
 
     public int getPsc() {
         return psc;
-    }  
-
-    public void setDatumRegistrace(Date datumRegistrace) {
-        this.datumRegistrace = datumRegistrace;
     }
-
-    public Date getDatumRegistrace() {
-        return datumRegistrace;
-    }
-    
-    
-
-    @Override
-    public String toString() {
-        String s;
-        s =     "jméno: " + jmeno +
-                "\npřijmení: " + prijmeni + 
-                "\ndatum narozeni: " + datumNarozeni +
-                "\ntelefon: " + telefon +
-                "\nemail: " + email + 
-                "\nulice: " + ulice +
-                "\nčíslo popisné: " + cisloPopisne +
-                "\nměsto: " + mesto +
-                "\nPSČ: " + psc +
-                "\ndatum registrace: " + datumRegistrace;
-        return s;
-    }
-    
 }
