@@ -299,7 +299,7 @@ public class FXMLUvodniController implements Initializable {
         pstmt = VeterinarniKlinika.con.prepareStatement(sql);
         rs = pstmt.executeQuery();
         if(rs.next()){ 
-            int id_administratora = rs.getInt("ID_administratora");
+            int id_administratora = rs.getInt("ID_ADMINISTRATORA");
             String jmeno = rs.getString("JMENO");
             String prijmeni = rs.getString("PRIJMENI");
             Date datumNarozeni = rs.getDate("DATUM_NAROZENI");

@@ -100,4 +100,19 @@ public class Administrator extends PrihlasenyUzivatel{
     public int getPsc() {
         return psc;
     }
+    
+    @Override
+    public String toString() {
+        String s;
+        s =     "jméno: " + jmeno +
+                "\npřijmení: " + prijmeni + 
+                "\ndatum narozeni: " + datumNarozeni +
+                "\ntelefon: " + telefon +
+                "\nemail: " + email + 
+                "\nulice: " + ulice +
+                "\nčíslo popisné: " + cisloPopisne +
+                "\nměsto: " + mesto +
+                "\nPSČ: " + psc;
+        return s;
+    }
 }
