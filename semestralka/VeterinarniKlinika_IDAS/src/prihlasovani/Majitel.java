@@ -1,24 +1,16 @@
 /*
- * třída pro prihalseneho doktora
+ * třída pro prihalseneho majitele
  */
-package dataTridy;
+package prihlasovani;
 
 import java.util.Date;
 
-public class Doktor extends PrihlasenyUzivatel{
-    
-    private String titul;
-    private String delkaUvazku;
-    private Date datumNastupu;
-    private int plat;
+public class Majitel extends PrihlasenyUzivatel{
+    private Date datumRegistrace;
 
-
-    public Doktor(int id, String titul, String delkaUvazku, Date datumNastupu, int plat, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc) {
+    public Majitel(int id, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc, Date datumRegistrace) {
+        this.datumRegistrace = datumRegistrace;
         this.id = id;
-        this.titul = titul;
-        this.delkaUvazku = delkaUvazku;
-        this.datumNastupu = datumNastupu;
-        this.plat = plat;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
         this.datumNarozeni = datumNarozeni;
@@ -30,27 +22,11 @@ public class Doktor extends PrihlasenyUzivatel{
         this.psc = psc;
     }
     
-    public Doktor() {
+    public Majitel() {
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setTitul(String titul) {
-        this.titul = titul;
-    }
-
-    public void setDelkaUvazku(String delkaUvazku) {
-        this.delkaUvazku = delkaUvazku;
-    }
-
-    public void setDatumNastupu(Date datumNastupu) {
-        this.datumNastupu = datumNastupu;
-    }
-
-    public void setPlat(int plat) {
-        this.plat = plat;
     }
 
     public void setJmeno(String jmeno) {
@@ -91,22 +67,6 @@ public class Doktor extends PrihlasenyUzivatel{
 
     public int getId() {
         return id;
-    }
-
-    public String getTitul() {
-        return titul;
-    }
-
-    public String getDelkaUvazku() {
-        return delkaUvazku;
-    }
-
-    public Date getDatumNastupu() {
-        return datumNastupu;
-    }
-
-    public int getPlat() {
-        return plat;
     }
 
     public String getJmeno() {
@@ -150,19 +110,15 @@ public class Doktor extends PrihlasenyUzivatel{
         String s;
         s =     "jméno: " + jmeno +
                 "\npřijmení: " + prijmeni + 
-                "\ntitul: " + titul + 
                 "\ndatum narozeni: " + datumNarozeni +
                 "\ntelefon: " + telefon +
                 "\nemail: " + email + 
-                "\ndélka úvazku: " + delkaUvazku +
-                "\nplat: " + plat +
-                "\ndatum nástupu: " + datumNastupu + 
                 "\nulice: " + ulice +
                 "\nčíslo popisné: " + cisloPopisne +
                 "\nměsto: " + mesto +
-                "\nPSČ: " + psc;
+                "\nPSČ: " + psc +
+                "\ndatum registrace: " + datumRegistrace;
         return s;
     }
-    
     
 }

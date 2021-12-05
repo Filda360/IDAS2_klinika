@@ -1,5 +1,5 @@
 
-package dataTridy;
+package prihlasovani;
 
 import java.util.Date;
 

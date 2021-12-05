@@ -1,7 +1,7 @@
 
 package uzivatelNeprihlaseny;
 
-import dataTridy.Doktor;
+import prihlasovani.Doktor;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;

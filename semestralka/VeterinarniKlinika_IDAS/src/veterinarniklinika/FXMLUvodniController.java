@@ -3,8 +3,8 @@ package veterinarniklinika;
 
 import java.io.IOException;
 import registrace.*;
-import dataTridy.Doktor;
-import dataTridy.PrihlasenyUzivatel;
+import prihlasovani.Doktor;
+import prihlasovani.PrihlasenyUzivatel;
 
 import java.net.URL;
 import java.sql.CallableStatement;
@@ -141,7 +141,6 @@ public class FXMLUvodniController implements Initializable {
                 }
                 break;
                 case ADMIN:{ 
-                    
                 }
             }
 

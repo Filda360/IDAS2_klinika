@@ -53,7 +53,9 @@ public class Adresy {
     public int getIdPosty() {
         return idPosty;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return ulice + " " + cisloPopisne;
+    }  
 }

@@ -1,112 +1,310 @@
 
 package administrator;
 
+import dataTridy.Adresy;
+import dataTridy.Biochemie;
+import dataTridy.Diagnozy;
+import dataTridy.Dodavatele;
+import dataTridy.Doktori;
+import dataTridy.DoktoriLogHistory;
+import dataTridy.Druhy;
+import dataTridy.Faktury;
+import dataTridy.FotoDoktoru;
+import dataTridy.KrevniObrazy;
+import dataTridy.Leciva;
+import dataTridy.LogTable;
+import dataTridy.Majitele;
+import dataTridy.MajiteleLogHistory;
+import dataTridy.Objednavky;
+import dataTridy.Odbery;
+import dataTridy.OdberyOld;
+import dataTridy.Operace;
+import dataTridy.Pohlavi;
+import dataTridy.Polozky;
+import dataTridy.Posty;
+import dataTridy.TypyPlatby;
+import dataTridy.Vysetreni;
+import dataTridy.VysetreniOld;
+import dataTridy.Zajmy;
+import dataTridy.ZakrokOld;
+import dataTridy.Zakroky;
+import dataTridy.Zvirata;
+import static doktor.FXMLDoktorController.zakrokData;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.DoubleStringConverter;
 
 public class FXMLAdministratorController implements Initializable {
 
     @FXML
-    private TextField tfJmenoZvirete;
-    @FXML
-    private ComboBox<?> cbDruh;
-    @FXML
-    private RadioButton rBtnZapniFiltry;
+    private ComboBox<?> comboTabulky;
     @FXML
     private Button btnMojeUdaje;
     @FXML
     private Button btnOdhlasit;
     @FXML
-    private TableView<?> tableViewZakroky;
+    private TableView<Adresy> tableViewAdresy;
     @FXML
-    private TableColumn<?, ?> zakroky_datum;
+    private TableColumn<Adresy, String> adresy_ulice;
     @FXML
-    private TableColumn<?, ?> zakroky_poznamka;
+    private TableColumn<Adresy, String> adresy_cislo_popisne;
     @FXML
-    private TableColumn<?, ?> zakroky_jmeno;
+    private TableColumn<ComboBox, String> adresy_posta;
     @FXML
-    private TableColumn<?, ?> zakroky_druh;
+    private TableView<Biochemie> tableViewBiochemie;
     @FXML
-    private TableColumn<?, ?> zakroky_pohlavi;
+    private TableColumn<Biochemie, Double> biochemie_urea;
     @FXML
-    private TableColumn<?, ?> zakroky_datum_narozeni;
+    private TableColumn<Biochemie, Double> biochemie_kreatinin;
     @FXML
-    private TableColumn<?, ?> zakroky_vaha;
+    private TableColumn<Biochemie, Double> biochemie_bilirubin;
     @FXML
-    private TableColumn<?, ?> zakroky_poznamka_zvirete;
+    private TableColumn<Biochemie, Double> biochemie_ast;
     @FXML
-    private TableColumn<?, ?> zakroky_typ_operace;
+    private TableColumn<Biochemie, Double> biochemie_alt;
     @FXML
-    private TableColumn<?, ?> zakroky_delka_operace;
+    private TableView<Diagnozy> tableViewDiagnozy;
     @FXML
-    private TableColumn<?, ?> zakroky_jmeno_lekare;
+    private TableColumn<Diagnozy, String> diagnozy_nazev;
     @FXML
-    private TableColumn<?, ?> zakroky_prijmeni_lekare;
+    private TableColumn<Diagnozy, String> diagnozy_oznaceni;
     @FXML
-    private TableView<?> tableViewVysetreni;
+    private TableColumn<Diagnozy, Integer> biochemie_stupen_zavaznosti;
     @FXML
-    private TableColumn<?, ?> vysetreni_datum;
+    private TableView<Dodavatele> tableViewDodavatele;
     @FXML
-    private TableColumn<?, ?> vysetreni_poznamka;
+    private TableColumn<Dodavatele, String> dodavatele_nazev;
     @FXML
-    private TableColumn<?, ?> vysetreni_diagnoza;
+    private TableColumn<Dodavatele, String> dodavatele_telefon;
     @FXML
-    private TableColumn<?, ?> vysetreni_oznaceni;
+    private TableColumn<Dodavatele, String> dodavatele_email;
     @FXML
-    private TableColumn<?, ?> vysetreni_stupen_zavaznosti;
+    private TableColumn<Dodavatele, ComboBox> dodavatele_adresa;
     @FXML
-    private TableColumn<?, ?> vysetreni_jmeno;
+    private TableView<Doktori> tableViewDoktori;
     @FXML
-    private TableColumn<?, ?> vysetreni_druh;
+    private TableColumn<Doktori, String> doktori_jmeno;
     @FXML
-    private TableColumn<?, ?> vysetreni_pohlavi;
+    private TableColumn<Doktori, String> doktori_prijmeni;
     @FXML
-    private TableColumn<?, ?> vysetreni_datum_narozeni;
+    private TableColumn<Doktori, String> doktori_titul;
     @FXML
-    private TableColumn<?, ?> vysetreni_vaha;
+    private TableColumn<Doktori, String> doktori_delka_uvazku;
     @FXML
-    private TableColumn<?, ?> vysetreni_poznamka_zvirete;
+    private TableColumn<Doktori, String> doktori_datum_nastupu;
     @FXML
-    private TableColumn<?, ?> vysetreni_jmeno_lekare;
+    private TableColumn<Doktori, Double> doktori_plat;
     @FXML
-    private TableColumn<?, ?> vysetreni_prijmeni_lekare;
+    private TableColumn<Doktori, String> doktori_datum_narozeni;
     @FXML
-    private TableView<?> tableViewOdbery;
+    private TableColumn<Doktori, String> doktori_telefon;
     @FXML
-    private TableColumn<?, ?> odbery_datum;
+    private TableColumn<Doktori, String> doktori_email;
     @FXML
-    private TableColumn<?, ?> odbery_poznamka;
+    private TableColumn<Doktori, String> doktori_prihlasovaci_jmeno;
     @FXML
-    private TableColumn<?, ?> odbery_jmeno;
+    private TableColumn<Doktori, String> doktori_heslo;
     @FXML
-    private TableColumn<?, ?> odbery_druh;
+    private TableColumn<Doktori, ComboBox> doktori_adresa;
     @FXML
-    private TableColumn<?, ?> odbery_pohlavi;
+    private TableView<DoktoriLogHistory> tableViewDoktoriLogHistory;
     @FXML
-    private TableColumn<?, ?> odbery_datum_narozeni;
+    private TableColumn<DoktoriLogHistory, String> doktori_log_datum_prihlaseni;
     @FXML
-    private TableColumn<?, ?> odbery_vaha;
+    private TableColumn<DoktoriLogHistory, ComboBox> doktori_log_doktor;
     @FXML
-    private TableColumn<?, ?> odbery_poznamka_zvirete;
+    private TableView<Druhy> tableViewDruhy;
     @FXML
-    private TableColumn<?, ?> odbery_jmeno_lekare;
+    private TableColumn<Druhy, String> druhy_druh;
     @FXML
-    private TableColumn<?, ?> odbery_prijmeni_lekare;
+    private TableView<Faktury> tableViewFaktury;
     @FXML
-    private Button btnZakroky;
+    private TableColumn<Faktury, String> faktury_datum_vystaveni;
     @FXML
-    private Button btnOdbery;
+    private TableColumn<Faktury, String> faktury_datum_splatnosti;
     @FXML
-    private Button btnVysetreni;
+    private TableColumn<Faktury, String> faktury_stav;
+    @FXML
+    private TableColumn<Faktury, ComboBox> faktury_typ;
+    @FXML
+    private TableColumn<Faktury, ComboBox> faktury_majitel;
+    @FXML
+    private TableView<FotoDoktoru> tableViewFotoDoktoru;
+    @FXML
+    private TableColumn<FotoDoktoru, String> foto_doktoru_nazev;
+    @FXML
+    private TableColumn<FotoDoktoru, String> foto_doktoru_typ_souboru;
+    @FXML
+    private TableColumn<FotoDoktoru, String> foto_doktoru_pripona;
+    @FXML
+    private TableColumn<FotoDoktoru, String> foto_doktoru_datum_nahrani;
+    @FXML
+    private TableColumn<FotoDoktoru, String> foto_doktoru_obsah;
+    @FXML
+    private TableColumn<FotoDoktoru, ComboBox> foto_doktoru_doktor;
+    @FXML
+    private TableView<KrevniObrazy> tableViewKrevniObrazy;
+    @FXML
+    private TableColumn<KrevniObrazy, Double> krevni_obrazy_erytrocyty;
+    @FXML
+    private TableColumn<KrevniObrazy, Double> krevni_obrazy_leukocyty;
+    @FXML
+    private TableColumn<KrevniObrazy, Double> krevni_obrazy_trombocyty;
+    @FXML
+    private TableColumn<KrevniObrazy, Double> krevni_obrazy_hemoglobin;
+    @FXML
+    private TableView<Leciva> tableViewLeciva;
+    @FXML
+    private TableColumn<Leciva, String> leciva_nazev;
+    @FXML
+    private TableColumn<Leciva, String> leciva_datum_expirace;
+    @FXML
+    private TableColumn<Leciva, Integer> leciva_pocet_skladem;
+    @FXML
+    private TableColumn<Leciva, String> leciva_popis;
+    @FXML
+    private TableColumn<Leciva, ComboBox> leciva_dodavatel;
+    @FXML
+    private TableView<LogTable> tableViewLogTable;
+    @FXML
+    private TableColumn<LogTable, String> log_table_tabulka;
+    @FXML
+    private TableColumn<LogTable, String> log_table_operace;
+    @FXML
+    private TableColumn<LogTable, String> log_table_cas;
+    @FXML
+    private TableColumn<LogTable, String> log_table_uzivatel;
+    @FXML
+    private TableView<Majitele> tableViewMajitele;
+    @FXML
+    private TableColumn<Majitele, String> majitele_jmeno;
+    @FXML
+    private TableColumn<Majitele, String> majitele_prijmeni;
+    @FXML
+    private TableColumn<Majitele, String> majitele_datum_registrace;
+    @FXML
+    private TableColumn<Majitele, String> majitele_datum_narozeni;
+    @FXML
+    private TableColumn<Majitele, String> majitele_telefon;
+    @FXML
+    private TableColumn<Majitele, String> majitele_email;
+    @FXML
+    private TableColumn<Majitele, String> majitele_prihlasovaci_jmeno;
+    @FXML
+    private TableColumn<Majitele, String> majitele_heslo;
+    @FXML
+    private TableColumn<Majitele, ComboBox> majitele_adresa;
+    @FXML
+    private TableView<MajiteleLogHistory> tableViewMajiteleLogHistory;
+    @FXML
+    private TableColumn<MajiteleLogHistory, String> majitele_log_datum_prihlaseni;
+    @FXML
+    private TableColumn<MajiteleLogHistory, ComboBox> majitele_log_majitel;
+    @FXML
+    private TableView<Objednavky> tableViewObjednavky;
+    @FXML
+    private TableColumn<Objednavky, String> objednavky_pricina;
+    @FXML
+    private TableColumn<Objednavky, String> objednavky_termin;
+    @FXML
+    private TableColumn<Objednavky, ComboBox> objednavky_majitel;
+    @FXML
+    private TableView<Odbery> tableViewOdbery;
+    @FXML
+    private TableColumn<Odbery, String> odbery_datum;
+    @FXML
+    private TableColumn<Odbery, String> odbery_poznamka;
+    @FXML
+    private TableColumn<Odbery, ComboBox> odbery_zvire;
+    @FXML
+    private TableView<Operace> tableViewOperace;
+    @FXML
+    private TableColumn<Operace, String> operace_nazev;
+    @FXML
+    private TableColumn<Operace, String> operace_oznaceni;
+    @FXML
+    private TableColumn<Operace, Double> operace_delka;
+    @FXML
+    private TableColumn<Operace, String> operace_riziko;
+    @FXML
+    private TableView<Pohlavi> tableViewPohlavi;
+    @FXML
+    private TableColumn<Pohlavi, String> pohlavi_pohlavi;
+    @FXML
+    private TableView<Polozky> tableViewPolozky;
+    @FXML
+    private TableColumn<Polozky, String> polozky_nazev;
+    @FXML
+    private TableColumn<Polozky, Integer> polozky_pocet;
+    @FXML
+    private TableColumn<Polozky, Double> polozky_cena;
+    @FXML
+    private TableColumn<Polozky, ComboBox> polozky_faktura;
+    @FXML
+    private TableView<Posty> tableViewPosty;
+    @FXML
+    private TableColumn<Posty, String> posty_mesto;
+    @FXML
+    private TableColumn<Posty, String> posty_psc;
+    @FXML
+    private TableView<TypyPlatby> tableViewTypyPlatby;
+    @FXML
+    private TableColumn<TypyPlatby, String> typy_platby_typ;
+    @FXML
+    private TableView<Vysetreni> tableViewVysetreni;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_datum;
+    @FXML
+    private TableColumn<Vysetreni, String> vysetreni_poznamka;
+    @FXML
+    private TableColumn<Vysetreni, ComboBox> vysetreni_diagnoza;
+    @FXML
+    private TableColumn<Vysetreni, ComboBox> vysetreni_zvire;
+    @FXML
+    private TableView<Zajmy> tableViewZajmy;
+    @FXML
+    private TableColumn<Zajmy, String> zajmy_zajem;
+    @FXML
+    private TableView<Zakroky> tableViewZakroky;
+    @FXML
+    private TableColumn<Zakroky, String> zakroky_datum;
+    @FXML
+    private TableColumn<Zakroky, String> zakroky_poznamka;
+    @FXML
+    private TableColumn<Zakroky, ComboBox> zakroky_zvire;
+    @FXML
+    private TableColumn<Zakroky, ComboBox> zakroky_operace;
+    @FXML
+    private TableView<Zvirata> tableViewZvirata;
+    @FXML
+    private TableColumn<Zvirata, String> zvirata_jmeno;
+    @FXML
+    private TableColumn<Zvirata, String> zvirata_datum_narozeni;
+    @FXML
+    private TableColumn<Zvirata, Double> zvirata_vaha;
+    @FXML
+    private TableColumn<Zvirata, String> zvirata_poznamka;
+    @FXML
+    private TableColumn<Zvirata, String> zvirata_cislo_cipu;
+    @FXML
+    private TableColumn<Zvirata, ComboBox> zvirata_majitel;
+    @FXML
+    private TableColumn<Zvirata, ComboBox> zvirata_pohlavi;
+    @FXML
+    private TableColumn<Zvirata, ComboBox> zvirata_druh;
+    @FXML
+    private TableColumn<Zvirata, ComboBox> zvirata_doktor;
     @FXML
     private ComboBox<?> cbPridatPolozku;
     @FXML
@@ -114,19 +312,54 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private Button btnVystavitFakturu;
 
-    @FXML
-    private ComboBox<?> cbVyberTabulku;
-    @FXML
-    private TableView<?> tableView;
-
+    public static ObservableList<Adresy> adresyData = FXCollections.observableArrayList();
+    public static ObservableList<Biochemie> biochemieData = FXCollections.observableArrayList();
+    public static ObservableList<Diagnozy> diagnozyData = FXCollections.observableArrayList();
+    public static ObservableList<Dodavatele> dodavateleData = FXCollections.observableArrayList();
+    public static ObservableList<Doktori> doktoriData = FXCollections.observableArrayList();
+    public static ObservableList<DoktoriLogHistory> doktoriLogHistoryData = FXCollections.observableArrayList();
+    public static ObservableList<Druhy> druhyData = FXCollections.observableArrayList();
+    public static ObservableList<Faktury> fakturyData = FXCollections.observableArrayList();
+    public static ObservableList<FotoDoktoru> fotoDoktoruData = FXCollections.observableArrayList();
+    public static ObservableList<KrevniObrazy> krevniObrazyData = FXCollections.observableArrayList();
+    public static ObservableList<Leciva> lecivaData = FXCollections.observableArrayList();
+    public static ObservableList<LogTable> logTableData = FXCollections.observableArrayList();
+    public static ObservableList<Majitele> majiteleData = FXCollections.observableArrayList();
+    public static ObservableList<MajiteleLogHistory> majiteleLogHistoryData = FXCollections.observableArrayList();
+    public static ObservableList<Objednavky> objednavkyData = FXCollections.observableArrayList();
+    public static ObservableList<Odbery> odberyData = FXCollections.observableArrayList();
+    public static ObservableList<Operace> operaceData = FXCollections.observableArrayList();
+    public static ObservableList<Pohlavi> pohlaviData = FXCollections.observableArrayList();
+    public static ObservableList<Polozky> polozkyData = FXCollections.observableArrayList();
+    public static ObservableList<Posty> postyData = FXCollections.observableArrayList();
+    public static ObservableList<TypyPlatby> typyPlatbyData = FXCollections.observableArrayList();
+    public static ObservableList<Vysetreni> vysetreniData = FXCollections.observableArrayList();
+    public static ObservableList<Zajmy> zajmyData = FXCollections.observableArrayList();
+    public static ObservableList<Zakroky> zakrokyData = FXCollections.observableArrayList();
+    public static ObservableList<Zvirata> zvirataData = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        tableViewAdresy.setItems(adresyData);
+        adresy_ulice.setCellValueFactory(new PropertyValueFactory("ulice"));
+        adresy_cislo_popisne.setCellValueFactory(new PropertyValueFactory("cisloPopisne"));
+        
+        tableViewZakroky.setEditable(true);
+        adresy_ulice.setCellFactory(TextFieldTableCell.forTableColumn());
+        adresy_cislo_popisne.setCellFactory(TextFieldTableCell.forTableColumn());
     }    
 
     @FXML
+    private void button_obnovit(ActionEvent event) {
+        obnovit();
+    }
+    private void obnovit(){
+    
+    }
+
+    @FXML
     private void handleBtnMojeUdajeOnAction(ActionEvent event) {
+    
     }
 
     @FXML
@@ -134,19 +367,9 @@ public class FXMLAdministratorController implements Initializable {
     }
 
     @FXML
-    private void handleBtnZakrokyOnAction(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleBtnOdberyOnAction(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleBtnVysetreniOnAction(ActionEvent event) {
-    }
-
-    @FXML
     private void handleBtnVystavitFakturuOnAction(ActionEvent event) {
     }
+
+    
     
 }
