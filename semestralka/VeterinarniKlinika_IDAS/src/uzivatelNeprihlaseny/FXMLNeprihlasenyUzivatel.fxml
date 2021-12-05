@@ -54,6 +54,7 @@
                   <Image url="@man.jpg" />
                </image>
             </ImageView>
+            <Label fx:id="labelImg" text="default" />
          </children>
       </VBox>
    </right>

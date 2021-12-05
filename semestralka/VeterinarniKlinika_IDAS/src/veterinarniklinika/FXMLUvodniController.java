@@ -141,6 +141,35 @@ public class FXMLUvodniController implements Initializable {
                 }
                 break;
                 case ADMIN:{ 
+                    String heslo = tfHeslo.getText();
+                    String hashHesla = "";
+                    try {
+                        hashHesla = Bezpecnost.dejHash(heslo.getBytes());
+                    } catch (Exception ex) {
+                        zobrazErrorDialog("Chyba při hashování hesla !", ex.getMessage());
+                    }
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL ?:=prihlasAdmina(?,?)}");
+                    cst.registerOutParameter(1, Types.NUMERIC);
+                    cst.setString(2, tfJmeno.getText());
+                    cst.setString(3, hashHesla);
+
+                    try{ 
+                        cst.executeUpdate();
+                        int id = cst.getInt(1);
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Succes !");
+                        alert.setHeaderText("Přihlášení proběhlo úspěšně !");
+                        alert.showAndWait();
+                        
+                        try {
+                            //TODO otevreni dailogu prihlaseneho uzivatele
+                            zobrazDialogAdmin(event);
+                        } catch (IOException ex) {
+                            zobrazErrorDialog("Chyba při přechodu do dialogu administratora !", ex.getMessage());
+                        }
+                    }catch(Exception e){ 
+                        zobrazErrorDialog("Nepodařilo se přihlásit se zadaným jménem a heslem", "zkontroluj správnost jména a hesla!");
+                    }
                 }
             }
 
@@ -176,6 +205,14 @@ public class FXMLUvodniController implements Initializable {
     
     private void zobrazDialogDoktor(ActionEvent event) throws IOException{ 
         Parent root = FXMLLoader.load(getClass().getResource("/doktor/FXMLDoktor.fxml"));
+        Scene scene = new Scene(root);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
+    }
+    
+    private void zobrazDialogAdmin(ActionEvent event) throws IOException{ 
+        Parent root = FXMLLoader.load(getClass().getResource("/administrator/FXMLAdministrator.fxml"));
         Scene scene = new Scene(root);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);
