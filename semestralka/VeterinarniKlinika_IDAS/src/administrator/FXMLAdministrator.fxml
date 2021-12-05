@@ -22,8 +22,11 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="10.0">
                <children>
+                  <Label text="Typ uzivatele" />
+                  <ComboBox fx:id="comboTypUzivatele" prefWidth="150.0" />
                   <Label text="Uzivatel" />
-                  <ComboBox prefWidth="150.0" />
+                  <ComboBox fx:id="comboUzivatel" prefWidth="150.0" />
+                  <Label text="Tabulka" />
                   <ComboBox fx:id="comboTabulky" prefWidth="150.0" />
                   <Button mnemonicParsing="false" onAction="#button_obnovit" text="Obnovit" />
                </children>
@@ -76,7 +79,7 @@
               <columns>
                 <TableColumn fx:id="diagnozy_nazev" prefWidth="75.0" text="nazev" />
                 <TableColumn fx:id="diagnozy_oznaceni" prefWidth="75.0" text="oznaceni" />
-                <TableColumn fx:id="biochemie_stupen_zavaznosti" prefWidth="75.0" text="stupen_zavaznosti" />
+                <TableColumn fx:id="diagnozy_stupen_zavaznosti" prefWidth="75.0" text="stupen_zavaznosti" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewDodavatele" prefHeight="200.0" prefWidth="200.0">
@@ -156,6 +159,7 @@
                 <TableColumn fx:id="log_table_operace" prefWidth="75.0" text="operace" />
                 <TableColumn fx:id="log_table_cas" prefWidth="75.0" text="cas" />
                 <TableColumn fx:id="log_table_uzivatel" prefWidth="75.0" text="uzivatel" />
+                <TableColumn fx:id="log_table_typ_uzivatele" prefWidth="75.0" text="typ_uzivatele" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewMajitele" prefHeight="200.0" prefWidth="200.0">

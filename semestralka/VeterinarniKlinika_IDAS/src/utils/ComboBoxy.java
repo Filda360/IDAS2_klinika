@@ -7,6 +7,7 @@ package utils;
 
 import dataTridy.Adresy;
 import dataTridy.Biochemie;
+import dataTridy.Posty;
 import javafx.scene.control.ComboBox;
 import prihlasovani.Doktor;
 
@@ -17,10 +18,20 @@ import prihlasovani.Doktor;
 public class ComboBoxy {
     ComboBox<Adresy> adresa;
     ComboBox<Doktor> doktor;
+    ComboBox<Posty> posta;
 
-    public ComboBoxy(ComboBox<Adresy> adresa, ComboBox<Doktor> doktor) {
+    public ComboBoxy(ComboBox<Adresy> adresa, ComboBox<Doktor> doktor, ComboBox<Posty> posta) {
         this.adresa = adresa;
         this.doktor = doktor;
+        this.posta = posta;
+    }
+
+    public ComboBox<Posty> getPosta() {
+        return posta;
+    }
+
+    public void setPosta(ComboBox<Posty> posta) {
+        this.posta = posta;
     }
 
     public ComboBox<Adresy> getAdresa() {

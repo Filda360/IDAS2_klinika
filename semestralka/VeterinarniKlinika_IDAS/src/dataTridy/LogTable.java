@@ -10,17 +10,39 @@ package dataTridy;
  * @author tzlat
  */
 public class LogTable {
+    int id;
     String tabulka;
     String operace;
     String cas;
     String uzivatel;
+    int typUzivatele;
 
-    public LogTable(String tabulka, String operace, String cas, String uzivatel) {
+    public LogTable(String tabulka, String operace, String cas, String uzivatel, int id, int typUzivatele) {
         this.tabulka = tabulka;
         this.operace = operace;
         this.cas = cas;
         this.uzivatel = uzivatel;
+        this.id = id;
+        this.typUzivatele = typUzivatele;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getTypUzivatele() {
+        return typUzivatele;
+    }
+
+    public void setTypUzivatele(int typUzivatele) {
+        this.typUzivatele = typUzivatele;
+    }
+
+    
 
     public String getTabulka() {
         return tabulka;

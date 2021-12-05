@@ -43,5 +43,8 @@ public class Posty {
     public void setPSC(String PSC) {
         this.PSC = PSC;
     }
-    
+    @Override
+    public String toString() {
+        return mesto + ", " + PSC;
+    }  
 }
