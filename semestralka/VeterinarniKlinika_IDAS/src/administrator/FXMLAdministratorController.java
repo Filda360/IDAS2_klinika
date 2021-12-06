@@ -1804,21 +1804,18 @@ public class FXMLAdministratorController implements Initializable {
                     for (Majitele majitel : cbMajiteleData) {
                         if (majitel.getIdMajitele() == zv.getIdMajitele()) {
                             cbMajitele.getSelectionModel().select(majitel);
-                            System.out.println("NasloMajitele");
                             break;
                         }
                     }
                     for (Pohlavi poh : cbPohlaviData.sorted()) {
                         if (poh.getIdPohlavi() == zv.getIdPohlavi()) {
                             cbPohlavi.getSelectionModel().select(poh);
-                            System.out.println("NasloPohlavi");
                             break;
                         }
                     }
                     for (Druhy druh : cbDruhyData.sorted()) {
                         if (druh.getIdDruhu() == zv.getIdDruhu()) {
                             cbDruhy.getSelectionModel().select(druh);
-                            System.out.println("NasloDruh");
                             break;
                         }
                     }
@@ -1826,7 +1823,6 @@ public class FXMLAdministratorController implements Initializable {
                     for (Doktori doktor : cbDoktoriData.sorted()) {
                         if (doktor.getIdDoktora() == zv.getIdDoktora()) {
                             cbDoktori.getSelectionModel().select(doktor);
-                            System.out.println("NasloDoktora");
                             break;
                         }
                     }
