@@ -384,12 +384,12 @@ public class FXMLAdministratorController implements Initializable {
         tableViewAdministratori.setItems(administratoriData);
         administratori_jmeno.setCellValueFactory(new PropertyValueFactory<>("jmeno"));
         administratori_prijmeni.setCellValueFactory(new PropertyValueFactory<>("prijmeni"));
-        administratori_datum_narozeni.setCellValueFactory(new PropertyValueFactory<>("datum_narozeni"));
+        administratori_datum_narozeni.setCellValueFactory(new PropertyValueFactory<>("datumNarozeni"));
         administratori_telefon.setCellValueFactory(new PropertyValueFactory<>("telefon"));
         administratori_email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        administratori_prihlasovaci_jmeno.setCellValueFactory(new PropertyValueFactory<>("prihlasovaci_jmeno"));
+        administratori_prihlasovaci_jmeno.setCellValueFactory(new PropertyValueFactory<>("prihlasovaciJmeno"));
         administratori_heslo.setCellValueFactory(new PropertyValueFactory<>("heslo"));
-        administratori_adresa.setCellValueFactory(new PropertyValueFactory<>("adresa"));
+        administratori_adresa.setCellValueFactory(new PropertyValueFactory<>("adresy"));
         tableViewAdministratori.setEditable(true);
         
         administratori_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
