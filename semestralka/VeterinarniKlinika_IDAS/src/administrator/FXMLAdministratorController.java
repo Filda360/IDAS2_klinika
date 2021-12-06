@@ -1797,9 +1797,9 @@ public class FXMLAdministratorController implements Initializable {
                     ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
                     cbDoktori.setItems(cbDoktoriData);
 
-                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getDouble(4), rs.getString(4), rs.getString(5),rs.getInt(6),
-                            rs.getInt(7),rs.getInt(8),rs.getInt(9),cbMajitele,cbPohlavi,cbDruhy,cbDoktori);
+                    Zvirata zv = new Zvirata(rs.getInt("ID_ZVIRETE"), rs.getString("JMENO"), rs.getString("DATUM_NAROZENI"),
+                            rs.getDouble("VAHA"), rs.getString("POZNAMKA"), rs.getString("CISLO_CIPU"),rs.getInt("ID_MAJITELE"),
+                            rs.getInt("ID_POHLAVI"),rs.getInt("ID_DRUHU"),rs.getInt("ID_DOKTORA"),cbMajitele,cbPohlavi,cbDruhy,cbDoktori);
                     
                     for (Majitele majitel : cbMajiteleData) {
                         if (majitel.getIdMajitele() == zv.getIdMajitele()) {
