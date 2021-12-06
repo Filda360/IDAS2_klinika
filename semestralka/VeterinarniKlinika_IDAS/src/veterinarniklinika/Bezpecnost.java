@@ -2,6 +2,7 @@
 package veterinarniklinika;
 
 import java.security.MessageDigest;
+import javafx.scene.control.Alert;
 import javax.xml.bind.DatatypeConverter;
 
 public class Bezpecnost {
@@ -66,5 +67,14 @@ public class Bezpecnost {
         if(text.contains(con)) return true;
         if(text.contains(un)) return true;
         return false;
+    }
+    
+    public static void vypisChybu(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Chyba!");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
     }
 }
