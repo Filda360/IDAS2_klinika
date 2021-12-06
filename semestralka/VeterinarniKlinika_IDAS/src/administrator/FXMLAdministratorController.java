@@ -305,10 +305,6 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private TableColumn<Zvirata, ComboBox> zvirata_doktor;
     @FXML
-    private ComboBox<?> cbPridatPolozku;
-    @FXML
-    private Button btnPridatPolozku;
-    @FXML
     private Button btnVystavitFakturu;
 
     public static ObservableList<Adresy> adresyData = FXCollections.observableArrayList();
@@ -944,7 +940,9 @@ public class FXMLAdministratorController implements Initializable {
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6), rs.getString(7),rs.getInt(8), rs.getString(9), rs.getString(10),null);
+                    Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getString(5),rs.getString(6), rs.getString(7),
+                            rs.getInt(8), rs.getString(9), rs.getString(10),null);
                     cbMajiteleData.add(maj);
                 }
                 
@@ -1264,7 +1262,8 @@ public class FXMLAdministratorController implements Initializable {
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6), rs.getString(7),rs.getInt(8), rs.getString(9), rs.getString(10),null);
+                    Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                            rs.getString(5),rs.getString(6), rs.getString(7),rs.getInt(8), rs.getString(9), rs.getString(10),null);
                     cbMajiteleData.add(maj);
                 }
                 
@@ -1323,8 +1322,8 @@ public class FXMLAdministratorController implements Initializable {
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
                     Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getDouble(4), rs.getString(4), rs.getString(5),rs.getInt(6),
-                            rs.getInt(7),rs.getInt(8),rs.getInt(9),null,null,null,null);
+                            rs.getDouble(4), rs.getString(5), rs.getString(6),rs.getInt(7),
+                            rs.getInt(8),rs.getInt(9),rs.getInt(10),null,null,null,null);
                     cbZvirataData.add(zv);
                 }
                 sql = "SELECT * FROM PO_ODBERY";
@@ -1587,8 +1586,8 @@ public class FXMLAdministratorController implements Initializable {
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
                     Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getDouble(4), rs.getString(4), rs.getString(5),rs.getInt(6),
-                            rs.getInt(7),rs.getInt(8),rs.getInt(9),null,null,null,null);
+                            rs.getDouble(4), rs.getString(5), rs.getString(6),rs.getInt(7),
+                            rs.getInt(8),rs.getInt(9),rs.getInt(10),null,null,null,null);
                     cbZvirataData.add(zv);
                 }
                 sql = "SELECT * FROM PO_DIAGNOZY";
@@ -1663,8 +1662,8 @@ public class FXMLAdministratorController implements Initializable {
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
                     Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getDouble(4), rs.getString(4), rs.getString(5),rs.getInt(6),
-                            rs.getInt(7),rs.getInt(8),rs.getInt(9),null,null,null,null);
+                            rs.getDouble(4), rs.getString(5), rs.getString(6),rs.getInt(7),
+                            rs.getInt(8),rs.getInt(9),rs.getInt(10),null,null,null,null);
                     cbZvirataData.add(zv);
                 }
                 sql = "SELECT * FROM PO_OPERACE";
@@ -1797,9 +1796,9 @@ public class FXMLAdministratorController implements Initializable {
                     ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
                     cbDoktori.setItems(cbDoktoriData);
 
-                    Zvirata zv = new Zvirata(rs.getInt("ID_ZVIRETE"), rs.getString("JMENO"), rs.getString("DATUM_NAROZENI"),
-                            rs.getDouble("VAHA"), rs.getString("POZNAMKA"), rs.getString("CISLO_CIPU"),rs.getInt("ID_MAJITELE"),
-                            rs.getInt("ID_POHLAVI"),rs.getInt("ID_DRUHU"),rs.getInt("ID_DOKTORA"),cbMajitele,cbPohlavi,cbDruhy,cbDoktori);
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getDouble(4), rs.getString(5), rs.getString(6),rs.getInt(7),
+                            rs.getInt(8),rs.getInt(9),rs.getInt(10),cbMajitele,cbPohlavi,cbDruhy,cbDoktori);
                     
                     for (Majitele majitel : cbMajiteleData) {
                         if (majitel.getIdMajitele() == zv.getIdMajitele()) {
@@ -1807,20 +1806,20 @@ public class FXMLAdministratorController implements Initializable {
                             break;
                         }
                     }
-                    for (Pohlavi poh : cbPohlaviData.sorted()) {
+                    for (Pohlavi poh : cbPohlaviData) {
                         if (poh.getIdPohlavi() == zv.getIdPohlavi()) {
                             cbPohlavi.getSelectionModel().select(poh);
                             break;
                         }
                     }
-                    for (Druhy druh : cbDruhyData.sorted()) {
+                    for (Druhy druh : cbDruhyData) {
                         if (druh.getIdDruhu() == zv.getIdDruhu()) {
                             cbDruhy.getSelectionModel().select(druh);
                             break;
                         }
                     }
                     
-                    for (Doktori doktor : cbDoktoriData.sorted()) {
+                    for (Doktori doktor : cbDoktoriData) {
                         if (doktor.getIdDoktora() == zv.getIdDoktora()) {
                             cbDoktori.getSelectionModel().select(doktor);
                             break;
@@ -1871,6 +1870,18 @@ public class FXMLAdministratorController implements Initializable {
         alert.setHeaderText(headText);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void button_pridat(ActionEvent event) {
+    }
+
+    @FXML
+    private void button_odebrat(ActionEvent event) {
+    }
+
+    @FXML
+    private void button_ulozit(ActionEvent event) {
     }
 
 }

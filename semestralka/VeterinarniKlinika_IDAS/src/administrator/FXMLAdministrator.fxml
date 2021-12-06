@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administrator.FXMLAdministratorController">
+<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administrator.FXMLAdministratorController">
    <top>
       <VBox prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -35,24 +35,24 @@
       </VBox>
    </top>
    <bottom>
-      <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
+            <Button fx:id="btnVystavitFakturu" mnemonicParsing="false" onAction="#handleBtnVystavitFakturuOnAction" prefWidth="105.0" text="vystavit fakturu" />
             <Button fx:id="btnMojeUdaje" mnemonicParsing="false" onAction="#handleBtnMojeUdajeOnAction" text="moje údaje" />
             <Button fx:id="btnOdhlasit" mnemonicParsing="false" onAction="#handleBtnOdhlasitOnAction" text="odhlásit" />
          </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
       </HBox>
    </bottom>
    <right>
-      <VBox alignment="TOP_CENTER" prefHeight="306.0" prefWidth="115.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="115.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="přidat položku:" />
-            <ComboBox fx:id="cbPridatPolozku" prefWidth="150.0" promptText="zákrok/odběr/vyšetření" />
-            <Button fx:id="btnPridatPolozku" mnemonicParsing="false" text="přidat">
-               <VBox.margin>
-                  <Insets bottom="15.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="btnVystavitFakturu" mnemonicParsing="false" onAction="#handleBtnVystavitFakturuOnAction" prefWidth="105.0" text="vystavit fakturu" />
+            <Label text="operace:" />
+            <Button mnemonicParsing="false" onAction="#button_pridat" prefWidth="105.0" text="Pridat zaznam" />
+            <Button mnemonicParsing="false" onAction="#button_odebrat" prefWidth="105.0" text="Odebrat zaznam" />
+            <Button mnemonicParsing="false" onAction="#button_ulozit" prefWidth="105.0" text="Ulozit zaznam" />
          </children>
       </VBox>
    </right>
