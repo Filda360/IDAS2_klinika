@@ -26,7 +26,7 @@ import dataTridy.VysetreniOld;
 import dataTridy.ZakrokOld;
 import dataTridy.Zakroky;
 import dataTridy.Zvirata;
-import static doktor.FXMLDoktorController.zakrokData;
+//import static doktor.FXMLDoktorController.zakrokData;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.CallableStatement;

@@ -54,7 +54,7 @@ public class FXMLNeprihlasenyUzivatelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         id_doktoru = new ArrayList();
-        String query = "SELECT titul, jmeno, prijmeni, telefon, email, id_doktora FROM DOKTORI_UDAJE";
+        String query = "SELECT titul, jmeno, prijmeni, telefon, email, id_doktora FROM UDAJE_DOKTORI";
         try (Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {

@@ -4,82 +4,249 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uzivatel.FXMLUzivatelController">
+<BorderPane prefHeight="600.0" prefWidth="1024.0" stylesheets="@uzivatelCss.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uzivatel.FXMLUzivatelController">
    <top>
-      <HBox alignment="CENTER" prefHeight="33.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="zvíře:">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Label>
-            <ComboBox fx:id="cbVyberZvirete" onAction="#handleCbVyberZvireOnAction" prefWidth="150.0" promptText="vyber zvíře" />
-         </children>
-      </HBox>
-   </top>
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="35.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="btnMojeUdaje" mnemonicParsing="false" onAction="#handleBtnMojeUdajeOnAction" text="moje údaje" />
-            <Button fx:id="btnMojeFaktury" mnemonicParsing="false" onAction="#handleBtnMojeFakturyOnAction" text="moje faktury" />
-            <Button fx:id="btnMojeRezervace" mnemonicParsing="false" onAction="#handleBtnMojeRezervaceOnAction" text="moje rezervace" />
-            <Button fx:id="btnPridatRezervaci" mnemonicParsing="false" onAction="#handleBtnPridatrezervaciOnAction" text="přidat rezervaci" />
-            <Button fx:id="btnPridatZvire" mnemonicParsing="false" onAction="#handleBtnPridatZvire" text="přidat zvíře" />
-            <Button fx:id="btnOdhlasit" mnemonicParsing="false" onAction="#handleBtnOdhlasit" text="odhlasit">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Button>
-         </children>
-      </HBox>
-   </bottom>
-   <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <GridPane prefHeight="111.0" prefWidth="600.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="245.0" minWidth="10.0" prefWidth="119.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="398.0" minWidth="10.0" prefWidth="381.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <HBox alignment="CENTER" prefHeight="28.0" prefWidth="600.0">
                <children>
-                  <Label prefWidth="100.0" text="jméno:" />
-                  <Label prefWidth="100.0" text="druh:" GridPane.rowIndex="2" />
-                  <Label prefWidth="100.0" text="váha:" GridPane.rowIndex="3" />
-                  <Label prefWidth="100.0" text="pohlaví:" GridPane.rowIndex="1" />
-                  <Label prefWidth="100.0" text="datum narození:" GridPane.rowIndex="4" />
-                  <Label fx:id="labelJmeno" prefHeight="17.0" prefWidth="305.0" GridPane.columnIndex="1" />
-                  <Label fx:id="labelPohlavi" prefHeight="17.0" prefWidth="364.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="labelDruh" prefHeight="17.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="labelVaha" prefHeight="17.0" prefWidth="358.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="labelCisloCipu" prefHeight="17.0" prefWidth="271.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label fx:id="labelDatumNarozeni" prefHeight="17.0" prefWidth="311.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label prefWidth="100.0" text="číslo čipu:" GridPane.rowIndex="5" />
-                  <Label prefWidth="100.0" text="poznámka" GridPane.rowIndex="6" />
-                  <Label fx:id="labelPoznamka" prefHeight="17.0" prefWidth="292.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label text="Vitejte v naší vetrinární klinice" />
                </children>
-               <VBox.margin>
-                  <Insets left="50.0" right="50.0" />
-               </VBox.margin>
-            </GridPane>
-            <ListView prefHeight="235.0" prefWidth="600.0" />
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="10.0">
+               <children>
+                  <Label text="Menu:" />
+                  <ComboBox fx:id="comboTabulky" prefWidth="150.0" />
+                  <Button mnemonicParsing="false" onAction="#button_obnovit" text="Obnovit" />
+               </children>
+            </HBox>
          </children>
       </VBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnMojeUdaje" mnemonicParsing="false" onAction="#handleBtnMojeUdajeOnAction" text="moje údaje" />
+            <Button fx:id="btnOdhlasit" mnemonicParsing="false" onAction="#handleBtnOdhlasitOnAction" text="odhlásit" />
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <right>
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="115.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="operace:" />
+            <Button mnemonicParsing="false" onAction="#button_pridat" prefWidth="105.0" text="Pridat zaznam" />
+            <Button mnemonicParsing="false" onAction="#button_odebrat" prefWidth="105.0" text="Odebrat zaznam" />
+            <Button mnemonicParsing="false" onAction="#button_ulozit" prefWidth="105.0" text="Ulozit zaznam" />
+         </children>
+      </VBox>
+   </right>
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tableViewAdministratori" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="administratori_jmeno" prefWidth="150.0" text="jmeno" />
+                  <TableColumn fx:id="administratori_prijmeni" prefWidth="150.0" text="prijmeni" />
+                  <TableColumn fx:id="administratori_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
+                  <TableColumn fx:id="administratori_telefon" prefWidth="150.0" text="telefon" />
+                  <TableColumn fx:id="administratori_email" prefWidth="150.0" text="email" />
+                  <TableColumn fx:id="administratori_prihlasovaci_jmeno" prefWidth="150.0" text="prihlasovaci_jmeno" />
+                  <TableColumn fx:id="administratori_heslo" prefWidth="150.0" text="heslo" />
+                  <TableColumn fx:id="administratori_adresa" prefWidth="150.0" text="adresa" />
+               </columns>
+            </TableView>
+             <TableView fx:id="tableViewAdresy" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="adresy_ulice" prefWidth="150.0" text="ulice" />
+                <TableColumn fx:id="adresy_cislo_popisne" prefWidth="150.0" text="cislo_popisne" />
+                <TableColumn fx:id="adresy_posta" prefWidth="150.0" text="posta" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewBiochemie" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="biochemie_urea" prefWidth="150.0" text="urea" />
+                <TableColumn fx:id="biochemie_kreatinin" prefWidth="150.0" text="kreatinin" />
+                <TableColumn fx:id="biochemie_bilirubin" prefWidth="150.0" text="bilirubin" />
+                <TableColumn fx:id="biochemie_ast" prefWidth="150.0" text="ast" />
+                <TableColumn fx:id="biochemie_alt" prefWidth="150.0" text="ast" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewDiagnozy" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="diagnozy_nazev" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="diagnozy_oznaceni" prefWidth="150.0" text="oznaceni" />
+                <TableColumn fx:id="diagnozy_stupen_zavaznosti" prefWidth="150.0" text="stupen_zavaznosti" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewDodavatele" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="dodavatele_nazev" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="dodavatele_telefon" prefWidth="150.0" text="telefon" />
+                <TableColumn fx:id="dodavatele_email" prefWidth="150.0" text="email" />
+                <TableColumn fx:id="dodavatele_adresa" prefWidth="150.0" text="adresa" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewDoktori" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="doktori_jmeno" prefWidth="150.0" text="jmeno" />
+                <TableColumn fx:id="doktori_prijmeni" prefWidth="150.0" text="prijmeni" />
+                <TableColumn fx:id="doktori_titul" prefWidth="150.0" text="titul" />
+                <TableColumn fx:id="doktori_datum_nastupu" prefWidth="150.0" text="datum_nastupu" />
+                <TableColumn fx:id="doktori_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
+                <TableColumn fx:id="doktori_telefon" prefWidth="150.0" text="telefon" />
+                <TableColumn fx:id="doktori_email" prefWidth="150.0" text="email" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewDruhy" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="druhy_druh" prefWidth="150.0" text="druh" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewFaktury" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="faktury_datum_vystaveni" prefWidth="150.0" text="datum_vystaveni" />
+                <TableColumn fx:id="faktury_datum_splatnosti" prefWidth="150.0" text="datum_splatnosti" />
+                <TableColumn fx:id="faktury_stav" prefWidth="150.0" text="stav" />
+                <TableColumn fx:id="faktury_typ" prefWidth="150.0" text="typ" />
+                <TableColumn fx:id="faktury_majitel" prefWidth="150.0" text="majitel" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewFotoDoktoru" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="foto_doktoru_nazev" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="foto_doktoru_typ_souboru" prefWidth="150.0" text="typ_souboru" />
+                <TableColumn fx:id="foto_doktoru_pripona" prefWidth="150.0" text="pripona" />
+                <TableColumn fx:id="foto_doktoru_datum_nahrani" prefWidth="150.0" text="datum_nahrani" />
+                <TableColumn fx:id="foto_doktoru_obsah" prefWidth="150.0" text="obsah" />
+                <TableColumn fx:id="foto_doktoru_doktor" prefWidth="150.0" text="doktor" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewKrevniObrazy" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="krevni_obrazy_erytrocyty" prefWidth="150.0" text="erytrocyty" />
+                <TableColumn fx:id="krevni_obrazy_leukocyty" prefWidth="150.0" text="leukocyty" />
+                <TableColumn fx:id="krevni_obrazy_trombocyty" prefWidth="150.0" text="trombocyty" />
+                <TableColumn fx:id="krevni_obrazy_hemoglobin" prefWidth="150.0" text="hemoglobin" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewLeciva" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="leciva_nazev" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="leciva_datum_expirace" prefWidth="150.0" text="datum_expirace" />
+                <TableColumn fx:id="leciva_pocet_skladem" prefWidth="150.0" text="pocet_skladem" />
+                <TableColumn fx:id="leciva_popis" prefWidth="150.0" text="popis" />
+                <TableColumn fx:id="leciva_dodavatel" prefWidth="150.0" text="dodavatel" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewLogTable" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="log_table_tabulka" prefWidth="150.0" text="tabulka" />
+                <TableColumn fx:id="log_table_operace" prefWidth="150.0" text="operace" />
+                <TableColumn fx:id="log_table_cas" prefWidth="150.0" text="cas" />
+                <TableColumn fx:id="log_table_uzivatel" prefWidth="150.0" text="uzivatel" />
+                <TableColumn fx:id="log_table_typ_uzivatele" prefWidth="150.0" text="typ_uzivatele" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewMajitele" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="majitele_jmeno" prefWidth="150.0" text="jmeno" />
+                <TableColumn fx:id="majitele_prijmeni" prefWidth="150.0" text="prijmeni" />
+                <TableColumn fx:id="majitele_datum_registrace" prefWidth="150.0" text="datum_registrace" />
+                <TableColumn fx:id="majitele_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
+                <TableColumn fx:id="majitele_telefon" prefWidth="150.0" text="telefon" />
+                <TableColumn fx:id="majitele_email" prefWidth="150.0" text="email" />
+                <TableColumn fx:id="majitele_prihlasovaci_jmeno" prefWidth="150.0" text="prihlasovaci_jmeno" />
+                <TableColumn fx:id="majitele_heslo" prefWidth="150.0" text="heslo" />
+                <TableColumn fx:id="majitele_adresa" prefWidth="150.0" text="adresa" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewObjednavky" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="objednavky_pricina" prefWidth="150.0" text="pricina" />
+                <TableColumn fx:id="objednavky_termin" prefWidth="150.0" text="termin" />
+                <TableColumn fx:id="objednavky_majitel" prefWidth="150.0" text="majitel" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewOdbery" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="odbery_datum" prefWidth="150.0" text="datum" />
+                <TableColumn fx:id="odbery_poznamka" prefWidth="150.0" text="poznamka" />
+                <TableColumn fx:id="odbery_zvire" prefWidth="150.0" text="zvire" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewOperace" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="operace_nazev" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="operace_oznaceni" prefWidth="150.0" text="oznaceni" />
+                <TableColumn fx:id="operace_delka" prefWidth="150.0" text="delka" />
+                <TableColumn fx:id="operace_riziko" prefWidth="150.0" text="riziko" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewPohlavi" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="pohlavi_pohlavi" prefWidth="150.0" text="pohlavi" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewPolozky" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="polozky_nazev" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="polozky_pocet" prefWidth="150.0" text="pocet" />
+                <TableColumn fx:id="polozky_cena" prefWidth="150.0" text="cena" />
+                <TableColumn fx:id="polozky_faktura" prefWidth="150.0" text="faktura" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewPosty" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="posty_mesto" prefWidth="150.0" text="mesto" />
+                <TableColumn fx:id="posty_psc" prefWidth="150.0" text="psc" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewTypyPlatby" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="typy_platby_typ" prefWidth="150.0" text="typ" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewVysetreni" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="vysetreni_datum" prefWidth="150.0" text="datum" />
+                  <TableColumn fx:id="vysetreni_poznamka" prefWidth="150.0" text="poznamka" />
+                  <TableColumn fx:id="vysetreni_diagnoza" prefWidth="150.0" text="diagnoza" />                 
+                  <TableColumn fx:id="vysetreni_zvire" prefWidth="150.0" text="zvire" />
+               </columns>
+            </TableView>
+            <TableView fx:id="tableViewZakroky" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="zakroky_datum" prefWidth="150.0" text="datum" />
+                <TableColumn fx:id="zakroky_poznamka" prefWidth="150.0" text="poznamka" />
+                  <TableColumn fx:id="zakroky_zvire" prefWidth="150.0" text="zvire" />
+                  <TableColumn fx:id="zakroky_operace" prefWidth="150.0" text="operace" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewZvirata" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="zvirata_jmeno" prefWidth="150.0" text="jmeno" />
+                  <TableColumn fx:id="zvirata_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
+                  <TableColumn fx:id="zvirata_vaha" prefWidth="150.0" text="vaha" />
+                  <TableColumn fx:id="zvirata_poznamka" prefWidth="150.0" text="poznamka" />
+                  <TableColumn fx:id="zvirata_cislo_cipu" prefWidth="150.0" text="cislo_cipu" />
+                  <TableColumn fx:id="zvirata_majitel" prefWidth="150.0" text="majitel" />
+                  <TableColumn fx:id="zvirata_pohlavi" prefWidth="150.0" text="pohlavi" />
+                  <TableColumn fx:id="zvirata_druh" prefWidth="150.0" text="druh" />
+                  <TableColumn fx:id="zvirata_doktor" prefWidth="150.0" text="doktor" />
+               </columns>
+            </TableView>
+         </children>
+      </StackPane>
    </center>
 </BorderPane>
