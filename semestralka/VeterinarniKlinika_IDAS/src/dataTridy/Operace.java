@@ -63,5 +63,8 @@ public class Operace {
     public void setRiziko(String riziko) {
         this.riziko = riziko;
     }
-    
+    @Override
+    public String toString() {
+        return nazev+" ("+oznaceni+")";
+    }
 }

@@ -10,7 +10,7 @@ package utils;
  * @author tzlat
  */
 public enum enumTabulky {
-    Adresy,Biochemie,Diagnozy,Dodavatele,Doktori,DoktoriLogHistory,Druhy,Faktury,FotoDoktoru,KrevniObrazy,Leciva,LogTable,Majitele,MajiteleLogHistory,Objednavky,Odbery,
-    Operace,Pohlavi,Polozky,Posty,TypyPlatby,Vysetreni,Zajmy,Zakroky,Zvirata
+    Adresy,Biochemie,Diagnozy,Dodavatele,Doktori,Druhy,Faktury,FotoDoktoru,KrevniObrazy,Leciva,LogTable,Majitele,Objednavky,Odbery,
+    Operace,Pohlavi,Polozky,Posty,TypyPlatby,Vysetreni,Zakroky,Zvirata
     
 }

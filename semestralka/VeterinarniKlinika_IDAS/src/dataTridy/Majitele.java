@@ -5,6 +5,8 @@
  */
 package dataTridy;
 
+import javafx.scene.control.ComboBox;
+
 /**
  *
  * @author tzlat
@@ -20,8 +22,9 @@ public class Majitele {
     int idAdresy;
     String heslo;
     String prihlasovaciJmeno;
+    ComboBox<Adresy> adresy;
 
-    public Majitele(int idMajitele, String datumRegistrace, String jmeno, String prijmeni, String datumNarozeni, String telefon, String email, int idAdresy, String heslo, String prihlasovaciJmeno) {
+    public Majitele(int idMajitele, String datumRegistrace, String jmeno, String prijmeni, String datumNarozeni, String telefon, String email, int idAdresy, String heslo, String prihlasovaciJmeno, ComboBox<Adresy> adresy) {
         this.idMajitele = idMajitele;
         this.datumRegistrace = datumRegistrace;
         this.jmeno = jmeno;
@@ -32,7 +35,17 @@ public class Majitele {
         this.idAdresy = idAdresy;
         this.heslo = heslo;
         this.prihlasovaciJmeno = prihlasovaciJmeno;
+        this.adresy = adresy;
     }
+
+    public ComboBox<Adresy> getAdresy() {
+        return adresy;
+    }
+
+    public void setAdresy(ComboBox<Adresy> adresy) {
+        this.adresy = adresy;
+    }
+    
 
     public int getIdMajitele() {
         return idMajitele;
@@ -112,6 +125,11 @@ public class Majitele {
 
     public void setPrihlasovaciJmeno(String prihlasovaciJmeno) {
         this.prihlasovaciJmeno = prihlasovaciJmeno;
+    }
+    
+    @Override
+    public String toString() {
+        return jmeno+", "+prijmeni;
     }
     
 }

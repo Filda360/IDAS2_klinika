@@ -5,6 +5,8 @@
  */
 package dataTridy;
 
+import javafx.scene.control.ComboBox;
+
 /**
  *
  * @author tzlat
@@ -15,14 +17,36 @@ public class Zakroky {
     String poznamka;
     int idZvirete;
     int idOperace;
+    ComboBox<Zvirata> zvirata;
+    ComboBox<Operace> operace;
 
-    public Zakroky(int idZakroku, String datum, String poznamka, int idZvirete, int idOperace) {
+    public Zakroky(int idZakroku, String datum, String poznamka, int idZvirete, int idOperace, ComboBox<Zvirata> zvirata, ComboBox<Operace> operace) {
         this.idZakroku = idZakroku;
         this.datum = datum;
         this.poznamka = poznamka;
         this.idZvirete = idZvirete;
         this.idOperace = idOperace;
+        this.zvirata = zvirata;
+        this.operace = operace;
     }
+
+    public ComboBox<Zvirata> getZvirata() {
+        return zvirata;
+    }
+
+    public void setZvirata(ComboBox<Zvirata> zvirata) {
+        this.zvirata = zvirata;
+    }
+
+    public ComboBox<Operace> getOperace() {
+        return operace;
+    }
+
+    public void setOperace(ComboBox<Operace> operace) {
+        this.operace = operace;
+    }
+
+    
 
     public int getIdZakroku() {
         return idZakroku;
@@ -62,6 +86,11 @@ public class Zakroky {
 
     public void setIdOperace(int idOperace) {
         this.idOperace = idOperace;
+    }
+
+    @Override
+    public String toString() {
+        return datum;
     }
     
 }

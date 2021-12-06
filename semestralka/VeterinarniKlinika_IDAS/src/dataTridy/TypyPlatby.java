@@ -34,4 +34,8 @@ public class TypyPlatby {
         this.typ = typ;
     }
     
+    @Override
+    public String toString() {
+        return typ;
+    }
 }

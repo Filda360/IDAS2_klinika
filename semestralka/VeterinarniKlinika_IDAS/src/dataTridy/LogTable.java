@@ -26,6 +26,14 @@ public class LogTable {
         this.typUzivatele = typUzivatele;
     }
 
+    public String getUzivatel() {
+        return uzivatel;
+    }
+
+    public void setUzivatel(String uzivatel) {
+        this.uzivatel = uzivatel;
+    }
+
     public int getId() {
         return id;
     }
@@ -41,8 +49,6 @@ public class LogTable {
     public void setTypUzivatele(int typUzivatele) {
         this.typUzivatele = typUzivatele;
     }
-
-    
 
     public String getTabulka() {
         return tabulka;
@@ -67,13 +73,9 @@ public class LogTable {
     public void setCas(String cas) {
         this.cas = cas;
     }
-
-    public String getUzivatel() {
-        return uzivatel;
-    }
-
-    public void setUzivatel(String uzivatel) {
-        this.uzivatel = uzivatel;
-    }
     
+    @Override
+    public String toString() {
+        return cas+", "+tabulka;
+    }
 }

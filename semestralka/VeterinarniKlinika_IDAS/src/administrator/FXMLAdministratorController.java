@@ -1,4 +1,3 @@
-
 package administrator;
 
 import dataTridy.Adresy;
@@ -6,7 +5,6 @@ import dataTridy.Biochemie;
 import dataTridy.Diagnozy;
 import dataTridy.Dodavatele;
 import dataTridy.Doktori;
-import dataTridy.DoktoriLogHistory;
 import dataTridy.Druhy;
 import dataTridy.Faktury;
 import dataTridy.FotoDoktoru;
@@ -14,7 +12,6 @@ import dataTridy.KrevniObrazy;
 import dataTridy.Leciva;
 import dataTridy.LogTable;
 import dataTridy.Majitele;
-import dataTridy.MajiteleLogHistory;
 import dataTridy.Objednavky;
 import dataTridy.Odbery;
 import dataTridy.OdberyOld;
@@ -25,7 +22,6 @@ import dataTridy.Posty;
 import dataTridy.TypyPlatby;
 import dataTridy.Vysetreni;
 import dataTridy.VysetreniOld;
-import dataTridy.Zajmy;
 import dataTridy.ZakrokOld;
 import dataTridy.Zakroky;
 import dataTridy.Zvirata;
@@ -54,6 +50,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import prihlasovani.PrihlasenyUzivatel;
 import utils.ComboBoxy;
 import utils.enumTabulky;
@@ -133,12 +130,6 @@ public class FXMLAdministratorController implements Initializable {
     private TableColumn<Doktori, String> doktori_heslo;
     @FXML
     private TableColumn<Doktori, ComboBox> doktori_adresa;
-    @FXML
-    private TableView<DoktoriLogHistory> tableViewDoktoriLogHistory;
-    @FXML
-    private TableColumn<DoktoriLogHistory, String> doktori_log_datum_prihlaseni;
-    @FXML
-    private TableColumn<DoktoriLogHistory, ComboBox> doktori_log_doktor;
     @FXML
     private TableView<Druhy> tableViewDruhy;
     @FXML
@@ -224,12 +215,6 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private TableColumn<Majitele, ComboBox> majitele_adresa;
     @FXML
-    private TableView<MajiteleLogHistory> tableViewMajiteleLogHistory;
-    @FXML
-    private TableColumn<MajiteleLogHistory, String> majitele_log_datum_prihlaseni;
-    @FXML
-    private TableColumn<MajiteleLogHistory, ComboBox> majitele_log_majitel;
-    @FXML
     private TableView<Objednavky> tableViewObjednavky;
     @FXML
     private TableColumn<Objednavky, String> objednavky_pricina;
@@ -266,7 +251,7 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private TableColumn<Polozky, Integer> polozky_pocet;
     @FXML
-    private TableColumn<Polozky, Double> polozky_cena;
+    private TableColumn<Polozky, Integer> polozky_cena;
     @FXML
     private TableColumn<Polozky, ComboBox> polozky_faktura;
     @FXML
@@ -289,10 +274,6 @@ public class FXMLAdministratorController implements Initializable {
     private TableColumn<Vysetreni, ComboBox> vysetreni_diagnoza;
     @FXML
     private TableColumn<Vysetreni, ComboBox> vysetreni_zvire;
-    @FXML
-    private TableView<Zajmy> tableViewZajmy;
-    @FXML
-    private TableColumn<Zajmy, String> zajmy_zajem;
     @FXML
     private TableView<Zakroky> tableViewZakroky;
     @FXML
@@ -335,7 +316,6 @@ public class FXMLAdministratorController implements Initializable {
     public static ObservableList<Diagnozy> diagnozyData = FXCollections.observableArrayList();
     public static ObservableList<Dodavatele> dodavateleData = FXCollections.observableArrayList();
     public static ObservableList<Doktori> doktoriData = FXCollections.observableArrayList();
-    public static ObservableList<DoktoriLogHistory> doktoriLogHistoryData = FXCollections.observableArrayList();
     public static ObservableList<Druhy> druhyData = FXCollections.observableArrayList();
     public static ObservableList<Faktury> fakturyData = FXCollections.observableArrayList();
     public static ObservableList<FotoDoktoru> fotoDoktoruData = FXCollections.observableArrayList();
@@ -343,7 +323,6 @@ public class FXMLAdministratorController implements Initializable {
     public static ObservableList<Leciva> lecivaData = FXCollections.observableArrayList();
     public static ObservableList<LogTable> logTableData = FXCollections.observableArrayList();
     public static ObservableList<Majitele> majiteleData = FXCollections.observableArrayList();
-    public static ObservableList<MajiteleLogHistory> majiteleLogHistoryData = FXCollections.observableArrayList();
     public static ObservableList<Objednavky> objednavkyData = FXCollections.observableArrayList();
     public static ObservableList<Odbery> odberyData = FXCollections.observableArrayList();
     public static ObservableList<Operace> operaceData = FXCollections.observableArrayList();
@@ -352,21 +331,29 @@ public class FXMLAdministratorController implements Initializable {
     public static ObservableList<Posty> postyData = FXCollections.observableArrayList();
     public static ObservableList<TypyPlatby> typyPlatbyData = FXCollections.observableArrayList();
     public static ObservableList<Vysetreni> vysetreniData = FXCollections.observableArrayList();
-    public static ObservableList<Zajmy> zajmyData = FXCollections.observableArrayList();
     public static ObservableList<Zakroky> zakrokyData = FXCollections.observableArrayList();
     public static ObservableList<Zvirata> zvirataData = FXCollections.observableArrayList();
     //comboboxy 
     public static ObservableList<Posty> cbPostyData = FXCollections.observableArrayList();
     public static ObservableList<Adresy> cbAdresyData = FXCollections.observableArrayList();
-    
+    public static ObservableList<Majitele> cbMajiteleData = FXCollections.observableArrayList();
+    public static ObservableList<TypyPlatby> cbTypyPlatbyData = FXCollections.observableArrayList();
+    public static ObservableList<Doktori> cbDoktoriData = FXCollections.observableArrayList();
+    public static ObservableList<Dodavatele> cbDodavateleData = FXCollections.observableArrayList();
+    public static ObservableList<Zvirata> cbZvirataData = FXCollections.observableArrayList();
+    public static ObservableList<Faktury> cbFakturyData = FXCollections.observableArrayList();
+    public static ObservableList<Diagnozy> cbDiagnozyData = FXCollections.observableArrayList();
+    public static ObservableList<Operace> cbOperaceData = FXCollections.observableArrayList();
+    public static ObservableList<Pohlavi> cbPohlaviData = FXCollections.observableArrayList();
+    public static ObservableList<Druhy> cbDruhyData = FXCollections.observableArrayList();
 
-    private PreparedStatement pstmt=null;
-    private ResultSet rs=null; 
+    private PreparedStatement pstmt = null;
+    private ResultSet rs = null;
     @FXML
     private ComboBox<enumUzivatel> comboTypUzivatele;
     @FXML
     private ComboBox<?> comboUzivatel;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         comboTabulky.setItems(FXCollections.observableArrayList(enumTabulky.values()));
@@ -375,13 +362,16 @@ public class FXMLAdministratorController implements Initializable {
 //        comboUzivatel.getSelectionModel().selectFirst();
         comboTypUzivatele.setItems(FXCollections.observableArrayList(enumUzivatel.values()));
         comboTypUzivatele.getSelectionModel().selectFirst();
-        
+
         tableViewAdresy.setItems(adresyData);
         adresy_ulice.setCellValueFactory(new PropertyValueFactory<>("ulice"));
         adresy_cislo_popisne.setCellValueFactory(new PropertyValueFactory<>("cisloPopisne"));
         adresy_posta.setCellValueFactory(new PropertyValueFactory<>("posty"));
         tableViewAdresy.setEditable(true);
-        
+
+        adresy_ulice.setCellFactory(TextFieldTableCell.forTableColumn());
+        adresy_cislo_popisne.setCellFactory(TextFieldTableCell.forTableColumn());
+
         tableViewBiochemie.setItems(biochemieData);
         biochemie_urea.setCellValueFactory(new PropertyValueFactory<>("urea"));
         biochemie_kreatinin.setCellValueFactory(new PropertyValueFactory<>("kreatinin"));
@@ -389,269 +379,1461 @@ public class FXMLAdministratorController implements Initializable {
         biochemie_ast.setCellValueFactory(new PropertyValueFactory<>("ast"));
         biochemie_alt.setCellValueFactory(new PropertyValueFactory<>("alt"));
         tableViewBiochemie.setEditable(true);
-        
+
+        biochemie_urea.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        biochemie_kreatinin.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        biochemie_bilirubin.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        biochemie_ast.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        biochemie_alt.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+
         tableViewDiagnozy.setItems(diagnozyData);
         diagnozy_nazev.setCellValueFactory(new PropertyValueFactory<>("nazev"));
         diagnozy_oznaceni.setCellValueFactory(new PropertyValueFactory<>("oznaceni"));
         diagnozy_stupen_zavaznosti.setCellValueFactory(new PropertyValueFactory<>("stupenZavaznosti"));
         tableViewDiagnozy.setEditable(true);
-        
+
+        diagnozy_nazev.setCellFactory(TextFieldTableCell.forTableColumn());
+        diagnozy_oznaceni.setCellFactory(TextFieldTableCell.forTableColumn());
+        diagnozy_stupen_zavaznosti.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
         tableViewDodavatele.setItems(dodavateleData);
         dodavatele_nazev.setCellValueFactory(new PropertyValueFactory<>("nazev"));
         dodavatele_telefon.setCellValueFactory(new PropertyValueFactory<>("telefon"));
         dodavatele_email.setCellValueFactory(new PropertyValueFactory<>("email"));
         dodavatele_adresa.setCellValueFactory(new PropertyValueFactory<>("adresy"));
         tableViewDodavatele.setEditable(true);
+
+        dodavatele_nazev.setCellFactory(TextFieldTableCell.forTableColumn());
+        dodavatele_telefon.setCellFactory(TextFieldTableCell.forTableColumn());
+        dodavatele_email.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewDoktori.setItems(doktoriData);
+        doktori_titul.setCellValueFactory(new PropertyValueFactory<>("titul"));
+        doktori_delka_uvazku.setCellValueFactory(new PropertyValueFactory<>("delkaUvazku"));
+        doktori_datum_nastupu.setCellValueFactory(new PropertyValueFactory<>("datumNastupu"));
+        doktori_plat.setCellValueFactory(new PropertyValueFactory<>("plat"));
+        doktori_jmeno.setCellValueFactory(new PropertyValueFactory<>("jmeno"));
+        doktori_prijmeni.setCellValueFactory(new PropertyValueFactory<>("prijmeni"));
+        doktori_datum_narozeni.setCellValueFactory(new PropertyValueFactory<>("datumNarozeni"));
+        doktori_telefon.setCellValueFactory(new PropertyValueFactory<>("telefon"));
+        doktori_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        doktori_heslo.setCellValueFactory(new PropertyValueFactory<>("heslo"));
+        doktori_prihlasovaci_jmeno.setCellValueFactory(new PropertyValueFactory<>("prihlasovaciJmeno"));
+        doktori_adresa.setCellValueFactory(new PropertyValueFactory<>("adresy"));
+        tableViewDoktori.setEditable(true);
+
+        doktori_titul.setCellFactory(TextFieldTableCell.forTableColumn());
+        doktori_delka_uvazku.setCellFactory(TextFieldTableCell.forTableColumn());
+        doktori_datum_nastupu.setCellFactory(TextFieldTableCell.forTableColumn());
+        doktori_plat.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        doktori_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+        doktori_prijmeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        doktori_datum_narozeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        doktori_telefon.setCellFactory(TextFieldTableCell.forTableColumn());
+        doktori_email.setCellFactory(TextFieldTableCell.forTableColumn());
+        doktori_heslo.setCellFactory(TextFieldTableCell.forTableColumn());
+        doktori_prihlasovaci_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewDruhy.setItems(druhyData);
+        druhy_druh.setCellValueFactory(new PropertyValueFactory<>("druh"));
+        tableViewDruhy.setEditable(true);
+
+        druhy_druh.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewFaktury.setItems(fakturyData);
+        faktury_datum_splatnosti.setCellValueFactory(new PropertyValueFactory<>("datumSplatnosti"));
+        faktury_datum_vystaveni.setCellValueFactory(new PropertyValueFactory<>("datumVystaveni"));
+        faktury_stav.setCellValueFactory(new PropertyValueFactory<>("stav"));
+        faktury_majitel.setCellValueFactory(new PropertyValueFactory<>("majitele"));
+        faktury_typ.setCellValueFactory(new PropertyValueFactory<>("typy"));
+        tableViewFaktury.setEditable(true);
+
+        faktury_datum_splatnosti.setCellFactory(TextFieldTableCell.forTableColumn());
+        faktury_datum_vystaveni.setCellFactory(TextFieldTableCell.forTableColumn());
+        faktury_stav.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewFotoDoktoru.setItems(fotoDoktoruData);
+        foto_doktoru_nazev.setCellValueFactory(new PropertyValueFactory<>("nazev"));
+        foto_doktoru_typ_souboru.setCellValueFactory(new PropertyValueFactory<>("typSouboru"));
+        foto_doktoru_pripona.setCellValueFactory(new PropertyValueFactory<>("pripona"));
+        foto_doktoru_datum_nahrani.setCellValueFactory(new PropertyValueFactory<>("datumNahrani"));
+        foto_doktoru_obsah.setCellValueFactory(new PropertyValueFactory<>("obsah"));
+        foto_doktoru_doktor.setCellValueFactory(new PropertyValueFactory<>("doktori"));
+        tableViewFotoDoktoru.setEditable(true);
+
+        foto_doktoru_nazev.setCellFactory(TextFieldTableCell.forTableColumn());
+        foto_doktoru_typ_souboru.setCellFactory(TextFieldTableCell.forTableColumn());
+        foto_doktoru_pripona.setCellFactory(TextFieldTableCell.forTableColumn());
+        foto_doktoru_datum_nahrani.setCellFactory(TextFieldTableCell.forTableColumn());
+        foto_doktoru_obsah.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewKrevniObrazy.setItems(krevniObrazyData);
+        krevni_obrazy_erytrocyty.setCellValueFactory(new PropertyValueFactory<>("erytrocyty"));
+        krevni_obrazy_leukocyty.setCellValueFactory(new PropertyValueFactory<>("leukocyty"));
+        krevni_obrazy_trombocyty.setCellValueFactory(new PropertyValueFactory<>("trombocyty"));
+        krevni_obrazy_hemoglobin.setCellValueFactory(new PropertyValueFactory<>("hemoglobin"));
+        tableViewKrevniObrazy.setEditable(true);
+
+        krevni_obrazy_erytrocyty.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        krevni_obrazy_leukocyty.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        krevni_obrazy_trombocyty.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        krevni_obrazy_hemoglobin.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+
+        tableViewLeciva.setItems(lecivaData);
+        leciva_datum_expirace.setCellValueFactory(new PropertyValueFactory<>("datumExpirace"));
+        leciva_dodavatel.setCellValueFactory(new PropertyValueFactory<>("dodavatele"));
+        leciva_nazev.setCellValueFactory(new PropertyValueFactory<>("nazev"));
+        leciva_pocet_skladem.setCellValueFactory(new PropertyValueFactory<>("pocetSkladem"));
+        leciva_popis.setCellValueFactory(new PropertyValueFactory<>("popis"));
+        tableViewLeciva.setEditable(true);
+
+        leciva_datum_expirace.setCellFactory(TextFieldTableCell.forTableColumn());
+        leciva_nazev.setCellFactory(TextFieldTableCell.forTableColumn());
+        leciva_pocet_skladem.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        leciva_popis.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewLogTable.setItems(logTableData);
+        log_table_tabulka.setCellValueFactory(new PropertyValueFactory<>("tabulka"));
+        log_table_operace.setCellValueFactory(new PropertyValueFactory<>("operace"));
+        log_table_cas.setCellValueFactory(new PropertyValueFactory<>("cas"));
+        log_table_uzivatel.setCellValueFactory(new PropertyValueFactory<>("uzivatel"));
+        log_table_typ_uzivatele.setCellValueFactory(new PropertyValueFactory<>("typUzivatele"));
+        tableViewLogTable.setEditable(false);
+
+        log_table_tabulka.setCellFactory(TextFieldTableCell.forTableColumn());
+        log_table_operace.setCellFactory(TextFieldTableCell.forTableColumn());
+        log_table_cas.setCellFactory(TextFieldTableCell.forTableColumn());
+        log_table_uzivatel.setCellFactory(TextFieldTableCell.forTableColumn());
+        log_table_typ_uzivatele.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
+        tableViewMajitele.setItems(majiteleData);
+        majitele_datum_registrace.setCellValueFactory(new PropertyValueFactory<>("datumRegistrace"));
+        majitele_jmeno.setCellValueFactory(new PropertyValueFactory<>("jmeno"));
+        majitele_prijmeni.setCellValueFactory(new PropertyValueFactory<>("prijmeni"));
+        majitele_datum_narozeni.setCellValueFactory(new PropertyValueFactory<>("datumNarozeni"));
+        majitele_telefon.setCellValueFactory(new PropertyValueFactory<>("telefon"));
+        majitele_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        majitele_heslo.setCellValueFactory(new PropertyValueFactory<>("heslo"));
+        majitele_prihlasovaci_jmeno.setCellValueFactory(new PropertyValueFactory<>("prihlasovaciJmeno"));
+        majitele_adresa.setCellValueFactory(new PropertyValueFactory<>("adresy"));
+        tableViewMajitele.setEditable(true);
+
+        majitele_datum_registrace.setCellFactory(TextFieldTableCell.forTableColumn());
+        majitele_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+        majitele_prijmeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        majitele_datum_narozeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        majitele_telefon.setCellFactory(TextFieldTableCell.forTableColumn());
+        majitele_email.setCellFactory(TextFieldTableCell.forTableColumn());
+        majitele_heslo.setCellFactory(TextFieldTableCell.forTableColumn());
+        majitele_prihlasovaci_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewObjednavky.setItems(objednavkyData);
+        objednavky_pricina.setCellValueFactory(new PropertyValueFactory<>("pricina"));
+        objednavky_termin.setCellValueFactory(new PropertyValueFactory<>("termin"));
+        objednavky_majitel.setCellValueFactory(new PropertyValueFactory<>("majitele"));
+        tableViewObjednavky.setEditable(true);
+
+        objednavky_pricina.setCellFactory(TextFieldTableCell.forTableColumn());
+        objednavky_termin.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewOdbery.setItems(odberyData);
+        odbery_datum.setCellValueFactory(new PropertyValueFactory<>("datum"));
+        odbery_poznamka.setCellValueFactory(new PropertyValueFactory<>("poznamka"));
+        odbery_zvire.setCellValueFactory(new PropertyValueFactory<>("zvirata"));
+        tableViewOdbery.setEditable(true);
+
+        odbery_datum.setCellFactory(TextFieldTableCell.forTableColumn());
+        odbery_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewOperace.setItems(operaceData);
+        operace_nazev.setCellValueFactory(new PropertyValueFactory<>("nazev"));
+        operace_oznaceni.setCellValueFactory(new PropertyValueFactory<>("oznaceni"));
+        operace_delka.setCellValueFactory(new PropertyValueFactory<>("delka"));
+        operace_riziko.setCellValueFactory(new PropertyValueFactory<>("riziko"));
+        tableViewOperace.setEditable(true);
+
+        operace_nazev.setCellFactory(TextFieldTableCell.forTableColumn());
+        operace_oznaceni.setCellFactory(TextFieldTableCell.forTableColumn());
+        operace_delka.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        operace_riziko.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewPohlavi.setItems(pohlaviData);
+        pohlavi_pohlavi.setCellValueFactory(new PropertyValueFactory<>("pohlavi"));
+        tableViewPohlavi.setEditable(true);
+
+        pohlavi_pohlavi.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewPolozky.setItems(polozkyData);
+        polozky_nazev.setCellValueFactory(new PropertyValueFactory<>("nazev"));
+        polozky_pocet.setCellValueFactory(new PropertyValueFactory<>("pocet"));
+        polozky_cena.setCellValueFactory(new PropertyValueFactory<>("cena"));
+        polozky_faktura.setCellValueFactory(new PropertyValueFactory<>("faktury"));
+        tableViewPolozky.setEditable(true);
+
+        polozky_nazev.setCellFactory(TextFieldTableCell.forTableColumn());
+        polozky_pocet.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        polozky_cena.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
+        tableViewPosty.setItems(postyData);
+        posty_mesto.setCellValueFactory(new PropertyValueFactory<>("mesto"));
+        posty_psc.setCellValueFactory(new PropertyValueFactory<>("PSC"));
+        tableViewPosty.setEditable(true);
+
+        posty_mesto.setCellFactory(TextFieldTableCell.forTableColumn());
+        posty_psc.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewTypyPlatby.setItems(typyPlatbyData);
+        typy_platby_typ.setCellValueFactory(new PropertyValueFactory<>("typ"));
+        tableViewTypyPlatby.setEditable(true);
+
+        typy_platby_typ.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewVysetreni.setItems(vysetreniData);
+        vysetreni_datum.setCellValueFactory(new PropertyValueFactory<>("datum"));
+        vysetreni_poznamka.setCellValueFactory(new PropertyValueFactory<>("poznamka"));
+        vysetreni_diagnoza.setCellValueFactory(new PropertyValueFactory<>("diagnozy"));
+        vysetreni_zvire.setCellValueFactory(new PropertyValueFactory<>("zvirata"));
+        tableViewVysetreni.setEditable(true);
+
+        vysetreni_datum.setCellFactory(TextFieldTableCell.forTableColumn());
+        vysetreni_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tableViewZakroky.setItems(zakrokyData);
+        zakroky_datum.setCellValueFactory(new PropertyValueFactory<>("datum"));
+        zakroky_poznamka.setCellValueFactory(new PropertyValueFactory<>("poznamka"));
+        zakroky_zvire.setCellValueFactory(new PropertyValueFactory<>("zvirata"));
+        zakroky_operace.setCellValueFactory(new PropertyValueFactory<>("operace"));
+        tableViewZakroky.setEditable(true);
+
+        zakroky_datum.setCellFactory(TextFieldTableCell.forTableColumn());
+        zakroky_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
         
-        
-//        adresy_ulice.setCellFactory(TextFieldTableCell.forTableColumn());
-//        adresy_cislo_popisne.setCellFactory(TextFieldTableCell.forTableColumn());
-    }    
+        tableViewZvirata.setItems(zvirataData);
+        zvirata_jmeno.setCellValueFactory(new PropertyValueFactory<>("jmeno"));
+        zvirata_datum_narozeni.setCellValueFactory(new PropertyValueFactory<>("datumNarozeni"));
+        zvirata_vaha.setCellValueFactory(new PropertyValueFactory<>("vaha"));
+        zvirata_poznamka.setCellValueFactory(new PropertyValueFactory<>("poznamka"));
+        zvirata_cislo_cipu.setCellValueFactory(new PropertyValueFactory<>("cisloCipu"));
+        zvirata_majitel.setCellValueFactory(new PropertyValueFactory<>("majitele"));
+        zvirata_pohlavi.setCellValueFactory(new PropertyValueFactory<>("pohlavi"));
+        zvirata_druh.setCellValueFactory(new PropertyValueFactory<>("druhy"));
+        zvirata_doktor.setCellValueFactory(new PropertyValueFactory<>("doktori"));
+        tableViewZvirata.setEditable(true);
+
+        zvirata_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+        zvirata_datum_narozeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        zvirata_vaha.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        zvirata_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
+        zvirata_cislo_cipu.setCellFactory(TextFieldTableCell.forTableColumn());
+    }
 
     @FXML
     private void button_obnovit(ActionEvent event) throws SQLException {
         obnovit();
     }
-    private void obnovit() throws SQLException{
+
+    private void obnovit() throws SQLException {
         String sql;
-        switch(comboTabulky.getValue()){
+        switch (comboTabulky.getValue()) {
             case Adresy:
-        ///////////////////////////////////////////////////////////////////////
-        tableViewAdresy.setVisible(true);
-        tableViewBiochemie.setVisible(false);
-        tableViewDiagnozy.setVisible(false);
-        tableViewDodavatele.setVisible(false);
-        tableViewDoktori.setVisible(false);
-        tableViewDoktoriLogHistory.setVisible(false);
-        tableViewDruhy.setVisible(false);
-        tableViewFaktury.setVisible(false);
-        tableViewFotoDoktoru.setVisible(false);
-        tableViewKrevniObrazy.setVisible(false);
-        tableViewLeciva.setVisible(false);
-        tableViewLogTable.setVisible(false);
-        tableViewMajitele.setVisible(false);
-        tableViewMajiteleLogHistory.setVisible(false);
-        tableViewObjednavky.setVisible(false);
-        tableViewOdbery.setVisible(false);
-        tableViewOperace.setVisible(false);
-        tableViewPohlavi.setVisible(false);
-        tableViewPolozky.setVisible(false);
-        tableViewPosty.setVisible(false);
-        tableViewTypyPlatby.setVisible(false);
-        tableViewVysetreni.setVisible(false);
-        tableViewZajmy.setVisible(false);
-        tableViewZakroky.setVisible(false);
-        tableViewZvirata.setVisible(false);
-        
-    
-    adresyData.clear();
-        sql = "SELECT * FROM PO_POSTY";
-        
-    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-    rs = pstmt.executeQuery();
-    while(rs.next()){
-        Posty ad = new Posty(rs.getInt(1),rs.getString(2),rs.getString(3));   
-        cbPostyData.add(ad);
-    }
-    sql = "SELECT * FROM PO_ADRESY";
-    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-    rs = pstmt.executeQuery();
-    
-    while(rs.next()){
-        ComboBox<Posty> cbPosty = new ComboBox<Posty>();
-        cbPosty.setItems(cbPostyData);
-        
-    Adresy ad = new Adresy(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),cbPosty);
-    for(Posty posta : cbPostyData){
-    if(posta.getIdPosty()==ad.getIdPosty()){
-    cbPosty.getSelectionModel().select(posta);
-    }
-    }
-    adresyData.add(ad);
-    }
-    tableViewAdresy.refresh();
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(true);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                adresyData.clear();
+                cbPostyData.clear();
+                sql = "SELECT * FROM PO_POSTY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Posty ad = new Posty(rs.getInt(1), rs.getString(2), rs.getString(3));
+                    cbPostyData.add(ad);
+                }
+                sql = "SELECT * FROM PO_ADRESY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Posty> cbPosty = new ComboBox<Posty>();
+                    cbPosty.setItems(cbPostyData);
+
+                    Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), cbPosty);
+                    for (Posty posta : cbPostyData) {
+                        if (posta.getIdPosty() == ad.getIdPosty()) {
+                            cbPosty.getSelectionModel().select(posta);
+                            break;
+                        }
+                    }
+                    adresyData.add(ad);
+                }
+                tableViewAdresy.refresh();
                 break;
             case Biochemie:
-        ///////////////////////////////////////////////////////////////////////
-        tableViewAdresy.setVisible(false);
-        tableViewBiochemie.setVisible(true);
-        tableViewDiagnozy.setVisible(false);
-        tableViewDodavatele.setVisible(false);
-        tableViewDoktori.setVisible(false);
-        tableViewDoktoriLogHistory.setVisible(false);
-        tableViewDruhy.setVisible(false);
-        tableViewFaktury.setVisible(false);
-        tableViewFotoDoktoru.setVisible(false);
-        tableViewKrevniObrazy.setVisible(false);
-        tableViewLeciva.setVisible(false);
-        tableViewLogTable.setVisible(false);
-        tableViewMajitele.setVisible(false);
-        tableViewMajiteleLogHistory.setVisible(false);
-        tableViewObjednavky.setVisible(false);
-        tableViewOdbery.setVisible(false);
-        tableViewOperace.setVisible(false);
-        tableViewPohlavi.setVisible(false);
-        tableViewPolozky.setVisible(false);
-        tableViewPosty.setVisible(false);
-        tableViewTypyPlatby.setVisible(false);
-        tableViewVysetreni.setVisible(false);
-        tableViewZajmy.setVisible(false);
-        tableViewZakroky.setVisible(false);
-        tableViewZvirata.setVisible(false);
-        
-    
-    biochemieData.clear();
-        sql = "SELECT * FROM PO_BIOCHEMIE";
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(true);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
 
-    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-    rs = pstmt.executeQuery();
-    
-    while(rs.next()){
-    Biochemie bio = new Biochemie(rs.getInt(1),rs.getDouble(2),rs.getDouble(3),rs.getDouble(4),rs.getDouble(5),rs.getDouble(6));   
-    biochemieData.add(bio);
-    }
-    tableViewBiochemie.refresh();
+                biochemieData.clear();
+                sql = "SELECT * FROM PO_BIOCHEMIE";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Biochemie bio = new Biochemie(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6));
+                    biochemieData.add(bio);
+                }
+                tableViewBiochemie.refresh();
                 break;
             case Diagnozy:
-        ///////////////////////////////////////////////////////////////////////
-        tableViewAdresy.setVisible(false);
-        tableViewBiochemie.setVisible(false);
-        tableViewDiagnozy.setVisible(true);
-        tableViewDodavatele.setVisible(false);
-        tableViewDoktori.setVisible(false);
-        tableViewDoktoriLogHistory.setVisible(false);
-        tableViewDruhy.setVisible(false);
-        tableViewFaktury.setVisible(false);
-        tableViewFotoDoktoru.setVisible(false);
-        tableViewKrevniObrazy.setVisible(false);
-        tableViewLeciva.setVisible(false);
-        tableViewLogTable.setVisible(false);
-        tableViewMajitele.setVisible(false);
-        tableViewMajiteleLogHistory.setVisible(false);
-        tableViewObjednavky.setVisible(false);
-        tableViewOdbery.setVisible(false);
-        tableViewOperace.setVisible(false);
-        tableViewPohlavi.setVisible(false);
-        tableViewPolozky.setVisible(false);
-        tableViewPosty.setVisible(false);
-        tableViewTypyPlatby.setVisible(false);
-        tableViewVysetreni.setVisible(false);
-        tableViewZajmy.setVisible(false);
-        tableViewZakroky.setVisible(false);
-        tableViewZvirata.setVisible(false);
-        
-    
-    adresyData.clear();
-        sql = "SELECT * FROM PO_DIAGNOZY";
-     
-    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-    rs = pstmt.executeQuery();
-    
-    while(rs.next()){
-    Diagnozy di = new Diagnozy(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4));   
-    diagnozyData.add(di);
-    }
-    tableViewDiagnozy.refresh();
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(true);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                adresyData.clear();
+                sql = "SELECT * FROM PO_DIAGNOZY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Diagnozy di = new Diagnozy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                    diagnozyData.add(di);
+                }
+                tableViewDiagnozy.refresh();
                 break;
             case Dodavatele:
-                
-        ///////////////////////////////////////////////////////////////////////
-        tableViewAdresy.setVisible(false);
-        tableViewBiochemie.setVisible(false);
-        tableViewDiagnozy.setVisible(false);
-        tableViewDodavatele.setVisible(true);
-        tableViewDoktori.setVisible(false);
-        tableViewDoktoriLogHistory.setVisible(false);
-        tableViewDruhy.setVisible(false);
-        tableViewFaktury.setVisible(false);
-        tableViewFotoDoktoru.setVisible(false);
-        tableViewKrevniObrazy.setVisible(false);
-        tableViewLeciva.setVisible(false);
-        tableViewLogTable.setVisible(false);
-        tableViewMajitele.setVisible(false);
-        tableViewMajiteleLogHistory.setVisible(false);
-        tableViewObjednavky.setVisible(false);
-        tableViewOdbery.setVisible(false);
-        tableViewOperace.setVisible(false);
-        tableViewPohlavi.setVisible(false);
-        tableViewPolozky.setVisible(false);
-        tableViewPosty.setVisible(false);
-        tableViewTypyPlatby.setVisible(false);
-        tableViewVysetreni.setVisible(false);
-        tableViewZajmy.setVisible(false);
-        tableViewZakroky.setVisible(false);
-        tableViewZvirata.setVisible(false);
-        
-    
-    dodavateleData.clear();
-        sql = "SELECT * FROM PO_ADRESY";
-        
-    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-    rs = pstmt.executeQuery();
-    while(rs.next()){
-        Adresy ad = new Adresy(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),null);   
-        cbAdresyData.add(ad);
-    }
-    sql = "SELECT * FROM PO_DODAVATELE";
-    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-    rs = pstmt.executeQuery();
-    
-    while(rs.next()){
-        ComboBox<Adresy> cbAdresy = new ComboBox<Adresy>();
-        cbAdresy.setItems(cbAdresyData);
-    Dodavatele dod = new Dodavatele(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),cbAdresy);
-    for(Adresy adresa : cbAdresyData){
-    if(adresa.getIdPosty()==dod.getIdAdresy()){
-    cbAdresy.getSelectionModel().select(adresa);
-    }
-    }
-    
-    dodavateleData.add(dod);
-    }
-    tableViewDodavatele.refresh();
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(true);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                dodavateleData.clear();
+                cbAdresyData.clear();
+                sql = "SELECT * FROM PO_ADRESY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                    cbAdresyData.add(ad);
+                }
+                sql = "SELECT * FROM PO_DODAVATELE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Adresy> cbAdresy = new ComboBox<Adresy>();
+                    cbAdresy.setItems(cbAdresyData);
+                    Dodavatele dod = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), cbAdresy);
+                    for (Adresy adresa : cbAdresyData) {
+                        if (adresa.getIdAdresy()== dod.getIdAdresy()) {
+                            cbAdresy.getSelectionModel().select(adresa);
+                            break;
+                        }
+                    }
+
+                    dodavateleData.add(dod);
+                }
+                tableViewDodavatele.refresh();
                 break;
             case Doktori:
-                break;
-            case DoktoriLogHistory:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(true);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                doktoriData.clear();
+                cbAdresyData.clear();
+                sql = "SELECT * FROM PO_ADRESY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                    cbAdresyData.add(ad);
+                }
+                sql = "SELECT * FROM PO_DOKTORI";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Adresy> cbAdresy = new ComboBox<Adresy>();
+                    cbAdresy.setItems(cbAdresyData);
+                    Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getString(7),
+                            rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11),
+                            rs.getString(12), rs.getString(13), cbAdresy);
+                    for (Adresy adresa : cbAdresyData) {
+                        if (adresa.getIdAdresy() == dok.getIdAdresy()) {
+                            cbAdresy.getSelectionModel().select(adresa);
+                            break;
+                        }
+                    }
+                    doktoriData.add(dok);
+                }
+                tableViewDoktori.refresh();
                 break;
             case Druhy:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(true);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                druhyData.clear();
+                
+                sql = "SELECT * FROM PO_DRUHY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    
+                    Druhy dr = new Druhy(rs.getInt(1), rs.getString(2));
+                    druhyData.add(dr);
+                }
+                tableViewDruhy.refresh();
                 break;
             case Faktury:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(true);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                cbMajiteleData.clear();
+                cbTypyPlatbyData.clear();
+                fakturyData.clear();
+                sql = "SELECT * FROM PO_MAJITELE";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6), rs.getString(7),rs.getInt(8), rs.getString(9), rs.getString(10),null);
+                    cbMajiteleData.add(maj);
+                }
+                
+                sql = "SELECT * FROM PO_TYPY_PLATBY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    TypyPlatby typ = new TypyPlatby(rs.getInt(1), rs.getString(2));
+                    cbTypyPlatbyData.add(typ);
+                }
+                sql = "SELECT * FROM PO_FAKTURY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Majitele> cbMajitele = new ComboBox<Majitele>();
+                    cbMajitele.setItems(cbMajiteleData);
+                    ComboBox<TypyPlatby> cbTypyPlatby = new ComboBox<TypyPlatby>();
+                    cbTypyPlatby.setItems(cbTypyPlatbyData);
+                    Faktury fak = new Faktury(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getInt(5), rs.getInt(6), cbMajitele ,cbTypyPlatby);
+                    for (Majitele majitel : cbMajiteleData) {
+                        if (majitel.getIdMajitele() == fak.getIdMajitele()) {
+                            cbMajitele.getSelectionModel().select(majitel);
+                            break;
+                        }
+                    }
+                    for (TypyPlatby typ : cbTypyPlatbyData) {
+                        if (typ.getIdTypu() == fak.getIdTypu()) {
+                            cbTypyPlatby.getSelectionModel().select(typ);
+                            break;
+                        }
+                    }
+                    fakturyData.add(fak);
+                }
+                tableViewFaktury.refresh();
                 break;
             case FotoDoktoru:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(true);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                cbDoktoriData.clear();
+                fotoDoktoruData.clear();
+                                
+                sql = "SELECT * FROM PO_DOKTORI";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getString(7),
+                            rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11),
+                            rs.getString(12), rs.getString(13), null);
+                    cbDoktoriData.add(dok);
+                }
+                sql = "SELECT * FROM PO_FOTO_DOKTORU";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
+                    cbDoktori.setItems(cbDoktoriData);
+                    
+                    FotoDoktoru fot = new FotoDoktoru(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getString(5), "(Blob)", rs.getInt(7) ,cbDoktori);
+                    for (Doktori doktor : cbDoktoriData) {
+                        if (doktor.getIdDoktora() == fot.getIdDoktora()) {
+                            cbDoktori.getSelectionModel().select(doktor);
+                            break;
+                        }
+                    }
+                    fotoDoktoruData.add(fot);
+                }
+                tableViewFotoDoktoru.refresh();
                 break;
             case KrevniObrazy:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(true);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                krevniObrazyData.clear();
+                
+                sql = "SELECT * FROM PO_KREVNI_OBRAZY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    KrevniObrazy data = new KrevniObrazy(rs.getInt(1), rs.getDouble(2), rs.getDouble(3),
+                            rs.getDouble(4), rs.getDouble(5));
+                    
+                    krevniObrazyData.add(data);
+                }
+                tableViewKrevniObrazy.refresh();
                 break;
             case Leciva:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(true);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                cbDodavateleData.clear();
+                lecivaData.clear();
+                sql = "SELECT * FROM PO_DODAVATELE";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Dodavatele dod = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), null);
+                    cbDodavateleData.add(dod);
+                }
+                sql = "SELECT * FROM PO_LECIVA";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Dodavatele> cbDodavatele = new ComboBox<Dodavatele>();
+                    cbDodavatele.setItems(cbDodavateleData);
+                    
+                    Leciva lec = new Leciva(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6), cbDodavatele);
+                    for (Dodavatele data : cbDodavateleData) {
+                        if (data.getIdDodavatele()== lec.getIdDodavatele()) {
+                            cbDodavatele.getSelectionModel().select(data);
+                            break;
+                        }
+                    }
+
+                    lecivaData.add(lec);
+                }
+                tableViewLeciva.refresh();
                 break;
             case LogTable:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(true);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                logTableData.clear();
+                
+                sql = "SELECT * FROM PO_LOG_TABLE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    LogTable data = new LogTable(rs.getString(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getInt(5), rs.getInt(6));
+                    
+                    logTableData.add(data);
+                }
+                tableViewLogTable.refresh();
                 break;
             case Majitele:
-                break;
-            case MajiteleLogHistory:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(true);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                majiteleData.clear();
+                cbAdresyData.clear();
+                sql = "SELECT * FROM PO_ADRESY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                    cbAdresyData.add(ad);
+                } 
+                sql = "SELECT * FROM PO_MAJITELE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Adresy> cbAdresy = new ComboBox<Adresy>();
+                    cbAdresy.setItems(cbAdresyData);
+                    
+                    Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getString(5),rs.getString(6), rs.getString(7),
+                            rs.getInt(8), rs.getString(9), rs.getString(10),cbAdresy);                  
+                    
+                    for (Adresy adresa : cbAdresyData) {
+                        if (adresa.getIdAdresy() == maj.getIdAdresy()) {
+                            cbAdresy.getSelectionModel().select(adresa);
+                            break;
+                        }
+                    }
+                    majiteleData.add(maj);
+                }
+                tableViewMajitele.refresh();
                 break;
             case Objednavky:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(true);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                cbMajiteleData.clear();
+                objednavkyData.clear();
+                sql = "SELECT * FROM PO_MAJITELE";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6), rs.getString(7),rs.getInt(8), rs.getString(9), rs.getString(10),null);
+                    cbMajiteleData.add(maj);
+                }
+                
+                sql = "SELECT * FROM PO_OBJEDNAVKY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Majitele> cbMajitele = new ComboBox<Majitele>();
+                    cbMajitele.setItems(cbMajiteleData);
+                    
+                    Objednavky obj = new Objednavky(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getInt(4),cbMajitele);
+                    
+                    for (Majitele majitel : cbMajiteleData) {
+                        if (majitel.getIdMajitele() == obj.getIdMajitele()) {
+                            cbMajitele.getSelectionModel().select(majitel);
+                            break;
+                        }
+                    }
+                    
+                objednavkyData.add(obj);
+                }
+                tableViewObjednavky.refresh();
                 break;
             case Odbery:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(true);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                odberyData.clear();
+                cbZvirataData.clear();
+                sql = "SELECT * FROM PO_ZVIRATA";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getDouble(4), rs.getString(4), rs.getString(5),rs.getInt(6),
+                            rs.getInt(7),rs.getInt(8),rs.getInt(9),null,null,null,null);
+                    cbZvirataData.add(zv);
+                }
+                sql = "SELECT * FROM PO_ODBERY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Zvirata> cbZvirata = new ComboBox<Zvirata>();
+                    cbZvirata.setItems(cbZvirataData);
+
+                    Odbery od = new Odbery(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), cbZvirata);
+                    for (Zvirata zvire : cbZvirataData) {
+                        if (zvire.getIdZvirete() == od.getIdZvirete()) {
+                            cbZvirata.getSelectionModel().select(zvire);
+                            break;
+                        }
+                    }
+                    odberyData.add(od);
+                }
+                tableViewOdbery.refresh();
                 break;
             case Operace:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(true);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                operaceData.clear();
+                
+                sql = "SELECT * FROM PO_OPERACE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    
+                    Operace op = new Operace(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5));
+                    operaceData.add(op);
+                }
+                tableViewOperace.refresh();
                 break;
             case Pohlavi:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(true);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                operaceData.clear();
+                
+                sql = "SELECT * FROM PO_POHLAVI";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    
+                    Pohlavi po = new Pohlavi(rs.getInt(1), rs.getString(2));
+                    pohlaviData.add(po);
+                }
+                tableViewPohlavi.refresh();
                 break;
             case Polozky:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(true);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                polozkyData.clear();
+                cbFakturyData.clear();
+                sql = "SELECT * FROM PO_FAKTURY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Faktury fak = new Faktury(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getInt(5), rs.getInt(6), null ,null);
+                    cbFakturyData.add(fak);
+                }
+                sql = "SELECT * FROM PO_POLOZKY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Faktury> cbFaktury = new ComboBox<Faktury>();
+                    cbFaktury.setItems(cbFakturyData);
+
+                    Polozky pol = new Polozky(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5), cbFaktury);
+                    for (Faktury fakt : cbFakturyData) {
+                        if (fakt.getIdFaktury() == pol.getIdFaktury()) {
+                            cbFaktury.getSelectionModel().select(fakt);
+                            break;
+                        }
+                    }
+                    polozkyData.add(pol);
+                }
+                tableViewPolozky.refresh();
                 break;
             case Posty:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(true);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                postyData.clear();
+                
+                sql = "SELECT * FROM PO_POSTY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    
+                    Posty po = new Posty(rs.getInt(1), rs.getString(2), rs.getString(3));
+                    postyData.add(po);
+                }
+                tableViewPosty.refresh();
                 break;
             case TypyPlatby:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(true);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                typyPlatbyData.clear();
+                
+                sql = "SELECT * FROM PO_TYPY_PLATBY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    
+                    TypyPlatby typ = new TypyPlatby(rs.getInt(1), rs.getString(2));
+                    typyPlatbyData.add(typ);
+                }
+                tableViewTypyPlatby.refresh();
                 break;
             case Vysetreni:
-                break;
-            case Zajmy:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(true);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                vysetreniData.clear();
+                cbDiagnozyData.clear();
+                cbZvirataData.clear();
+                sql = "SELECT * FROM PO_ZVIRATA";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getDouble(4), rs.getString(4), rs.getString(5),rs.getInt(6),
+                            rs.getInt(7),rs.getInt(8),rs.getInt(9),null,null,null,null);
+                    cbZvirataData.add(zv);
+                }
+                sql = "SELECT * FROM PO_DIAGNOZY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Diagnozy di = new Diagnozy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                    cbDiagnozyData.add(di);
+                }
+                
+                sql = "SELECT * FROM PO_VYSETRENI";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Zvirata> cbZvirata = new ComboBox<Zvirata>();
+                    cbZvirata.setItems(cbZvirataData);
+                    
+                    ComboBox<Diagnozy> cbDiagnozy = new ComboBox<Diagnozy>();
+                    cbDiagnozy.setItems(cbDiagnozyData);
+
+                    Vysetreni vy = new Vysetreni(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getInt(5), cbDiagnozy, cbZvirata);
+                    for (Zvirata zvire : cbZvirataData) {
+                        if (zvire.getIdZvirete() == vy.getIdZvirete()) {
+                            cbZvirata.getSelectionModel().select(zvire);
+                            break;
+                        }
+                    }
+                    for (Diagnozy diag : cbDiagnozyData) {
+                        if (diag.getIdDiagnozy() == vy.getIdDiagnozy()) {
+                            cbDiagnozy.getSelectionModel().select(diag);
+                            break;
+                        }
+                    }
+                    vysetreniData.add(vy);
+                }
+                tableViewVysetreni.refresh();
                 break;
             case Zakroky:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(true);
+                tableViewZvirata.setVisible(false);
+
+                zakrokyData.clear();
+                cbOperaceData.clear();
+                cbZvirataData.clear();
+                sql = "SELECT * FROM PO_ZVIRATA";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getDouble(4), rs.getString(4), rs.getString(5),rs.getInt(6),
+                            rs.getInt(7),rs.getInt(8),rs.getInt(9),null,null,null,null);
+                    cbZvirataData.add(zv);
+                }
+                sql = "SELECT * FROM PO_OPERACE";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Operace op = new Operace(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5));
+                    cbOperaceData.add(op);
+                }
+                
+                sql = "SELECT * FROM PO_ZAKROKY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Zvirata> cbZvirata = new ComboBox<Zvirata>();
+                    cbZvirata.setItems(cbZvirataData);
+                    
+                    ComboBox<Operace> cbOperace = new ComboBox<Operace>();
+                    cbOperace.setItems(cbOperaceData);
+
+                    Zakroky za = new Zakroky(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getInt(5), cbZvirata, cbOperace);
+                    for (Zvirata zvire : cbZvirataData) {
+                        if (zvire.getIdZvirete() == za.getIdZvirete()) {
+                            cbZvirata.getSelectionModel().select(zvire);
+                            break;
+                        }
+                    }
+                    for (Operace oper : cbOperaceData) {
+                        if (oper.getIdOperace() == za.getIdOperace()) {
+                            cbOperace.getSelectionModel().select(oper);
+                            break;
+                        }
+                    }
+                    zakrokyData.add(za);
+                }
+                tableViewZakroky.refresh();
                 break;
             case Zvirata:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(true);
+
+                zvirataData.clear();
+                cbMajiteleData.clear();
+                cbPohlaviData.clear();
+                cbDruhyData.clear();
+                cbDoktoriData.clear();
                 
+                sql = "SELECT * FROM PO_MAJITELE";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), 
+                            rs.getString(3), rs.getString(4), rs.getString(5),
+                            rs.getString(6), rs.getString(7),rs.getInt(8), 
+                            rs.getString(9), rs.getString(10),null);
+                    cbMajiteleData.add(maj);
+                }
+                sql = "SELECT * FROM PO_POHLAVI";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Pohlavi po = new Pohlavi(rs.getInt(1), rs.getString(2));
+                    cbPohlaviData.add(po);
+                }
+                
+                sql = "SELECT * FROM PO_DRUHY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Druhy dr = new Druhy(rs.getInt(1), rs.getString(2));
+                    cbDruhyData.add(dr);
+                }
+                
+                sql = "SELECT * FROM PO_DOKTORI";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getString(7),
+                            rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11),
+                            rs.getString(12), rs.getString(13), null);
+                    cbDoktoriData.add(dok);
+                }
+                
+                sql = "SELECT * FROM PO_ZVIRATA";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Majitele> cbMajitele = new ComboBox<Majitele>();
+                    cbMajitele.setItems(cbMajiteleData);
+                    
+                    ComboBox<Pohlavi> cbPohlavi = new ComboBox<Pohlavi>();
+                    cbPohlavi.setItems(cbPohlaviData);
+                    
+                    ComboBox<Druhy> cbDruhy = new ComboBox<Druhy>();
+                    cbDruhy.setItems(cbDruhyData);
+                    
+                    ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
+                    cbDoktori.setItems(cbDoktoriData);
+
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getDouble(4), rs.getString(4), rs.getString(5),rs.getInt(6),
+                            rs.getInt(7),rs.getInt(8),rs.getInt(9),cbMajitele,cbPohlavi,cbDruhy,cbDoktori);
+                    
+                    for (Majitele majitel : cbMajiteleData) {
+                        if (majitel.getIdMajitele() == zv.getIdMajitele()) {
+                            cbMajitele.getSelectionModel().select(majitel);
+                            System.out.println("NasloMajitele");
+                            break;
+                        }
+                    }
+                    for (Pohlavi poh : cbPohlaviData.sorted()) {
+                        if (poh.getIdPohlavi() == zv.getIdPohlavi()) {
+                            cbPohlavi.getSelectionModel().select(poh);
+                            System.out.println("NasloPohlavi");
+                            break;
+                        }
+                    }
+                    for (Druhy druh : cbDruhyData.sorted()) {
+                        if (druh.getIdDruhu() == zv.getIdDruhu()) {
+                            cbDruhy.getSelectionModel().select(druh);
+                            System.out.println("NasloDruh");
+                            break;
+                        }
+                    }
+                    
+                    for (Doktori doktor : cbDoktoriData.sorted()) {
+                        if (doktor.getIdDoktora() == zv.getIdDoktora()) {
+                            cbDoktori.getSelectionModel().select(doktor);
+                            System.out.println("NasloDoktora");
+                            break;
+                        }
+                    }
+                    zvirataData.add(zv);
+                }
+                tableViewZvirata.refresh();
+
         }
     }
 
@@ -678,22 +1860,21 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private void handleBtnVystavitFakturuOnAction(ActionEvent event) {
     }
-    
-    private void zobrazDialogUvodni(ActionEvent event) throws IOException{ 
+
+    private void zobrazDialogUvodni(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/veterinarniklinika/FXMLUvodni.fxml"));
         Scene scene = new Scene(root);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
     }
-    
-    private void zobrazErrorDialog(String headText, String content){ 
+
+    private void zobrazErrorDialog(String headText, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error !");
         alert.setHeaderText(headText);
         alert.setContentText(content);
         alert.showAndWait();
     }
-    
-    
+
 }

@@ -5,6 +5,8 @@
  */
 package dataTridy;
 
+import javafx.scene.control.ComboBox;
+
 /**
  *
  * @author tzlat
@@ -17,8 +19,9 @@ public class FotoDoktoru {
     String datumNahrani;
     String obsah;
     int idDoktora;
+    ComboBox<Doktori> doktori;
 
-    public FotoDoktoru(int idFotky, String nazev, String typSouboru, String pripona, String datumNahrani, String obsah, int idDoktora) {
+    public FotoDoktoru(int idFotky, String nazev, String typSouboru, String pripona, String datumNahrani, String obsah, int idDoktora, ComboBox<Doktori> doktori) {
         this.idFotky = idFotky;
         this.nazev = nazev;
         this.typSouboru = typSouboru;
@@ -26,6 +29,15 @@ public class FotoDoktoru {
         this.datumNahrani = datumNahrani;
         this.obsah = obsah;
         this.idDoktora = idDoktora;
+        this.doktori = doktori;
+    }
+
+    public ComboBox<Doktori> getDoktori() {
+        return doktori;
+    }
+
+    public void setDoktori(ComboBox<Doktori> doktori) {
+        this.doktori = doktori;
     }
 
     public int getIdFotky() {
@@ -84,4 +96,8 @@ public class FotoDoktoru {
         this.idDoktora = idDoktora;
     }
     
+    @Override
+    public String toString() {
+        return nazev+pripona;
+    }
 }

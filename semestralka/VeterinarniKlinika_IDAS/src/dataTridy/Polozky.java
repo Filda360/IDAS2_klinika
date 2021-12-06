@@ -5,6 +5,8 @@
  */
 package dataTridy;
 
+import javafx.scene.control.ComboBox;
+
 /**
  *
  * @author tzlat
@@ -13,15 +15,25 @@ public class Polozky {
     int idPolozky;
     String nazev;
     int pocet;
-    double cena;
+    int cena;
     int idFaktury;
+    ComboBox<Faktury> faktury;
 
-    public Polozky(int idPolozky, String nazev, int pocet, double cena, int idFaktury) {
+    public Polozky(int idPolozky, String nazev, int pocet, int cena, int idFaktury, ComboBox<Faktury> faktury) {
         this.idPolozky = idPolozky;
         this.nazev = nazev;
         this.pocet = pocet;
         this.cena = cena;
         this.idFaktury = idFaktury;
+        this.faktury = faktury;
+    }
+
+    public ComboBox<Faktury> getFaktury() {
+        return faktury;
+    }
+
+    public void setFaktury(ComboBox<Faktury> faktury) {
+        this.faktury = faktury;
     }
 
     public int getIdPolozky() {
@@ -48,11 +60,11 @@ public class Polozky {
         this.pocet = pocet;
     }
 
-    public double getCena() {
+    public int getCena() {
         return cena;
     }
 
-    public void setCena(double cena) {
+    public void setCena(int cena) {
         this.cena = cena;
     }
 
@@ -63,5 +75,8 @@ public class Polozky {
     public void setIdFaktury(int idFaktury) {
         this.idFaktury = idFaktury;
     }
-    
+    @Override
+    public String toString() {
+        return nazev+" ("+pocet+")";
+    }
 }

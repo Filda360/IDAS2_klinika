@@ -76,4 +76,8 @@ public class Dodavatele {
         return idAdresy;
     }
     
+    @Override
+    public String toString() {
+        return nazev+", "+telefon;
+    }
 }

@@ -5,6 +5,8 @@
  */
 package dataTridy;
 
+import javafx.scene.control.ComboBox;
+
 /**
  *
  * @author tzlat
@@ -16,15 +18,37 @@ public class Faktury {
     String stav;
     int idMajitele;
     int idTypu;
+    ComboBox<Majitele> majitele;
+    ComboBox<TypyPlatby> typy;
 
-    public Faktury(int idFaktury, String datumVystaveni, String datumSplatnosti, String stav, int idMajitele, int idTypu) {
+    public Faktury(int idFaktury, String datumVystaveni, String datumSplatnosti, String stav, int idMajitele, int idTypu, ComboBox<Majitele> majitele, ComboBox<TypyPlatby> typy) {
         this.idFaktury = idFaktury;
         this.datumVystaveni = datumVystaveni;
         this.datumSplatnosti = datumSplatnosti;
         this.stav = stav;
         this.idMajitele = idMajitele;
         this.idTypu = idTypu;
+        this.majitele = majitele;
+        this.typy = typy;
     }
+
+    public ComboBox<Majitele> getMajitele() {
+        return majitele;
+    }
+
+    public void setMajitele(ComboBox<Majitele> majitele) {
+        this.majitele = majitele;
+    }
+
+    public ComboBox<TypyPlatby> getTypy() {
+        return typy;
+    }
+
+    public void setTypy(ComboBox<TypyPlatby> typy) {
+        this.typy = typy;
+    }
+
+    
 
     public int getIdFaktury() {
         return idFaktury;
@@ -74,4 +98,8 @@ public class Faktury {
         this.idTypu = idTypu;
     }
     
+    @Override
+    public String toString() {
+        return datumVystaveni+" - "+ datumSplatnosti+" ("+stav+")";
+    }
 }

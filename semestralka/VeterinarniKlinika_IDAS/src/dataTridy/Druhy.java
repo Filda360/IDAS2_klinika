@@ -34,4 +34,8 @@ public class Druhy {
         this.druh = druh;
     }
     
+    @Override
+    public String toString() {
+        return druh;
+    }
 }

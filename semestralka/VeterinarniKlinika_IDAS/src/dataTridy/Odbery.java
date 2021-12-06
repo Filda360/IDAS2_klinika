@@ -5,6 +5,8 @@
  */
 package dataTridy;
 
+import javafx.scene.control.ComboBox;
+
 /**
  *
  * @author tzlat
@@ -14,13 +16,24 @@ public class Odbery {
     int idZvirete;
     int idOdberu;
     String poznamka;
+    ComboBox<Zvirata> zvirata;
 
-    public Odbery(String datum, int idZvirete, int idOdberu, String poznamka) {
+    public Odbery(String datum, int idZvirete, int idOdberu, String poznamka, ComboBox<Zvirata> zvirata) {
         this.datum = datum;
         this.idZvirete = idZvirete;
         this.idOdberu = idOdberu;
         this.poznamka = poznamka;
+        this.zvirata = zvirata;
     }
+
+    public ComboBox<Zvirata> getZvirata() {
+        return zvirata;
+    }
+
+    public void setZvirata(ComboBox<Zvirata> zvirata) {
+        this.zvirata = zvirata;
+    }
+
 
     public String getDatum() {
         return datum;
@@ -53,5 +66,8 @@ public class Odbery {
     public void setPoznamka(String poznamka) {
         this.poznamka = poznamka;
     }
-    
+    @Override
+    public String toString() {
+        return datum;
+    }
 }

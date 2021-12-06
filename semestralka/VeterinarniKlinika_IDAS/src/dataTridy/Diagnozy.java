@@ -54,4 +54,8 @@ public class Diagnozy {
         return stupenZavaznosti;
     }
     
+    @Override
+    public String toString() {
+        return nazev+", "+oznaceni;
+    }
 }

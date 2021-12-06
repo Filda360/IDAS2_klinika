@@ -33,5 +33,8 @@ public class Pohlavi {
     public void setPohlavi(String pohlavi) {
         this.pohlavi = pohlavi;
     }
-    
+    @Override
+    public String toString() {
+        return pohlavi;
+    }
 }

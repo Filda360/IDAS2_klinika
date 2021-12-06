@@ -74,6 +74,9 @@ public class Biochemie {
         return alt;
     }
     
-    
+    @Override
+    public String toString() {
+        return urea+", "+kreatinin+", "+bilirubin+", "+ast+", "+alt;
+    }
     
 }

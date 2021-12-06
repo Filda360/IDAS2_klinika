@@ -63,5 +63,9 @@ public class KrevniObrazy {
     public void setHemoglobin(double hemoglobin) {
         this.hemoglobin = hemoglobin;
     }
+    @Override
+    public String toString() {
+        return erytrocyty+", "+leukocyty+", "+trombocyty+", "+hemoglobin;
+    }
     
 }

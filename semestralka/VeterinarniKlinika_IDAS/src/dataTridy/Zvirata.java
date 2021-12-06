@@ -5,6 +5,8 @@
  */
 package dataTridy;
 
+import javafx.scene.control.ComboBox;
+
 /**
  *
  * @author tzlat
@@ -20,8 +22,15 @@ public class Zvirata {
     int idPohlavi;
     int idDruhu;
     int idDoktora;
+    ComboBox<Majitele> majitele;
+    ComboBox<Pohlavi> pohlavi;
+    ComboBox<Druhy> druhy;
+    ComboBox<Doktori> doktori;
 
-    public Zvirata(int idZvirete, String jmeno, String datumNarozeni, double vaha, String poznamka, String cisloCipu, int idMajitele, int idPohlavi, int idDruhu, int idDoktora) {
+    public Zvirata(int idZvirete, String jmeno, String datumNarozeni, double vaha, 
+            String poznamka, String cisloCipu, int idMajitele, int idPohlavi, 
+            int idDruhu, int idDoktora, ComboBox<Majitele> majitele, ComboBox<Pohlavi> pohlavi,
+            ComboBox<Druhy> druhy, ComboBox<Doktori> doktori) {
         this.idZvirete = idZvirete;
         this.jmeno = jmeno;
         this.datumNarozeni = datumNarozeni;
@@ -32,7 +41,45 @@ public class Zvirata {
         this.idPohlavi = idPohlavi;
         this.idDruhu = idDruhu;
         this.idDoktora = idDoktora;
+        this.majitele = majitele;
+        this.pohlavi = pohlavi;
+        this.druhy = druhy;
+        this.doktori = doktori;
     }
+
+    public ComboBox<Majitele> getMajitele() {
+        return majitele;
+    }
+
+    public void setMajitele(ComboBox<Majitele> majitele) {
+        this.majitele = majitele;
+    }
+
+    public ComboBox<Pohlavi> getPohlavi() {
+        return pohlavi;
+    }
+
+    public void setPohlavi(ComboBox<Pohlavi> pohlavi) {
+        this.pohlavi = pohlavi;
+    }
+
+    public ComboBox<Druhy> getDruhy() {
+        return druhy;
+    }
+
+    public void setDruhy(ComboBox<Druhy> druhy) {
+        this.druhy = druhy;
+    }
+
+    public ComboBox<Doktori> getDoktori() {
+        return doktori;
+    }
+
+    public void setDoktori(ComboBox<Doktori> doktori) {
+        this.doktori = doktori;
+    }
+
+    
 
     public int getIdZvirete() {
         return idZvirete;
@@ -112,6 +159,11 @@ public class Zvirata {
 
     public void setIdDoktora(int idDoktora) {
         this.idDoktora = idDoktora;
+    }
+
+    @Override
+    public String toString() {
+        return jmeno + ", " + datumNarozeni;
     }
     
     

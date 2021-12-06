@@ -5,6 +5,8 @@
  */
 package dataTridy;
 
+import javafx.scene.control.ComboBox;
+
 /**
  *
  * @author tzlat
@@ -23,8 +25,9 @@ public class Doktori {
     int idAdresy;
     String heslo;
     String prihlasovaciJmeno;
+    ComboBox<Adresy> adresy;
 
-    public Doktori(int idDoktora, String titul, String delkaUvazku, String datumNastupu, double plat, String jmeno, String prijmeni, String datumNarozeni, String telefon, String email, int idAdresy, String heslo, String prihlasovaciJmeno) {
+    public Doktori(int idDoktora, String titul, String delkaUvazku, String datumNastupu, double plat, String jmeno, String prijmeni, String datumNarozeni, String telefon, String email, int idAdresy, String heslo, String prihlasovaciJmeno, ComboBox<Adresy> adresy) {
         this.idDoktora = idDoktora;
         this.titul = titul;
         this.delkaUvazku = delkaUvazku;
@@ -38,7 +41,18 @@ public class Doktori {
         this.idAdresy = idAdresy;
         this.heslo = heslo;
         this.prihlasovaciJmeno = prihlasovaciJmeno;
+        this.adresy = adresy;
     }
+
+    public ComboBox<Adresy> getAdresy() {
+        return adresy;
+    }
+
+    public void setAdresy(ComboBox<Adresy> adresy) {
+        this.adresy = adresy;
+    }
+
+    
 
     public int getIdDoktora() {
         return idDoktora;
@@ -142,6 +156,11 @@ public class Doktori {
 
     public void setPrihlasovaciJmeno(String prihlasovaciJmeno) {
         this.prihlasovaciJmeno = prihlasovaciJmeno;
+    }
+
+    @Override
+    public String toString() {
+        return titul + " " + jmeno + " " + prijmeni;
     }
     
 }
