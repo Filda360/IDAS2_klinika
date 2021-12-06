@@ -1,5 +1,6 @@
 package administrator;
 
+import dataTridy.Administratori;
 import dataTridy.Adresy;
 import dataTridy.Biochemie;
 import dataTridy.Diagnozy;
@@ -66,6 +67,29 @@ public class FXMLAdministratorController implements Initializable {
     private Button btnMojeUdaje;
     @FXML
     private Button btnOdhlasit;
+    
+    @FXML
+    private ComboBox<enumUzivatel> comboTypUzivatele;
+    @FXML
+    private ComboBox<?> comboUzivatel;
+    @FXML
+    private TableView<Administratori> tableViewAdministratori;
+    @FXML
+    private TableColumn<Administratori, String> administratori_jmeno;
+    @FXML
+    private TableColumn<Administratori, String> administratori_prijmeni;
+    @FXML
+    private TableColumn<Administratori, String> administratori_datum_narozeni;
+    @FXML
+    private TableColumn<Administratori, String> administratori_telefon;
+    @FXML
+    private TableColumn<Administratori, String> administratori_email;
+    @FXML
+    private TableColumn<Administratori, String> administratori_prihlasovaci_jmeno;
+    @FXML
+    private TableColumn<Administratori, String> administratori_heslo;
+    @FXML
+    private TableColumn<Administratori, ComboBox> administratori_adresa;
     @FXML
     private TableView<Adresy> tableViewAdresy;
     @FXML
@@ -307,6 +331,7 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private Button btnVystavitFakturu;
 
+    public static ObservableList<Administratori> administratoriData = FXCollections.observableArrayList();
     public static ObservableList<Adresy> adresyData = FXCollections.observableArrayList();
     public static ObservableList<Biochemie> biochemieData = FXCollections.observableArrayList();
     public static ObservableList<Diagnozy> diagnozyData = FXCollections.observableArrayList();
@@ -345,10 +370,7 @@ public class FXMLAdministratorController implements Initializable {
 
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
-    @FXML
-    private ComboBox<enumUzivatel> comboTypUzivatele;
-    @FXML
-    private ComboBox<?> comboUzivatel;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -359,6 +381,25 @@ public class FXMLAdministratorController implements Initializable {
         comboTypUzivatele.setItems(FXCollections.observableArrayList(enumUzivatel.values()));
         comboTypUzivatele.getSelectionModel().selectFirst();
 
+        tableViewAdministratori.setItems(administratoriData);
+        administratori_jmeno.setCellValueFactory(new PropertyValueFactory<>("jmeno"));
+        administratori_prijmeni.setCellValueFactory(new PropertyValueFactory<>("prijmeni"));
+        administratori_datum_narozeni.setCellValueFactory(new PropertyValueFactory<>("datum_narozeni"));
+        administratori_telefon.setCellValueFactory(new PropertyValueFactory<>("telefon"));
+        administratori_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        administratori_prihlasovaci_jmeno.setCellValueFactory(new PropertyValueFactory<>("prihlasovaci_jmeno"));
+        administratori_heslo.setCellValueFactory(new PropertyValueFactory<>("heslo"));
+        administratori_adresa.setCellValueFactory(new PropertyValueFactory<>("adresa"));
+        tableViewAdministratori.setEditable(true);
+        
+        administratori_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+        administratori_prijmeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        administratori_datum_narozeni.setCellFactory(TextFieldTableCell.forTableColumn());
+        administratori_telefon.setCellFactory(TextFieldTableCell.forTableColumn());
+        administratori_email.setCellFactory(TextFieldTableCell.forTableColumn());
+        administratori_prihlasovaci_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
+        administratori_heslo.setCellFactory(TextFieldTableCell.forTableColumn());
+        
         tableViewAdresy.setItems(adresyData);
         adresy_ulice.setCellValueFactory(new PropertyValueFactory<>("ulice"));
         adresy_cislo_popisne.setCellValueFactory(new PropertyValueFactory<>("cisloPopisne"));
@@ -631,8 +672,65 @@ public class FXMLAdministratorController implements Initializable {
     private void obnovit() throws SQLException {
         String sql;
         switch (comboTabulky.getValue()) {
+            case Administratori:
+                ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(true);
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZvirata.setVisible(false);
+
+                administratoriData.clear();
+                cbAdresyData.clear();
+                sql = "SELECT * FROM PO_ADRESY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                    cbAdresyData.add(ad);
+                }
+                sql = "SELECT * FROM PO_ADMINISTRATORI";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Adresy> cbAdresy = new ComboBox<Adresy>();
+                    cbAdresy.setItems(cbAdresyData);
+
+                    Administratori ad = new Administratori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getString(4), rs.getString(5), rs.getString(6),rs.getInt(7), rs.getString(8), rs.getString(9),cbAdresy);
+                    for (Adresy adresa : cbAdresyData) {
+                        if (adresa.getIdAdresy() == ad.getIdAdresy()) {
+                            cbAdresy.getSelectionModel().select(adresa);
+                            break;
+                        }
+                    }
+                    administratoriData.add(ad);
+                }
+                tableViewAdministratori.refresh();
+                break;
             case Adresy:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(true);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -687,6 +785,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Biochemie:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(true);
                 tableViewDiagnozy.setVisible(false);
@@ -724,6 +823,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Diagnozy:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(true);
@@ -761,6 +861,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Dodavatele:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -815,6 +916,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Doktori:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -871,6 +973,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Druhy:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -909,6 +1012,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Faktury:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -983,6 +1087,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case FotoDoktoru:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1042,6 +1147,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case KrevniObrazy:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1081,6 +1187,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Leciva:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1136,6 +1243,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case LogTable:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1175,6 +1283,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Majitele:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1232,6 +1341,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Objednavky:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1291,6 +1401,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Odbery:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1347,6 +1458,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Operace:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1385,6 +1497,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Pohlavi:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1423,6 +1536,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Polozky:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1478,6 +1592,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Posty:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1516,6 +1631,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case TypyPlatby:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1554,6 +1670,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Vysetreni:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1630,6 +1747,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Zakroky:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1706,6 +1824,7 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Zvirata:
                 ///////////////////////////////////////////////////////////////////////
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1874,6 +1993,9 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void button_pridat(ActionEvent event) {
+        //switch(){
+        
+       // }
     }
 
     @FXML

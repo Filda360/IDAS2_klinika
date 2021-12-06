@@ -59,6 +59,18 @@
    <center>
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
+            <TableView fx:id="tableViewAdministratori" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="administratori_jmeno" prefWidth="150.0" text="jmeno" />
+                  <TableColumn fx:id="administratori_prijmeni" prefWidth="150.0" text="prijmeni" />
+                  <TableColumn fx:id="administratori_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
+                  <TableColumn fx:id="administratori_telefon" prefWidth="150.0" text="telefon" />
+                  <TableColumn fx:id="administratori_email" prefWidth="150.0" text="email" />
+                  <TableColumn fx:id="administratori_prihlasovaci_jmeno" prefWidth="150.0" text="prihlasovaci_jmeno" />
+                  <TableColumn fx:id="administratori_heslo" prefWidth="150.0" text="heslo" />
+                  <TableColumn fx:id="administratori_adresa" prefWidth="150.0" text="adresa" />
+               </columns>
+            </TableView>
              <TableView fx:id="tableViewAdresy" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="adresy_ulice" prefWidth="150.0" text="ulice" />
