@@ -14,4 +14,20 @@ public abstract class PrihlasenyUzivatel {
     protected String cisloPopisne;
     protected String mesto;
     protected int psc;
+    protected int IdAdresy;
+    
+    public PrihlasenyUzivatel(){ 
+        
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getIdAdresy() {
+        return IdAdresy;
+    }
+    
+    
+    
 }

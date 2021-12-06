@@ -13,7 +13,7 @@ public class Doktor extends PrihlasenyUzivatel{
     private int plat;
 
 
-    public Doktor(int id, String titul, String delkaUvazku, Date datumNastupu, int plat, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc) {
+    public Doktor(int id, String titul, String delkaUvazku, Date datumNastupu, int plat, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc, int id_adresy) {
         this.id = id;
         this.titul = titul;
         this.delkaUvazku = delkaUvazku;
@@ -28,6 +28,7 @@ public class Doktor extends PrihlasenyUzivatel{
         this.cisloPopisne = cisloPopisne;
         this.mesto = mesto;
         this.psc = psc;
+        this.IdAdresy = id_adresy;
     }
     
     public Doktor() {

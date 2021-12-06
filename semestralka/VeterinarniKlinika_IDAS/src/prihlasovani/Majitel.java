@@ -8,7 +8,7 @@ import java.util.Date;
 public class Majitel extends PrihlasenyUzivatel{
     private Date datumRegistrace;
 
-    public Majitel(int id, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc, Date datumRegistrace) {
+    public Majitel(int id, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc, Date datumRegistrace, int idAdresy) {
         this.datumRegistrace = datumRegistrace;
         this.id = id;
         this.jmeno = jmeno;
@@ -20,6 +20,7 @@ public class Majitel extends PrihlasenyUzivatel{
         this.cisloPopisne = cisloPopisne;
         this.mesto = mesto;
         this.psc = psc;
+        this.IdAdresy = idAdresy;
     }
     
     public Majitel() {

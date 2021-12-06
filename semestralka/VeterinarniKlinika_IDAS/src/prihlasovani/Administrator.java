@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Administrator extends PrihlasenyUzivatel{
     
-    public Administrator(int id, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc) {
+    public Administrator(int id, String jmeno, String prijmeni, Date datumNarozeni, String telefon, String email, String ulice, String cisloPopisne, String mesto, int psc, int id_adresy) {
         this.id = id;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
@@ -16,6 +16,7 @@ public class Administrator extends PrihlasenyUzivatel{
         this.cisloPopisne = cisloPopisne;
         this.mesto = mesto;
         this.psc = psc;
+        this.IdAdresy = id_adresy;
     }
         
     public Administrator(){ 

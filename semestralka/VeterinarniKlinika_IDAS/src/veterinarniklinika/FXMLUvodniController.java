@@ -48,7 +48,7 @@ public class FXMLUvodniController implements Initializable {
     private CallableStatement cst=null;
     private PreparedStatement pstmt=null;
     private ResultSet rs=null;   
-    private static PrihlasenyUzivatel prihlasenyUzivatel = null;
+    public static PrihlasenyUzivatel prihlasenyUzivatel = null;
     
     //Prvky uvodní prihlasovaci obrazovky
     @FXML
@@ -266,7 +266,8 @@ public class FXMLUvodniController implements Initializable {
             String cisloPopisne = rs.getString("CISLO_POPISNE");
             String mesto = rs.getString("MESTO");
             int psc = rs.getInt("PSC");
-            prihlasenyDoktor = new Doktor(id_doktora, titul, delkaUvazku, datumNastupu, plat, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc); 
+            int id_adresy = rs.getInt("ID_ADRESY");
+            prihlasenyDoktor = new Doktor(id_doktora, titul, delkaUvazku, datumNastupu, plat, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc, id_adresy); 
             prihlasenyUzivatel = prihlasenyDoktor;
         }     
     }
@@ -288,7 +289,8 @@ public class FXMLUvodniController implements Initializable {
             String cisloPopisne = rs.getString("CISLO_POPISNE");
             String mesto = rs.getString("MESTO");
             int psc = rs.getInt("PSC");
-            prihlasenyMajitel = new Majitel(id_majitele, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc, datumRegistrace); 
+            int id_adresy = rs.getInt("ID_ADRESY");
+            prihlasenyMajitel = new Majitel(id_majitele, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc, datumRegistrace, id_adresy); 
             prihlasenyUzivatel = prihlasenyMajitel;
         }     
     }
@@ -309,7 +311,8 @@ public class FXMLUvodniController implements Initializable {
             String cisloPopisne = rs.getString("CISLO_POPISNE");
             String mesto = rs.getString("MESTO");
             int psc = rs.getInt("PSC");
-            prihlasenyAdministrator = new Administrator(id_administratora, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc); 
+            int id_adresy = rs.getInt("ID_ADRESY");
+            prihlasenyAdministrator = new Administrator(id_administratora, jmeno, prijmeni, datumNarozeni, telefon, email, ulice, cisloPopisne, mesto, psc, id_adresy); 
             prihlasenyUzivatel = prihlasenyAdministrator;
         }     
     }
