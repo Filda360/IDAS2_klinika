@@ -129,7 +129,7 @@ public class Majitele {
     
     @Override
     public String toString() {
-        return jmeno+", "+prijmeni;
+        return jmeno+" "+prijmeni;
     }
     
 }

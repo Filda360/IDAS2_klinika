@@ -154,11 +154,8 @@ public class FXMLRegistraceController implements Initializable {
                         zobrazErrorDialog("Ups neco se nepovedlo, SQL exception !",ex.getMessage());
                     }    
                 }
-            }
-                            
+            }                
         }
-        
-        
     }
 
     @FXML
