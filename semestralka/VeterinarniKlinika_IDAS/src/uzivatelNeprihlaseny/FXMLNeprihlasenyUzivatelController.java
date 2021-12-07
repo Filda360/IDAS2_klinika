@@ -74,28 +74,9 @@ public class FXMLNeprihlasenyUzivatelController implements Initializable {
         }
     }    
 
-    //zkouska vlozeni obrazku do databaze
+    //vlozeni obrazku do databaze
     private void handleBtnOdeslatOnAction(ActionEvent event) {
-        try {
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO FOTO_DOKTORU(nazev, typ_souboru, pripona, obsah, id_doktora) VALUES(?,?,?,?,?)");
-            pstmt.setString(1, "jana");
-            pstmt.setString(2, "obrazek");
-            pstmt.setString(3, ".jpg");
-            //pstmt.setDate(4, new Date(50, 5, 5));
-            //Inserting Blob type
-            InputStream in;
-            try {
-                in = new FileInputStream("C:\\users\\42060\\Downloads\\jana.jpg");
-                pstmt.setBlob(4, in);
-            } catch (FileNotFoundException ex) {
-                zobrazErrorDialog("Chyba", "Obrazek nenalezen");
-            }
-            pstmt.setInt(5, 24);
-            pstmt.execute();
-
-        } catch (SQLException ex) {
-            zobrazErrorDialog("Chyba", "Chyba vlozeni obrazku");
-        }
+        
     }
 
     @FXML
