@@ -2223,7 +2223,7 @@ public class FXMLAdministratorController implements Initializable {
         switch (comboTabulky.getValue()) {
             case Administratori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                try {
+                try {
                 ObservableList<Administratori> adminL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_ADMINISTRATORI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2303,13 +2303,13 @@ public class FXMLAdministratorController implements Initializable {
                 }
                 cst.executeUpdate();
                 tableViewAdministratori.refresh();
-//                } catch (Exception ex) {
-//                    if(ex.getMessage()!=""){
-//                    Bezpecnost.vypisChybu(ex.getMessage());
-//                    }else{
-//                    Bezpecnost.vypisChybu("Chybna vstupni pole");
-//                    }
-//                }
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Adresy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
