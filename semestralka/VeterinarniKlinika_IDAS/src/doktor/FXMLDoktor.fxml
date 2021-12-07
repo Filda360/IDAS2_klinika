@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doktor.FXMLDoktorController">
+<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doktor.FXMLDoktorController">
    <top>
       <VBox prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -37,6 +37,7 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
+            <Button fx:id="btnPridejFotku" mnemonicParsing="false" onAction="#btnFotkuOnAction" text="přidej fotku" />
             <Button fx:id="btnVystavitFakturu" mnemonicParsing="false" onAction="#handleBtnVystavitFakturuOnAction" prefWidth="105.0" text="vystavit fakturu" />
             <Button fx:id="btnMojeUdaje" mnemonicParsing="false" onAction="#handleBtnMojeUdajeOnAction" text="moje údaje" />
             <Button fx:id="btnOdhlasit" mnemonicParsing="false" onAction="#handleBtnOdhlasitOnAction" text="odhlásit" />

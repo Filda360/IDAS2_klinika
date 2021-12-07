@@ -26,8 +26,12 @@ import dataTridy.VysetreniOld;
 import dataTridy.ZakrokOld;
 import dataTridy.Zakroky;
 import dataTridy.Zvirata;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 //import static doktor.FXMLDoktorController.zakrokData;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,6 +53,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -58,6 +64,7 @@ import utils.enumTabulky;
 import utils.enumUzivatel;
 import veterinarniklinika.FXMLUvodniController;
 import veterinarniklinika.VeterinarniKlinika;
+import static veterinarniklinika.VeterinarniKlinika.con;
 
 public class FXMLDoktorController implements Initializable {
 
@@ -370,6 +377,8 @@ public class FXMLDoktorController implements Initializable {
 
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
+    @FXML
+    private Button btnPridejFotku;
     
 
     @Override
@@ -2004,6 +2013,53 @@ public class FXMLDoktorController implements Initializable {
 
     @FXML
     private void button_ulozit(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnFotkuOnAction(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("jpg file (*jpg)", "*.jpg");
+        fileChooser.getExtensionFilters().add(extFilter);
+        
+        File file = fileChooser.showOpenDialog(null);
+              
+        Image image;
+        
+        try{
+            if(file!=null){ 
+            image = new Image(file.toURI().toString());
+            if(image.isError() || image==null){ 
+                throw new Exception("Špatný obrazek");
+            }
+            try {
+                PreparedStatement pstmt = con.prepareStatement("INSERT INTO FOTO_DOKTORU(nazev, typ_souboru, pripona, obsah, id_doktora) VALUES(?,?,?,?,?)");
+                pstmt.setString(1, file.getName());
+                pstmt.setString(2, "obrazek");
+                pstmt.setString(3, ".jpg");
+                //pstmt.setDate(4, new Date(50, 5, 5));
+                //Inserting Blob type
+                InputStream in;
+                try {
+                    in = new FileInputStream(file);
+                    pstmt.setBlob(4, in);
+                } catch (FileNotFoundException ex) {
+                    zobrazErrorDialog("Chyba", "Obrazek nenalezen");
+                }
+                pstmt.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                pstmt.execute();
+
+            } catch (SQLException ex) {
+                zobrazErrorDialog("Chyba", "Chyba vlozeni obrazku");
+            }
+        }
+        }catch(Exception e){ 
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("nezdařilo se načtení obrázku !");
+            alert.showAndWait();
+        }
+        
+
     }
 
 }
