@@ -2126,45 +2126,243 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case KrevniObrazy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                KrevniObrazy krev = new KrevniObrazy(-1, 0, 0, 0, 0);
+                krevniObrazyData.add(krev);
+                tableViewKrevniObrazy.refresh();
+                tableViewKrevniObrazy.getSelectionModel().select(krev);
                 break;
             case Leciva:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Dodavatele> cbDodavateleD = FXCollections.observableArrayList();
+                ComboBox<Dodavatele> cbDodavatele = new ComboBox<>(cbDodavateleD);
+                sql = "SELECT * FROM PO_DODAVATELE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Dodavatele dod1 = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getInt(5),null);
+                    cbDodavateleD.add(dod1);
+                }
+                cbDodavatele.getSelectionModel().selectFirst();
+                Leciva lec = new Leciva(-1, "", "",0, "",0,cbDodavatele);
+                lecivaData.add(lec);
+                tableViewLeciva.refresh();
+                tableViewLeciva.getSelectionModel().select(lec);
                 break;
             case LogTable:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                
                 break;
             case Majitele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Adresy> cbAdresyD4 = FXCollections.observableArrayList();
+                ComboBox<Adresy> cbAdresy4 = new ComboBox<>(cbAdresyD4);
+                sql = "SELECT * FROM PO_ADRESY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Adresy ad4 = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                    cbAdresyD4.add(ad4);
+                }
+                cbAdresy4.getSelectionModel().selectFirst();
+                Majitele maj = new Majitele(-1, "01-01-2000",
+                            "", "", "01-01-2000",
+                            "", "", -1,"", "", cbAdresy4);
+                majiteleData.add(maj);
+                tableViewMajitele.refresh();
+                tableViewMajitele.getSelectionModel().select(maj);
                 break;
             case Objednavky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Majitele> cbMajiteleD2 = FXCollections.observableArrayList();
+                ComboBox<Majitele> cbMajitele2= new ComboBox<>(cbMajiteleD2);
+                sql = "SELECT * FROM PO_MAJITELE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Majitele maj2 = new Majitele(rs.getInt(1), rs.getDate(2).toString(),
+                            rs.getString(3), rs.getString(4), rs.getDate(5).toString(),
+                            rs.getString(6), rs.getString(7), rs.getInt(8),
+                            rs.getString(9), rs.getString(10), null);
+                    cbMajiteleD2.add(maj2);
+                }
+                cbMajitele2.getSelectionModel().selectFirst();
+                Objednavky obj = new Objednavky(-1, "", "",
+                            -1, cbMajitele2);
+                objednavkyData.add(obj);
+                tableViewObjednavky.refresh();
+                tableViewObjednavky.getSelectionModel().select(obj);
                 break;
             case Odbery:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Zvirata> cbZvirataD = FXCollections.observableArrayList();
+                ComboBox<Zvirata> cbZvirata= new ComboBox<>(cbZvirataD);
+                sql = "SELECT * FROM PO_ZVIRATA";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getDate(3).toString(),
+                            rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getInt(7),
+                            rs.getInt(8), rs.getInt(9), rs.getInt(10), null, null, null, null);
+                    cbZvirataD.add(zv);
+                }
+                cbZvirata.getSelectionModel().selectFirst();
+                Odbery od = new Odbery("01-01-2000", -1,-1, "", cbZvirata);
+                odberyData.add(od);
+                tableViewOdbery.refresh();
+                tableViewOdbery.getSelectionModel().select(od);
                 break;
             case Operace:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Operace op = new Operace(-1, "","", 0, "");
+                operaceData.add(op);
+                tableViewOperace.refresh();
+                tableViewOperace.getSelectionModel().select(op);
                 break;
             case Pohlavi:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Pohlavi po = new Pohlavi(-1, "");
+                pohlaviData.add(po);
+                tableViewPohlavi.refresh();
+                tableViewPohlavi.getSelectionModel().select(po);
                 break;
             case Polozky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Faktury> cbFakturyD = FXCollections.observableArrayList();
+                ComboBox<Faktury> cbFaktury= new ComboBox<>(cbFakturyD);
+                sql = "SELECT * FROM PO_FAKTURY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Faktury fakt = new Faktury(rs.getInt(1), rs.getDate(2).toString(), rs.getDate(3).toString(),
+                            rs.getString(4), rs.getInt(5), rs.getInt(6), null, null);
+                    cbFakturyD.add(fakt);
+                }
+                cbFaktury.getSelectionModel().selectFirst();
+                Polozky polo = new Polozky(-1, "",0, 0, -1,cbFaktury);
+                polozkyData.add(polo);
+                tableViewPolozky.refresh();
+                tableViewPolozky.getSelectionModel().select(polo);
                 break;
             case Posty:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Posty post = new Posty(-1, "","");
+                postyData.add(post);
+                tableViewPosty.refresh();
+                tableViewPosty.getSelectionModel().select(post);
                 break;
             case TypyPlatby:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                TypyPlatby typy = new TypyPlatby(-1, "");
+                typyPlatbyData.add(typy);
+                tableViewTypyPlatby.refresh();
+                tableViewTypyPlatby.getSelectionModel().select(typy);
                 break;
             case Vysetreni:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Diagnozy> cbDiagnozyD = FXCollections.observableArrayList();
+                ComboBox<Diagnozy> cbDiagnozy = new ComboBox<>(cbDiagnozyD);
+                sql = "SELECT * FROM PO_DIAGNOZY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Diagnozy diagn = new Diagnozy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                    cbDiagnozyD.add(diagn);
+                }
+                cbDiagnozy.getSelectionModel().selectFirst();
+                
+                ObservableList<Zvirata> cbZvirataD2 = FXCollections.observableArrayList();
+                ComboBox<Zvirata> cbZvirata2= new ComboBox<>(cbZvirataD2);
+                sql = "SELECT * FROM PO_ZVIRATA";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getDate(3).toString(),
+                            rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getInt(7),
+                            rs.getInt(8), rs.getInt(9), rs.getInt(10), null, null, null, null);
+                    cbZvirataD2.add(zv);
+                }
+                cbZvirata2.getSelectionModel().selectFirst();
+                
+                
+                Vysetreni vys = new Vysetreni(-1, "01-01-2000", "",
+                            -1, -1, cbDiagnozy, cbZvirata2);
+                vysetreniData.add(vys);
+                tableViewVysetreni.refresh();
+                tableViewVysetreni.getSelectionModel().select(vys);
                 break;
             case Zakroky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Operace> cbOperaceD = FXCollections.observableArrayList();
+                ComboBox<Operace> cbOperace = new ComboBox<>(cbOperaceD);
+                sql = "SELECT * FROM PO_OPERACE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Operace oper = new Operace(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4),rs.getString(5));
+                    cbOperaceD.add(oper);
+                }
+                cbOperace.getSelectionModel().selectFirst();
+                
+                ObservableList<Zvirata> cbZvirataD3 = FXCollections.observableArrayList();
+                ComboBox<Zvirata> cbZvirata3= new ComboBox<>(cbZvirataD3);
+                sql = "SELECT * FROM PO_ZVIRATA";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getDate(3).toString(),
+                            rs.getDouble(4), rs.getString(5), rs.getString(6), rs.getInt(7),
+                            rs.getInt(8), rs.getInt(9), rs.getInt(10), null, null, null, null);
+                    cbZvirataD3.add(zv);
+                }
+                cbZvirata3.getSelectionModel().selectFirst();
+                
+                
+                Zakroky zak = new Zakroky(-1, "01-01-2000", "",
+                            -1, -1, cbZvirata3, cbOperace);
+                zakrokyData.add(zak);
+                tableViewZakroky.refresh();
+                tableViewZakroky.getSelectionModel().select(zak);
                 break;
             case Zvirata:
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Majitele> cbMajiteleD3 = FXCollections.observableArrayList();
+                ComboBox<Majitele> cbMajitele3= new ComboBox<>(cbMajiteleD3);
+                sql = "SELECT * FROM PO_MAJITELE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Majitele maj2 = new Majitele(rs.getInt(1), rs.getDate(2).toString(),
+                            rs.getString(3), rs.getString(4), rs.getDate(5).toString(),
+                            rs.getString(6), rs.getString(7), rs.getInt(8),
+                            rs.getString(9), rs.getString(10), null);
+                    cbMajiteleD3.add(maj2);
+                }
+                cbMajitele3.getSelectionModel().selectFirst();
+                
+                ObservableList<Doktori> cbDoktoriD = FXCollections.observableArrayList();
+                ComboBox<Doktori> cbDoktori= new ComboBox<>(cbDoktoriD);
+                sql = "SELECT * FROM PO_DOKTORI";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Doktori dokt = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getDate(4).toString(), rs.getDouble(5), rs.getString(6), rs.getString(7),
+                            rs.getDate(8).toString(), rs.getString(9), rs.getString(10), rs.getInt(11),
+                            rs.getString(12), rs.getString(13), null);
+                    cbDoktoriD.add(dokt);
+                }
         }
     }
 
