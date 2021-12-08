@@ -488,7 +488,7 @@ public class FXMLAdministratorController implements Initializable {
         foto_doktoru_datum_nahrani.setCellValueFactory(new PropertyValueFactory<>("datumNahrani"));
         foto_doktoru_obsah.setCellValueFactory(new PropertyValueFactory<>("obsah"));
         foto_doktoru_doktor.setCellValueFactory(new PropertyValueFactory<>("doktori"));
-        tableViewFotoDoktoru.setEditable(true);
+        tableViewFotoDoktoru.setEditable(false);
 
         foto_doktoru_nazev.setCellFactory(TextFieldTableCell.forTableColumn());
         foto_doktoru_typ_souboru.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -2023,28 +2023,103 @@ public class FXMLAdministratorController implements Initializable {
                     cbPostyD.add(po);
                 }
                 cbPosty.getSelectionModel().selectFirst();
-                Adresy data = new Adresy(-1, "", "", -1, cbPosty);
-                adresyData.add(data);
+                Adresy adr = new Adresy(-1, "", "", -1, cbPosty);
+                adresyData.add(adr);
                 tableViewAdresy.refresh();
-                tableViewAdresy.getSelectionModel().select(data);
+                tableViewAdresy.getSelectionModel().select(adr);
                 break;
             case Biochemie:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Biochemie bio = new Biochemie(-1, 0, 0, 0, 0, 0);
+                biochemieData.add(bio);
+                tableViewBiochemie.refresh();
+                tableViewBiochemie.getSelectionModel().select(bio);
                 break;
             case Diagnozy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Diagnozy diag = new Diagnozy(-1, "", "", 0);
+                diagnozyData.add(diag);
+                tableViewDiagnozy.refresh();
+                tableViewDiagnozy.getSelectionModel().select(diag);
                 break;
             case Dodavatele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Adresy> cbAdresyD2 = FXCollections.observableArrayList();
+                ComboBox<Adresy> cbAdresy2 = new ComboBox<>(cbAdresyD2);
+                sql = "SELECT * FROM PO_ADRESY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Adresy ad2 = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                    cbAdresyD2.add(ad2);
+                }
+                cbAdresy2.getSelectionModel().selectFirst();
+                Dodavatele dod = new Dodavatele(-1, "", "","", 0,cbAdresy2);
+                dodavateleData.add(dod);
+                tableViewDodavatele.refresh();
+                tableViewDodavatele.getSelectionModel().select(dod);
                 break;
             case Doktori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Adresy> cbAdresyD3 = FXCollections.observableArrayList();
+                ComboBox<Adresy> cbAdresy3 = new ComboBox<>(cbAdresyD3);
+                sql = "SELECT * FROM PO_ADRESY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Adresy ad3 = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                    cbAdresyD3.add(ad3);
+                }
+                cbAdresy3.getSelectionModel().selectFirst();
+                Doktori dok = new Doktori(-1, "", "","", 0,"", "","","", "",0,"", "",cbAdresy3);
+                doktoriData.add(dok);
+                tableViewDoktori.refresh();
+                tableViewDoktori.getSelectionModel().select(dok);
                 break;
             case Druhy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Druhy druh = new Druhy(-1, "");
+                druhyData.add(druh);
+                tableViewDruhy.refresh();
+                tableViewDruhy.getSelectionModel().select(druh);
                 break;
             case Faktury:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Majitele> cbMajiteleD = FXCollections.observableArrayList();
+                ComboBox<Majitele> cbMajitele = new ComboBox<>(cbMajiteleD);
+                sql = "SELECT * FROM PO_MAJITELE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Majitele maj = new Majitele(rs.getInt(1), rs.getDate(2).toString(),
+                            rs.getString(3), rs.getString(4), rs.getDate(5).toString(),
+                            rs.getString(6), rs.getString(7), rs.getInt(8),
+                            rs.getString(9), rs.getString(10), null);
+                    cbMajiteleD.add(maj);
+                }
+                cbMajitele.getSelectionModel().selectFirst();
+                
+                ObservableList<TypyPlatby> cbTypyPlatbyD = FXCollections.observableArrayList();
+                ComboBox<TypyPlatby> cbTypyPlatby = new ComboBox<>(cbTypyPlatbyD);
+                sql = "SELECT * FROM PO_TYPY_PLATBY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    TypyPlatby typ = new TypyPlatby(rs.getInt(1), rs.getString(2));
+                    cbTypyPlatbyD.add(typ);
+                }
+                cbMajitele.getSelectionModel().selectFirst();
+                
+                
+                Faktury fak = new Faktury(-1, "01-01-2000", "01-01-2000",
+                            "", -1, -1, cbMajitele, cbTypyPlatby);
+                fakturyData.add(fak);
+                tableViewFaktury.refresh();
+                tableViewFaktury.getSelectionModel().select(fak);
                 break;
             case FotoDoktoru:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2496,110 +2571,353 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void biochemie_urea_edit(TableColumn.CellEditEvent<Biochemie, Double> event) {
+        try {
+            tableViewBiochemie.getItems().get(event.getTablePosition().getRow()).setUrea(event.getNewValue());
+            tableViewBiochemie.refresh();
+        } catch (Exception e) {
+            tableViewBiochemie.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void biochemie_kreatinin_edit(TableColumn.CellEditEvent<Biochemie, Double> event) {
+        try {
+            tableViewBiochemie.getItems().get(event.getTablePosition().getRow()).setKreatinin(event.getNewValue());
+            tableViewBiochemie.refresh();
+        } catch (Exception e) {
+            tableViewBiochemie.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void biochemie_bilirubin_edit(TableColumn.CellEditEvent<Biochemie, Double> event) {
+    try {
+            tableViewBiochemie.getItems().get(event.getTablePosition().getRow()).setBilirubin(event.getNewValue());
+            tableViewBiochemie.refresh();
+        } catch (Exception e) {
+            tableViewBiochemie.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void biochemie_ast_edit(TableColumn.CellEditEvent<Biochemie, Double> event) {
+    try {
+            tableViewBiochemie.getItems().get(event.getTablePosition().getRow()).setAst(event.getNewValue());
+            tableViewBiochemie.refresh();
+        } catch (Exception e) {
+            tableViewBiochemie.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void biochemie_alt_edit(TableColumn.CellEditEvent<Biochemie, Double> event) {
+    try {
+            tableViewBiochemie.getItems().get(event.getTablePosition().getRow()).setAlt(event.getNewValue());
+            tableViewBiochemie.refresh();
+        } catch (Exception e) {
+            tableViewBiochemie.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void diagnozy_nazev_edit(TableColumn.CellEditEvent<Diagnozy, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDiagnozy.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
+            tableViewDiagnozy.refresh();
+        } catch (Exception e) {
+            tableViewDiagnozy.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void diagnozy_oznaceni_edit(TableColumn.CellEditEvent<Diagnozy, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDiagnozy.getItems().get(event.getTablePosition().getRow()).setOznaceni(event.getNewValue());
+            tableViewDiagnozy.refresh();
+        } catch (Exception e) {
+            tableViewDiagnozy.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void diagnozy_stupen_zavaznosti_edit(TableColumn.CellEditEvent<Diagnozy, Integer> event) {
+    try {
+            tableViewDiagnozy.getItems().get(event.getTablePosition().getRow()).setStupenZavaznosti(event.getNewValue());
+            tableViewDiagnozy.refresh();
+        } catch (Exception e) {
+            tableViewDiagnozy.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void dodavatele_nazev_edit(TableColumn.CellEditEvent<Dodavatele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDodavatele.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
+            tableViewDodavatele.refresh();
+        } catch (Exception e) {
+            tableViewDodavatele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void dodavatele_telefon_edit(TableColumn.CellEditEvent<Dodavatele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDodavatele.getItems().get(event.getTablePosition().getRow()).setTelefon(event.getNewValue());
+            tableViewDodavatele.refresh();
+        } catch (Exception e) {
+            tableViewDodavatele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void dodavatele_email_edit(TableColumn.CellEditEvent<Dodavatele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDodavatele.getItems().get(event.getTablePosition().getRow()).setEmail(event.getNewValue());
+            tableViewDodavatele.refresh();
+        } catch (Exception e) {
+            tableViewDodavatele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_jmeno_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setJmeno(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_prijmeni_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setPrijmeni(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_titul_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setTitul(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_delka_uvazku_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+        try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setDelkaUvazku(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_datum_nastupu_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setDatumNastupu(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_plat_edit(TableColumn.CellEditEvent<Doktori, Integer> event) {
+    try {
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setPlat(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_datum_narozeni_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+        try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setDatumNarozeni(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_telefon_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setTelefon(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_email_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setEmail(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_prihlasovaci_jmeno_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setPrihlasovaciJmeno(event.getNewValue());
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void doktori_heslo_edit(TableColumn.CellEditEvent<Doktori, String> event) {
+    try {
+            String heslo = event.getNewValue();
+            if (!Bezpecnost.jeHesloDostatecne(heslo)) {
+                throw new Exception("Heslo není dostatečně silné, je požadováno alespoň jedno velké písmeno, malé písmeno a číslo, minimální délka je 6 znaků !");
+            }
+            heslo = Bezpecnost.dejHash(heslo.getBytes());
+
+            tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setHeslo(heslo);
+            tableViewDoktori.refresh();
+        } catch (Exception e) {
+            tableViewDoktori.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void druhy_druh_edit(TableColumn.CellEditEvent<Druhy, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewDruhy.getItems().get(event.getTablePosition().getRow()).setDruh(event.getNewValue());
+            tableViewDruhy.refresh();
+        } catch (Exception e) {
+            tableViewDruhy.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void faktury_datum_vystaveni_edit(TableColumn.CellEditEvent<Faktury, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewFaktury.getItems().get(event.getTablePosition().getRow()).setDatumVystaveni(event.getNewValue());
+            tableViewFaktury.refresh();
+        } catch (Exception e) {
+            tableViewFaktury.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void faktury_datum_splatnosti_edit(TableColumn.CellEditEvent<Faktury, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewFaktury.getItems().get(event.getTablePosition().getRow()).setDatumSplatnosti(event.getNewValue());
+            tableViewFaktury.refresh();
+        } catch (Exception e) {
+            tableViewFaktury.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void faktury_stav_edit(TableColumn.CellEditEvent<Faktury, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewFaktury.getItems().get(event.getTablePosition().getRow()).setStav(event.getNewValue());
+            tableViewFaktury.refresh();
+        } catch (Exception e) {
+            tableViewFaktury.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void foto_doktoru_nazev_edit(TableColumn.CellEditEvent<FotoDoktoru, String> event) {
+    
     }
 
     @FXML
@@ -2616,122 +2934,403 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void krevni_obrazy_erytrocyty_edit(TableColumn.CellEditEvent<KrevniObrazy, Double> event) {
+    try {
+        
+            tableViewKrevniObrazy.getItems().get(event.getTablePosition().getRow()).setErytrocyty(event.getNewValue());
+            tableViewKrevniObrazy.refresh();
+        } catch (Exception e) {
+            tableViewKrevniObrazy.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void krevni_obrazy_leukocyty_edit(TableColumn.CellEditEvent<KrevniObrazy, Double> event) {
+    try {
+        
+            tableViewKrevniObrazy.getItems().get(event.getTablePosition().getRow()).setLeukocyty(event.getNewValue());
+            tableViewKrevniObrazy.refresh();
+        } catch (Exception e) {
+            tableViewKrevniObrazy.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void krevni_obrazy_trombocyty_edit(TableColumn.CellEditEvent<KrevniObrazy, Double> event) {
+    try {
+            tableViewKrevniObrazy.getItems().get(event.getTablePosition().getRow()).setTrombocyty(event.getNewValue());
+            tableViewKrevniObrazy.refresh();
+        } catch (Exception e) {
+            tableViewKrevniObrazy.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void krevni_obrazy_hemoglobin_edit(TableColumn.CellEditEvent<KrevniObrazy, Double> event) {
+    try {
+            tableViewKrevniObrazy.getItems().get(event.getTablePosition().getRow()).setHemoglobin(event.getNewValue());
+            tableViewKrevniObrazy.refresh();
+        } catch (Exception e) {
+            tableViewKrevniObrazy.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void leciva_nazev_edit(TableColumn.CellEditEvent<Leciva, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewLeciva.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
+            tableViewLeciva.refresh();
+        } catch (Exception e) {
+            tableViewLeciva.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void leciva_datum_expirace_edit(TableColumn.CellEditEvent<Leciva, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewLeciva.getItems().get(event.getTablePosition().getRow()).setDatumExpirace(event.getNewValue());
+            tableViewLeciva.refresh();
+        } catch (Exception e) {
+            tableViewLeciva.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void leciva_pocet_skladem_edit(TableColumn.CellEditEvent<Leciva, Integer> event) {
+    try {
+        
+            tableViewLeciva.getItems().get(event.getTablePosition().getRow()).setPocetSkladem(event.getNewValue());
+            tableViewLeciva.refresh();
+        } catch (Exception e) {
+            tableViewLeciva.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void leciva_popis_edit(TableColumn.CellEditEvent<Leciva, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewLeciva.getItems().get(event.getTablePosition().getRow()).setPopis(event.getNewValue());
+            tableViewLeciva.refresh();
+        } catch (Exception e) {
+            tableViewLeciva.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void majitele_jmeno_edit(TableColumn.CellEditEvent<Majitele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setJmeno(event.getNewValue());
+            tableViewMajitele.refresh();
+        } catch (Exception e) {
+            tableViewMajitele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void majitele_prijmeni_edit(TableColumn.CellEditEvent<Majitele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setPrijmeni(event.getNewValue());
+            tableViewMajitele.refresh();
+        } catch (Exception e) {
+            tableViewMajitele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void majitele_datum_registrace_edit(TableColumn.CellEditEvent<Majitele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setDatumRegistrace(event.getNewValue());
+            tableViewMajitele.refresh();
+        } catch (Exception e) {
+            tableViewMajitele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void majitele_datum_narozeni_edit(TableColumn.CellEditEvent<Majitele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setDatumNarozeni(event.getNewValue());
+            tableViewMajitele.refresh();
+        } catch (Exception e) {
+            tableViewMajitele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void majitele_telefon_edit(TableColumn.CellEditEvent<Majitele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setTelefon(event.getNewValue());
+            tableViewMajitele.refresh();
+        } catch (Exception e) {
+            tableViewMajitele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void majitele_email_edit(TableColumn.CellEditEvent<Majitele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setEmail(event.getNewValue());
+            tableViewMajitele.refresh();
+        } catch (Exception e) {
+            tableViewMajitele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void majitele_prihlasovaci_jmeno_edit(TableColumn.CellEditEvent<Majitele, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setPrihlasovaciJmeno(event.getNewValue());
+            tableViewMajitele.refresh();
+        } catch (Exception e) {
+            tableViewMajitele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void majitele_heslo_edit(TableColumn.CellEditEvent<Majitele, String> event) {
+    try {
+        String heslo = event.getNewValue();
+            if (!Bezpecnost.jeHesloDostatecne(heslo)) {
+                throw new Exception("Heslo není dostatečně silné, je požadováno alespoň jedno velké písmeno, malé písmeno a číslo, minimální délka je 6 znaků !");
+            }
+            heslo = Bezpecnost.dejHash(heslo.getBytes());
+            tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setHeslo(heslo);
+            tableViewMajitele.refresh();
+        } catch (Exception e) {
+            tableViewMajitele.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void objednavky_pricina_edit(TableColumn.CellEditEvent<Objednavky, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewObjednavky.getItems().get(event.getTablePosition().getRow()).setPricina(event.getNewValue());
+            tableViewObjednavky.refresh();
+        } catch (Exception e) {
+            tableViewObjednavky.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void objednavky_termin_edit(TableColumn.CellEditEvent<Objednavky, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewObjednavky.getItems().get(event.getTablePosition().getRow()).setTermin(event.getNewValue());
+            tableViewObjednavky.refresh();
+        } catch (Exception e) {
+            tableViewObjednavky.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void odbery_datum_edit(TableColumn.CellEditEvent<Odbery, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewOdbery.getItems().get(event.getTablePosition().getRow()).setDatum(event.getNewValue());
+            tableViewOdbery.refresh();
+        } catch (Exception e) {
+            tableViewOdbery.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void odbery_poznamka_edit(TableColumn.CellEditEvent<Odbery, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewOdbery.getItems().get(event.getTablePosition().getRow()).setPoznamka(event.getNewValue());
+            tableViewOdbery.refresh();
+        } catch (Exception e) {
+            tableViewOdbery.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void operace_nazev_edit(TableColumn.CellEditEvent<Operace, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewOperace.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
+            tableViewOperace.refresh();
+        } catch (Exception e) {
+            tableViewOperace.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void operace_oznaceni_edit(TableColumn.CellEditEvent<Operace, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewOperace.getItems().get(event.getTablePosition().getRow()).setOznaceni(event.getNewValue());
+            tableViewOperace.refresh();
+        } catch (Exception e) {
+            tableViewOperace.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void operace_delka_edit(TableColumn.CellEditEvent<Operace, Double> event) {
+    try {
+            tableViewOperace.getItems().get(event.getTablePosition().getRow()).setDelka(event.getNewValue());
+            tableViewOperace.refresh();
+        } catch (Exception e) {
+            tableViewOperace.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void operace_riziko_edit(TableColumn.CellEditEvent<Operace, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewOperace.getItems().get(event.getTablePosition().getRow()).setRiziko(event.getNewValue());
+            tableViewOperace.refresh();
+        } catch (Exception e) {
+            tableViewOperace.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void pohlavi_pohlavi_edit(TableColumn.CellEditEvent<Pohlavi, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewPohlavi.getItems().get(event.getTablePosition().getRow()).setPohlavi(event.getNewValue());
+            tableViewPohlavi.refresh();
+        } catch (Exception e) {
+            tableViewPohlavi.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void polozky_nazev_edit(TableColumn.CellEditEvent<Polozky, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewPolozky.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
+            tableViewPolozky.refresh();
+        } catch (Exception e) {
+            tableViewPolozky.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void polozky_pocet_edit(TableColumn.CellEditEvent<Polozky, Integer> event) {
+    try {
+            tableViewPolozky.getItems().get(event.getTablePosition().getRow()).setPocet(event.getNewValue());
+            tableViewPolozky.refresh();
+        } catch (Exception e) {
+            tableViewPolozky.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void polozky_cena_edit(TableColumn.CellEditEvent<Polozky, Integer> event) {
+    try {
+            tableViewPolozky.getItems().get(event.getTablePosition().getRow()).setCena(event.getNewValue());
+            tableViewPolozky.refresh();
+        } catch (Exception e) {
+            tableViewPolozky.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void posty_mesto_edit(TableColumn.CellEditEvent<Posty, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewPosty.getItems().get(event.getTablePosition().getRow()).setMesto(event.getNewValue());
+            tableViewPosty.refresh();
+        } catch (Exception e) {
+            tableViewPosty.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void posty_psc_edit(TableColumn.CellEditEvent<Posty, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewPosty.getItems().get(event.getTablePosition().getRow()).setPSC(event.getNewValue());
+            tableViewPosty.refresh();
+        } catch (Exception e) {
+            tableViewPosty.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
