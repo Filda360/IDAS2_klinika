@@ -3335,42 +3335,139 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void typy_platby_typ_edit(TableColumn.CellEditEvent<TypyPlatby, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewTypyPlatby.getItems().get(event.getTablePosition().getRow()).setTyp(event.getNewValue());
+            tableViewTypyPlatby.refresh();
+        } catch (Exception e) {
+            tableViewTypyPlatby.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void vysetreni_datum_edit(TableColumn.CellEditEvent<Vysetreni, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewVysetreni.getItems().get(event.getTablePosition().getRow()).setDatum(event.getNewValue());
+            tableViewVysetreni.refresh();
+        } catch (Exception e) {
+            tableViewVysetreni.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void vysetreni_poznamka_edit(TableColumn.CellEditEvent<Vysetreni, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewVysetreni.getItems().get(event.getTablePosition().getRow()).setPoznamka(event.getNewValue());
+            tableViewVysetreni.refresh();
+        } catch (Exception e) {
+            tableViewVysetreni.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void zakroky_datum_edit(TableColumn.CellEditEvent<Zakroky, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewZakroky.getItems().get(event.getTablePosition().getRow()).setDatum(event.getNewValue());
+            tableViewZakroky.refresh();
+        } catch (Exception e) {
+            tableViewZakroky.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void zakroky_poznamka_edit(TableColumn.CellEditEvent<Zakroky, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewZakroky.getItems().get(event.getTablePosition().getRow()).setPoznamka(event.getNewValue());
+            tableViewZakroky.refresh();
+        } catch (Exception e) {
+            tableViewZakroky.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void zvirata_jmeno_edit(TableColumn.CellEditEvent<Zvirata, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setJmeno(event.getNewValue());
+            tableViewZvirata.refresh();
+        } catch (Exception e) {
+            tableViewZvirata.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void zvirata_datum_narozeni_edit(TableColumn.CellEditEvent<Zvirata, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setDatumNarozeni(event.getNewValue());
+            tableViewZvirata.refresh();
+        } catch (Exception e) {
+            tableViewZvirata.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void zvirata_vaha_edit(TableColumn.CellEditEvent<Zvirata, Double> event) {
+    try {
+            tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setVaha(event.getNewValue());
+            tableViewZvirata.refresh();
+        } catch (Exception e) {
+            tableViewZvirata.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void zvirata_poznamka_edit(TableColumn.CellEditEvent<Zvirata, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setPoznamka(event.getNewValue());
+            tableViewZvirata.refresh();
+        } catch (Exception e) {
+            tableViewZvirata.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
     private void zvirata_cislo_cipu_edit(TableColumn.CellEditEvent<Zvirata, String> event) {
+    try {
+        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+                throw new Exception("Obsahuje nebezpecne znaky");
+            }
+            tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setCisloCipu(event.getNewValue());
+            tableViewZvirata.refresh();
+        } catch (Exception e) {
+            tableViewZvirata.refresh();
+            Bezpecnost.vypisChybu(e.getMessage());
+        }
     }
 
     @FXML
