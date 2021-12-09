@@ -49,12 +49,13 @@
    <right>
       <VBox alignment="CENTER" maxWidth="200.0" prefHeight="321.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
+            <Label fx:id="labelImg" alignment="CENTER" />
             <ImageView fx:id="iwDoktor" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@man.jpg" />
                </image>
             </ImageView>
-            <Label fx:id="labelImg" text="default" />
+            <Label text="s čím vám mohu pomoci ?" />
          </children>
       </VBox>
    </right>
