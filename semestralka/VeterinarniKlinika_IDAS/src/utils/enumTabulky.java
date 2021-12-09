@@ -9,6 +9,7 @@ package utils;
  *
  * @author tzlat
  */
+//TABULKY KE KTERÝM MÁ PŘÍSTUP ADMIN
 public enum enumTabulky {
     Administratori,Adresy,Biochemie,Diagnozy,Dodavatele,Doktori,Druhy,Faktury,FotoDoktoru,KrevniObrazy,Leciva,LogTable,Majitele,Objednavky,Odbery,
     Operace,Pohlavi,Polozky,Posty,TypyPlatby,Vysetreni,Zakroky,Zpravy,Zvirata

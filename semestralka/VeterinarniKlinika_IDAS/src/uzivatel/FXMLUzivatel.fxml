@@ -23,8 +23,7 @@
             <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="10.0">
                <children>
                   <Label text="Menu:" />
-                  <ComboBox fx:id="comboTabulky" prefWidth="150.0" />
-                  <Button mnemonicParsing="false" onAction="#button_obnovit" text="Obnovit" />
+                  <ComboBox fx:id="comboTabulky" onAction="#cbTabulkyOnAction" prefWidth="150.0" />
                </children>
             </HBox>
          </children>
@@ -44,10 +43,9 @@
    <right>
       <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="115.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="operace:" />
-            <Button mnemonicParsing="false" onAction="#button_pridat" prefWidth="105.0" text="Pridat zaznam" />
-            <Button mnemonicParsing="false" onAction="#button_odebrat" prefWidth="105.0" text="Odebrat zaznam" />
-            <Button mnemonicParsing="false" onAction="#button_ulozit" prefWidth="105.0" text="Ulozit zaznam" />
+            <Button fx:id="btnPridat" mnemonicParsing="false" onAction="#button_pridat" prefWidth="105.0" text="Pridat zaznam" />
+            <Button fx:id="btnOdebrat" mnemonicParsing="false" onAction="#button_odebrat" prefWidth="105.0" text="Odebrat zaznam" />
+            <Button fx:id="btnUlozit" mnemonicParsing="false" onAction="#button_ulozit" prefWidth="105.0" text="Ulozit zaznam" />
          </children>
       </VBox>
    </right>

@@ -34,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.CallableStatement;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -2063,24 +2064,25 @@ public class FXMLDoktorController implements Initializable {
                 throw new Exception("Špatný obrazek");
             }
             try {
-                PreparedStatement pstmt = con.prepareStatement("INSERT INTO FOTO_DOKTORU(nazev, typ_souboru, pripona, obsah, id_doktora) VALUES(?,?,?,?,?)");
-                pstmt.setString(1, file.getName());
-                pstmt.setString(2, "obrazek");
-                pstmt.setString(3, ".jpg");
+                CallableStatement csf = con.prepareCall("{call PROC_ADD_FOTO_DOKTORU(?,?,?,?,?,?)}");
+                csf.setString(1, file.getName());
+                csf.setString(2, "obrazek");
+                csf.setString(3, ".jpg");
                 //pstmt.setDate(4, new Date(50, 5, 5));
                 //Inserting Blob type
                 InputStream in;
                 try {
                     in = new FileInputStream(file);
-                    pstmt.setBlob(4, in);
+                    csf.setBlob(4, in);
                 } catch (FileNotFoundException ex) {
                     zobrazErrorDialog("Chyba", "Obrazek nenalezen");
                 }
-                pstmt.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
-                pstmt.execute();
+                csf.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                csf.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                csf.execute();
 
             } catch (SQLException ex) {
-                zobrazErrorDialog("Chyba", "Chyba vlozeni obrazku");
+                zobrazErrorDialog("Chyba", ex.getMessage());
             }
         }
         }catch(Exception e){ 
