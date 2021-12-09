@@ -961,7 +961,9 @@ public class FXMLAdministratorController implements Initializable {
                 tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
                 ObservableList<Adresy> cbAdresyData2 = FXCollections.observableArrayList();
+                ObservableList<Doktori> cbDoktoriData4 = FXCollections.observableArrayList();
                 doktoriData.clear();
+                cbDoktoriData4.clear();
                 cbAdresyData2.clear();
                 sql = "SELECT * FROM PO_ADRESY";
 
@@ -971,9 +973,8 @@ public class FXMLAdministratorController implements Initializable {
                     Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
                     cbAdresyData2.add(ad);
                 }
-                ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
-                cbDoktori.setItems(doktoriData);
-                
+                ComboBox<Doktori> cbDoktori;
+                cbDoktoriData4.add(new Doktori(-1,"","","",0,"","","","","",-1,"","",null,-1,null));
                 sql = "SELECT * FROM PO_DOKTORI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -981,6 +982,10 @@ public class FXMLAdministratorController implements Initializable {
                 while (rs.next()) {
                     ComboBox<Adresy> cbAdresy = new ComboBox<Adresy>();
                     cbAdresy.setItems(cbAdresyData2);
+                    
+                     cbDoktori = new ComboBox<Doktori>();
+                     cbDoktori.setItems(cbDoktoriData4);
+                    
                     
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getDate(4).toString(), rs.getDouble(5), rs.getString(6), rs.getString(7),
@@ -993,6 +998,7 @@ public class FXMLAdministratorController implements Initializable {
                         }
                     }
                     doktoriData.add(dok);
+                    cbDoktoriData4.add(dok);
                 }
                 for (Doktori dok1 : doktoriData) {
                     for (Doktori dok2 : doktoriData) {
@@ -2213,6 +2219,7 @@ public class FXMLAdministratorController implements Initializable {
                 ComboBox<Adresy> cbAdresy3 = new ComboBox<>(cbAdresyD3);
                 ObservableList<Doktori> cbDoktoriD4 = FXCollections.observableArrayList();
                 ComboBox<Doktori> cbDoktori4 = new ComboBox<>(cbDoktoriD4);
+                cbDoktoriD4.add(new Doktori(-1,"","","",0,"","","","","",-1,"","",null,-1,null));
                 sql = "SELECT * FROM PO_ADRESY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2494,6 +2501,9 @@ public class FXMLAdministratorController implements Initializable {
                 tableViewZakroky.refresh();
                 tableViewZakroky.getSelectionModel().select(zak);
                 break;
+            case Zpravy:
+                
+                break;
             case Zvirata:
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ObservableList<Majitele> cbMajiteleD3 = FXCollections.observableArrayList();
@@ -2584,8 +2594,9 @@ public class FXMLAdministratorController implements Initializable {
                     }
                 }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ADMINISTRATORI(?)}");
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ADMINISTRATORI(?,?)}");
                 cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
                 cst.executeUpdate();
                 administratoriData.remove(tableViewAdministratori.getSelectionModel().getSelectedItem());
                 tableViewAdministratori.refresh();
@@ -2610,74 +2621,549 @@ public class FXMLAdministratorController implements Initializable {
                     }
                 }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ADRESY(?)}");
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ADRESY(?,?)}");
                 cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
                 cst.executeUpdate();
                 adresyData.remove(tableViewAdresy.getSelectionModel().getSelectedItem());
                 tableViewAdresy.refresh();
                 break;
             case Biochemie:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Biochemie> biochemieL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_BIOCHEMIE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Biochemie bio = new Biochemie(rs.getInt(1), rs.getDouble(2), rs.getDouble(3),
+                            rs.getDouble(4), rs.getDouble(5),rs.getDouble(6));
+                    biochemieL.add(bio);
+                }
+                idVymazat = -1;
+                for (Biochemie datB : biochemieL) {
+                    if (datB.getIdOdberu() == tableViewBiochemie.getSelectionModel().getSelectedItem().getIdOdberu()) {
+                        idVymazat = datB.getIdOdberu();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_BIOCHEMIE(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                biochemieData.remove(tableViewBiochemie.getSelectionModel().getSelectedItem());
+                tableViewBiochemie.refresh();
                 break;
             case Diagnozy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Diagnozy> diagnozyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_DIAGNOZY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Diagnozy diag = new Diagnozy(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getInt(4));
+                    diagnozyL.add(diag);
+                }
+                idVymazat = -1;
+                for (Diagnozy datD : diagnozyL) {
+                    if (datD.getIdDiagnozy() == tableViewDiagnozy.getSelectionModel().getSelectedItem().getIdDiagnozy()) {
+                        idVymazat = datD.getIdDiagnozy();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DIAGNOZY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                diagnozyData.remove(tableViewDiagnozy.getSelectionModel().getSelectedItem());
+                tableViewDiagnozy.refresh();
                 break;
             case Dodavatele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Dodavatele> dodavateleL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_DODAVATELE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Dodavatele doda = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getString(4),rs.getInt(5),null);
+                    dodavateleL.add(doda);
+                }
+                idVymazat = -1;
+                for (Dodavatele datD : dodavateleL) {
+                    if (datD.getIdDodavatele() == tableViewDodavatele.getSelectionModel().getSelectedItem().getIdDodavatele()) {
+                        idVymazat = datD.getIdDodavatele();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DODAVATELE(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                dodavateleData.remove(tableViewDodavatele.getSelectionModel().getSelectedItem());
+                tableViewDodavatele.refresh();
                 break;
             case Doktori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Doktori> doktoriL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_DOKTORI";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3)
+                            ,rs.getString(4),rs.getInt(5),rs.getString(6),rs.getString(7),
+                            rs.getString(8),rs.getString(9),rs.getString(10),rs.getInt(11),rs.getString(12),rs.getString(13),null,rs.getInt(14),null);
+                    doktoriL.add(dok);
+                }
+                idVymazat = -1;
+                for (Doktori datD : doktoriL) {
+                    if (datD.getIdDoktora() == tableViewDoktori.getSelectionModel().getSelectedItem().getIdDoktora()) {
+                        idVymazat = datD.getIdDoktora();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DOKTORI(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                doktoriData.remove(tableViewDoktori.getSelectionModel().getSelectedItem());
+                tableViewDoktori.refresh();
                 break;
             case Druhy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Druhy> druhyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_DRUHY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Druhy druh = new Druhy(rs.getInt(1), rs.getString(2));
+                    druhyL.add(druh);
+                }
+                idVymazat = -1;
+                for (Druhy druhyD : druhyL) {
+                    if (druhyD.getIdDruhu() == tableViewDruhy.getSelectionModel().getSelectedItem().getIdDruhu()) {
+                        idVymazat = druhyD.getIdDruhu();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DRUHY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                druhyData.remove(tableViewDruhy.getSelectionModel().getSelectedItem());
+                tableViewDruhy.refresh();
                 break;
             case Faktury:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Faktury> fakturyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_FAKTURY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Faktury fak = new Faktury(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6),null,null);
+                    fakturyL.add(fak);
+                }
+                idVymazat = -1;
+                for (Faktury fakturyD : fakturyL) {
+                    if (fakturyD.getIdFaktury() == tableViewFaktury.getSelectionModel().getSelectedItem().getIdFaktury()) {
+                        idVymazat = fakturyD.getIdFaktury();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_FAKTURY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                fakturyData.remove(tableViewFaktury.getSelectionModel().getSelectedItem());
+                tableViewFaktury.refresh();
                 break;
             case FotoDoktoru:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 break;
             case KrevniObrazy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<KrevniObrazy> krevniObrazyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_KREVNI_OBRAZY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    KrevniObrazy krev = new KrevniObrazy(rs.getInt(1), rs.getDouble(2),rs.getDouble(3),rs.getDouble(4),rs.getDouble(5));
+                    krevniObrazyL.add(krev);
+                }
+                idVymazat = -1;
+                for (KrevniObrazy krevD : krevniObrazyL) {
+                    if (krevD.getIdOdberu() == tableViewKrevniObrazy.getSelectionModel().getSelectedItem().getIdOdberu()) {
+                        idVymazat = krevD.getIdOdberu();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_KREVNI_OBRAZY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                krevniObrazyData.remove(tableViewKrevniObrazy.getSelectionModel().getSelectedItem());
+                tableViewKrevniObrazy.refresh();
                 break;
             case Leciva:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Leciva> lecivaL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_LECIVA";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Leciva leciva = new Leciva(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getInt(6),null);
+                    lecivaL.add(leciva);
+                }
+                idVymazat = -1;
+                for (Leciva lecivaD : lecivaL) {
+                    if (lecivaD.getIdLeku() == tableViewLeciva.getSelectionModel().getSelectedItem().getIdLeku()) {
+                        idVymazat = lecivaD.getIdLeku();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_LECIVA(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                lecivaData.remove(tableViewLeciva.getSelectionModel().getSelectedItem());
+                tableViewLeciva.refresh();
                 break;
             case LogTable:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 break;
             case Majitele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Majitele> majiteleL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_MAJITELE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Majitele krev = new Majitele(rs.getInt(1), rs.getString(2),rs.getString(3),
+                            rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
+                            rs.getInt(8),rs.getString(9),rs.getString(10),null);
+                    majiteleL.add(krev);
+                }
+                idVymazat = -1;
+                for (Majitele majD : majiteleL) {
+                    if (majD.getIdMajitele() == tableViewMajitele.getSelectionModel().getSelectedItem().getIdMajitele()) {
+                        idVymazat = majD.getIdMajitele();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_MAJITELE(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                majiteleData.remove(tableViewMajitele.getSelectionModel().getSelectedItem());
+                tableViewMajitele.refresh();
                 break;
             case Objednavky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Objednavky> objednavkyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_OBJEDNAVKY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Objednavky obj = new Objednavky(rs.getInt(1), rs.getString(2),rs.getString(3),
+                            rs.getInt(4),null);
+                    objednavkyL.add(obj);
+                }
+                idVymazat = -1;
+                for (Objednavky objD : objednavkyL) {
+                    if (objD.getIdObjednavky() == tableViewObjednavky.getSelectionModel().getSelectedItem().getIdObjednavky()) {
+                        idVymazat = objD.getIdObjednavky();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_OBJEDNAVKY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                objednavkyData.remove(tableViewObjednavky.getSelectionModel().getSelectedItem());
+                tableViewObjednavky.refresh();
                 break;
             case Odbery:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Odbery> odberyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_ODBERY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Odbery odb = new Odbery(rs.getString(1), rs.getInt(2),rs.getInt(3),
+                            rs.getString(4),null);
+                    odberyL.add(odb);
+                }
+                idVymazat = -1;
+                for (Odbery odD : odberyL) {
+                    if (odD.getIdOdberu() == tableViewOdbery.getSelectionModel().getSelectedItem().getIdOdberu()) {
+                        idVymazat = odD.getIdOdberu();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ODBERY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                odberyData.remove(tableViewOdbery.getSelectionModel().getSelectedItem());
+                tableViewOdbery.refresh();
                 break;
             case Operace:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Operace> operaceL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_OPERACE";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Operace opb = new Operace(rs.getInt(1), rs.getString(2),rs.getString(3),
+                            rs.getDouble(4),rs.getString(5));
+                    operaceL.add(opb);
+                }
+                idVymazat = -1;
+                for (Operace opb : operaceL) {
+                    if (opb.getIdOperace() == tableViewOperace.getSelectionModel().getSelectedItem().getIdOperace()) {
+                        idVymazat = opb.getIdOperace();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_OPERACE(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                operaceData.remove(tableViewOperace.getSelectionModel().getSelectedItem());
+                tableViewOperace.refresh();
                 break;
             case Pohlavi:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Pohlavi> pohlaviL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_POHLAVI";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Pohlavi poh = new Pohlavi(rs.getInt(1), rs.getString(2));
+                    pohlaviL.add(poh);
+                }
+                idVymazat = -1;
+                for (Pohlavi pohl : pohlaviL) {
+                    if (pohl.getIdPohlavi() == tableViewPohlavi.getSelectionModel().getSelectedItem().getIdPohlavi()) {
+                        idVymazat = pohl.getIdPohlavi();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_POHLAVI(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                pohlaviData.remove(tableViewPohlavi.getSelectionModel().getSelectedItem());
+                tableViewPohlavi.refresh();
                 break;
             case Polozky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Polozky> polozkyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_POLOZKY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Polozky pol = new Polozky(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5),null);
+                    polozkyL.add(pol);
+                }
+                idVymazat = -1;
+                for (Polozky polD : polozkyL) {
+                    if (polD.getIdPolozky() == tableViewPolozky.getSelectionModel().getSelectedItem().getIdPolozky()) {
+                        idVymazat = polD.getIdPolozky();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_POLOZKY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                polozkyData.remove(tableViewPolozky.getSelectionModel().getSelectedItem());
+                tableViewPolozky.refresh();
                 break;
             case Posty:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Posty> postyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_POSTY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Posty pol = new Posty(rs.getInt(1), rs.getString(2), rs.getString(3));
+                    postyL.add(pol);
+                }
+                idVymazat = -1;
+                for (Posty polD : postyL) {
+                    if (polD.getIdPosty() == tableViewPosty.getSelectionModel().getSelectedItem().getIdPosty()) {
+                        idVymazat = polD.getIdPosty();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_POSTY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                postyData.remove(tableViewPosty.getSelectionModel().getSelectedItem());
+                tableViewPosty.refresh();
                 break;
             case TypyPlatby:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<TypyPlatby> typyPlatbyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_TYPY_PLATBY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    TypyPlatby typy = new TypyPlatby(rs.getInt(1), rs.getString(2));
+                    typyPlatbyL.add(typy);
+                }
+                idVymazat = -1;
+                for (TypyPlatby typD : typyPlatbyL) {
+                    if (typD.getIdTypu() == tableViewTypyPlatby.getSelectionModel().getSelectedItem().getIdTypu()) {
+                        idVymazat = typD.getIdTypu();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_TYPY_PLATBY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                postyData.remove(tableViewPosty.getSelectionModel().getSelectedItem());
+                tableViewPosty.refresh();
                 break;
             case Vysetreni:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Vysetreni> vysetreniL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_VYSETRENI";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Vysetreni vys = new Vysetreni(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),null,null);
+                    vysetreniL.add(vys);
+                }
+                idVymazat = -1;
+                for (Vysetreni vysD : vysetreniL) {
+                    if (vysD.getIdVysetreni() == tableViewVysetreni.getSelectionModel().getSelectedItem().getIdVysetreni()) {
+                        idVymazat = vysD.getIdVysetreni();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_VYSETRENI(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                vysetreniData.remove(tableViewVysetreni.getSelectionModel().getSelectedItem());
+                tableViewVysetreni.refresh();
                 break;
             case Zakroky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Zakroky> zakrokyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_ZAKROKY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Zakroky zak = new Zakroky(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),null,null);
+                    zakrokyL.add(zak);
+                }
+                idVymazat = -1;
+                for (Zakroky zakD : zakrokyL) {
+                    if (zakD.getIdZakroku() == tableViewZakroky.getSelectionModel().getSelectedItem().getIdZakroku()) {
+                        idVymazat = zakD.getIdZakroku();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZAKROKY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                zakrokyData.remove(tableViewZakroky.getSelectionModel().getSelectedItem());
+                tableViewZakroky.refresh();
+                break;
+            case Zpravy:
+                ObservableList<Zpravy> zpravyL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_ZPRAVY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Zpravy zp = new Zpravy(rs.getInt(1), rs.getInt(2),"",rs.getInt(3),
+                            "",rs.getString(4),rs.getInt(5),rs.getInt(6));
+                    zpravyL.add(zp);
+                }
+                idVymazat = -1;
+                for (Zpravy zpD : zpravyL) {
+                    if (zpD.getIdZpravy() == tableViewZpravy.getSelectionModel().getSelectedItem().getIdZpravy()) {
+                        idVymazat = zpD.getIdZpravy();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZPRAVY(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                zpravyData.remove(tableViewZpravy.getSelectionModel().getSelectedItem());
+                tableViewZpravy.refresh();
                 break;
             case Zvirata:
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
+                sql = "SELECT * FROM PO_ZVIRATA";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getDouble(4),
+                            rs.getString(5),rs.getString(6),rs.getInt(7),rs.getInt(8),rs.getInt(9),rs.getInt(10),
+                    null,null,null,null);
+                    zvirataL.add(zv);
+                }
+                idVymazat = -1;
+                for (Zvirata zvD : zvirataL) {
+                    if (zvD.getIdZvirete() == tableViewZvirata.getSelectionModel().getSelectedItem().getIdZvirete()) {
+                        idVymazat = zvD.getIdZvirete();
+                        break;
+                    }
+                }
+
+                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZVIRATA(?,?)}");
+                cst.setInt(1, idVymazat);
+                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                cst.executeUpdate();
+                zvirataData.remove(tableViewZvirata.getSelectionModel().getSelectedItem());
+                tableViewZvirata.refresh();
         }
     }
 
