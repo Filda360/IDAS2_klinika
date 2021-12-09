@@ -25,6 +25,7 @@ import dataTridy.Vysetreni;
 import dataTridy.VysetreniOld;
 import dataTridy.ZakrokOld;
 import dataTridy.Zakroky;
+import dataTridy.Zpravy;
 import dataTridy.Zvirata;
 //import static doktor.FXMLDoktorController.zakrokData;
 import java.io.IOException;
@@ -300,6 +301,14 @@ public class FXMLUzivatelController implements Initializable {
     @FXML
     private TableColumn<Zakroky, ComboBox> zakroky_operace;
     @FXML
+    private TableView<Zpravy> tableViewZpravy;
+    @FXML
+    private TableColumn<Zpravy, String> zpravy_prijemce;
+    @FXML
+    private TableColumn<Zpravy, String> zpravy_odesilatel;
+    @FXML
+    private TableColumn<Zpravy, String> zpravy_text;
+    @FXML
     private TableView<Zvirata> tableViewZvirata;
     @FXML
     private TableColumn<Zvirata, String> zvirata_jmeno;
@@ -344,6 +353,7 @@ public class FXMLUzivatelController implements Initializable {
     public static ObservableList<TypyPlatby> typyPlatbyData = FXCollections.observableArrayList();
     public static ObservableList<Vysetreni> vysetreniData = FXCollections.observableArrayList();
     public static ObservableList<Zakroky> zakrokyData = FXCollections.observableArrayList();
+    public ObservableList<Zpravy> zpravyData = FXCollections.observableArrayList();
     public static ObservableList<Zvirata> zvirataData = FXCollections.observableArrayList();
     
     //Pro zobrazování hodnot z jinych tabule (foreign keys)
@@ -636,6 +646,16 @@ public class FXMLUzivatelController implements Initializable {
         zakroky_datum.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
         
+        tableViewZpravy.setItems(zpravyData);
+        zpravy_prijemce.setCellValueFactory(new PropertyValueFactory<>("prijemce"));
+        zpravy_odesilatel.setCellValueFactory(new PropertyValueFactory<>("odesilatel"));
+        zpravy_text.setCellValueFactory(new PropertyValueFactory<>("text"));
+        tableViewZakroky.setEditable(false);
+
+        zpravy_prijemce.setCellFactory(TextFieldTableCell.forTableColumn());
+        zpravy_odesilatel.setCellFactory(TextFieldTableCell.forTableColumn());
+        zpravy_text.setCellFactory(TextFieldTableCell.forTableColumn());
+        
         tableViewZvirata.setItems(zvirataData);
         zvirata_jmeno.setCellValueFactory(new PropertyValueFactory<>("jmeno"));
         zvirata_datum_narozeni.setCellValueFactory(new PropertyValueFactory<>("datumNarozeni"));
@@ -687,6 +707,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewTypyPlatby.setVisible(false);
                 tableViewVysetreni.setVisible(false);
                 tableViewZakroky.setVisible(false);
+                tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
                 adresyData.clear();
@@ -744,6 +765,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewTypyPlatby.setVisible(false);
                 tableViewVysetreni.setVisible(false);
                 tableViewZakroky.setVisible(false);
+                tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
                 doktoriData.clear();
@@ -756,6 +778,9 @@ public class FXMLUzivatelController implements Initializable {
                     Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
                     cbAdresyData.add(ad);
                 }
+                ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
+                cbDoktori.setItems(doktoriData);
+                
                 sql = "SELECT * FROM PO_DOKTORI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -766,7 +791,7 @@ public class FXMLUzivatelController implements Initializable {
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getString(7),
                             rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11),
-                            rs.getString(12), rs.getString(13), cbAdresy);
+                            rs.getString(12), rs.getString(13), cbAdresy,rs.getInt(14),cbDoktori);
                     for (Adresy adresa : cbAdresyData) {
                         if (adresa.getIdAdresy() == dok.getIdAdresy()) {
                             cbAdresy.getSelectionModel().select(adresa);
@@ -804,6 +829,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewTypyPlatby.setVisible(false);
                 tableViewVysetreni.setVisible(false);
                 tableViewZakroky.setVisible(false);
+                tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
                 cbMajiteleData.clear();
@@ -883,6 +909,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewTypyPlatby.setVisible(false);
                 tableViewVysetreni.setVisible(false);
                 tableViewZakroky.setVisible(false);
+                tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
                 cbMajiteleData.clear();
@@ -947,6 +974,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewTypyPlatby.setVisible(false);
                 tableViewVysetreni.setVisible(false);
                 tableViewZakroky.setVisible(false);
+                tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
                 odberyData.clear();
@@ -1008,6 +1036,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewTypyPlatby.setVisible(false);
                 tableViewVysetreni.setVisible(false);
                 tableViewZakroky.setVisible(false);
+                tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
                 polozkyData.clear();
@@ -1068,6 +1097,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewVysetreni.setEditable(false);
                 
                 tableViewZakroky.setVisible(false);
+                tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
                 vysetreniData.clear();
@@ -1147,6 +1177,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewTypyPlatby.setVisible(false);
                 tableViewVysetreni.setVisible(false);
                 tableViewZakroky.setVisible(true);
+                tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
                 zakrokyData.clear();
@@ -1202,6 +1233,94 @@ public class FXMLUzivatelController implements Initializable {
                 }
                 tableViewZakroky.refresh();
                 break;
+                case Zpravy:
+                ///////////////////////////////////////////////////////////////////////
+                    tableViewAdministratori.setVisible(false);
+                tableViewAdresy.setVisible(false);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZpravy.setVisible(true);
+                tableViewZvirata.setVisible(false);
+                
+                zpravyData.clear();
+                sql = "SELECT * FROM PO_ZPRAVY WHERE ID_PRIJEMCE = "+FXMLUvodniController.prihlasenyUzivatel.getId() + " OR ID_ODESILATELE = "+FXMLUvodniController.prihlasenyUzivatel.getId();
+                
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Zpravy zpr = new Zpravy(rs.getInt(1),rs.getInt(2),"",rs.getInt(3),"",rs.getString(4),rs.getInt(5),rs.getInt(6));
+                    zpravyData.add(zpr);
+                }
+                for(Zpravy zp :zpravyData){
+                switch(zp.getTypPrijemce()){
+                case 1:
+                    sql = "SELECT * FROM PO_ADMINISTRATORI WHERE ID_ADMINISTRATORA = "+zp.getIdPrijemce();
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    rs.next();
+                    zp.setPrijemce(rs.getString(2)+" "+rs.getString(3));
+                    break;
+                case 2:
+                    sql = "SELECT * FROM PO_DOKTORI WHERE ID_DOKTORA = "+zp.getIdPrijemce();
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    rs.next();
+                    zp.setPrijemce(rs.getString(6)+" "+rs.getString(7));
+                    break;
+                case 3:
+                    sql = "SELECT * FROM PO_MAJITELE WHERE ID_MAJITELE = "+zp.getIdPrijemce();
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    rs.next();
+                    zp.setPrijemce(rs.getString(3)+" "+rs.getString(4));
+                    break;
+                }
+                switch(zp.getTypOdesilatele()){
+                case 1:
+                    sql = "SELECT * FROM PO_ADMINISTRATORI WHERE ID_ADMINISTRATORA = "+zp.getIdOdesilatele();
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    rs.next();
+                    zp.setOdesilatel(rs.getString(2)+" "+rs.getString(3));
+                    break;
+                case 2:
+                    sql = "SELECT * FROM PO_DOKTORI WHERE ID_DOKTORA = "+zp.getIdOdesilatele();
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    rs.next();
+                    zp.setOdesilatel(rs.getString(6)+" "+rs.getString(7));
+                    break;
+                case 3:
+                    sql = "SELECT * FROM PO_MAJITELE WHERE ID_MAJITELE = "+zp.getIdOdesilatele();
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+                    rs.next();
+                    zp.setOdesilatel(rs.getString(3)+" "+rs.getString(4));
+                    break;
+                }
+                }
+                
+                
+                tableViewZpravy.refresh();
+                    break;
             case Zvirata:
                 ///////////////////////////////////////////////////////////////////////
                 tableViewAdministratori.setVisible(false);
@@ -1227,6 +1346,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewVysetreni.setVisible(false);
                 tableViewZakroky.setVisible(false);
                 tableViewZvirata.setVisible(true);
+                tableViewZpravy.setVisible(false);
                 tableViewZvirata.setEditable(true);
 
                 zvirataData.clear();
@@ -1275,7 +1395,7 @@ public class FXMLUzivatelController implements Initializable {
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getString(7),
                             rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11),
-                            rs.getString(12), rs.getString(13), null);
+                            rs.getString(12), rs.getString(13), null,rs.getInt(14),null);
                     cbDoktoriData.add(dok);
                 }
                 
@@ -1293,12 +1413,12 @@ public class FXMLUzivatelController implements Initializable {
                     ComboBox<Druhy> cbDruhy = new ComboBox<Druhy>();
                     cbDruhy.setItems(cbDruhyData);
                     
-                    ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
-                    cbDoktori.setItems(cbDoktoriData);
+                    ComboBox<Doktori> cbDoktori2 = new ComboBox<Doktori>();
+                    cbDoktori2.setItems(cbDoktoriData);
 
                     Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getDouble(4), rs.getString(5), rs.getString(6),rs.getInt(7),
-                            rs.getInt(8),rs.getInt(9),rs.getInt(10),cbMajitele,cbPohlavi,cbDruhy,cbDoktori);
+                            rs.getInt(8),rs.getInt(9),rs.getInt(10),cbMajitele,cbPohlavi,cbDruhy,cbDoktori2);
                     
                     for (Majitele majitel : cbMajiteleData) {
                         if (majitel.getIdMajitele() == zv.getIdMajitele()) {
@@ -1322,8 +1442,8 @@ public class FXMLUzivatelController implements Initializable {
                     
                     for (Doktori doktor : cbDoktoriData) {
                         if (doktor.getIdDoktora() == zv.getIdDoktora()) {
-                            cbDoktori.getSelectionModel().select(doktor);
-                            cbDoktori.setDisable(true);
+                            cbDoktori2.getSelectionModel().select(doktor);
+                            cbDoktori2.setDisable(true);
                             break;
                         }
                     }

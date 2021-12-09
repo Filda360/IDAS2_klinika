@@ -116,6 +116,7 @@
                 <TableColumn fx:id="doktori_prihlasovaci_jmeno" onEditCommit="#doktori_prihlasovaci_jmeno_edit" prefWidth="150.0" text="prihlasovaci_jmeno" />
                 <TableColumn fx:id="doktori_heslo" onEditCommit="#doktori_heslo_edit" prefWidth="150.0" text="heslo" />
                 <TableColumn fx:id="doktori_adresa" prefWidth="150.0" text="adresa" />
+                <TableColumn fx:id="doktori_nadrizeny" prefWidth="150.0" text="nadrizeny" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewDruhy" prefHeight="200.0" prefWidth="200.0">
@@ -241,6 +242,13 @@
                 <TableColumn fx:id="zakroky_poznamka" onEditCommit="#zakroky_poznamka_edit" prefWidth="150.0" text="poznamka" />
                   <TableColumn fx:id="zakroky_zvire" prefWidth="150.0" text="zvire" />
                   <TableColumn fx:id="zakroky_operace" prefWidth="150.0" text="operace" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableViewZpravy" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="zpravy_prijemce" prefWidth="150.0" text="prijemce" />
+                <TableColumn fx:id="zpravy_odesilatel" prefWidth="150.0" text="odesilatel" />
+                  <TableColumn fx:id="zpravy_text" prefWidth="150.0" text="zprava" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewZvirata" prefHeight="200.0" prefWidth="200.0">
