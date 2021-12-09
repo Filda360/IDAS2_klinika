@@ -738,7 +738,7 @@ public class FXMLUzivatelController implements Initializable {
                     Posty ad = new Posty(rs.getInt(1), rs.getString(2), rs.getString(3));
                     cbPostyData.add(ad);
                 }
-                sql = "SELECT * FROM PO_ADRESY WHERE ID_ADRESY = " + FXMLUvodniController.prihlasenyUzivatel.getId();
+                sql = "SELECT * FROM PO_ADRESY WHERE id_adresy = (SELECT id_adresy FROM PO_MAJITELE WHERE id_majitele=" + FXMLUvodniController.prihlasenyUzivatel.getId() + ")";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
 

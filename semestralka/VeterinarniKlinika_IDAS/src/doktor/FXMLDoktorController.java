@@ -782,7 +782,67 @@ public class FXMLDoktorController implements Initializable {
                 }
                 tableViewAdministratori.refresh();
                 break;
-            
+             case Adresy:
+                ///////////////////////////////////////////////////////////////////////
+                btnPridat.setVisible(false);
+                btnOdebrat.setVisible(false);
+                btnUloz.setVisible(true);
+                btnNapsatZpravu.setVisible(false);
+                 
+                tableViewAdministratori.setVisible(false);
+                tableViewAdresy.setVisible(true);
+                tableViewBiochemie.setVisible(false);
+                tableViewDiagnozy.setVisible(false);
+                tableViewDodavatele.setVisible(false);
+                tableViewDoktori.setVisible(false);
+                tableViewDruhy.setVisible(false);
+                tableViewFaktury.setVisible(false);
+                tableViewFotoDoktoru.setVisible(false);
+                tableViewKrevniObrazy.setVisible(false);
+                tableViewLeciva.setVisible(false);
+                tableViewLogTable.setVisible(false);
+                tableViewMajitele.setVisible(false);
+                tableViewObjednavky.setVisible(false);
+                tableViewOdbery.setVisible(false);
+                tableViewOperace.setVisible(false);
+                tableViewPohlavi.setVisible(false);
+                tableViewPolozky.setVisible(false);
+                tableViewPosty.setVisible(false);
+                tableViewTypyPlatby.setVisible(false);
+                tableViewVysetreni.setVisible(false);
+                tableViewZakroky.setVisible(false);
+                tableViewZpravy.setVisible(false);
+                tableViewZvirata.setVisible(false);
+                ObservableList<Posty> cbPostyData = FXCollections.observableArrayList();
+                adresyData.clear();
+                cbPostyData.clear();
+                sql = "SELECT * FROM PO_POSTY";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    Posty ad = new Posty(rs.getInt(1), rs.getString(2), rs.getString(3));
+                    cbPostyData.add(ad);
+                }
+                sql = "SELECT * FROM PO_ADRESY WHERE id_adresy = (SELECT id_adresy FROM PO_DOKTORI WHERE id_doktora=" + FXMLUvodniController.prihlasenyUzivatel.getId() + ")";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    ComboBox<Posty> cbPosty = new ComboBox<Posty>();
+                    cbPosty.setItems(cbPostyData);
+
+                    Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), cbPosty);
+                    for (Posty posta : cbPostyData) {
+                        if (posta.getIdPosty() == ad.getIdPosty()) {
+                            cbPosty.getSelectionModel().select(posta);
+                            break;
+                        }
+                    }
+                    adresyData.add(ad);
+                }
+                tableViewAdresy.refresh();
+                break;
             case Biochemie:
                 ///////////////////////////////////////////////////////////////////////
                 
