@@ -2576,6 +2576,7 @@ public class FXMLAdministratorController implements Initializable {
         switch (comboTabulky.getValue()) {
             case Administratori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Administratori> adminL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_ADMINISTRATORI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2600,9 +2601,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 administratoriData.remove(tableViewAdministratori.getSelectionModel().getSelectedItem());
                 tableViewAdministratori.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Adresy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Adresy> adresyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_ADRESY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2627,9 +2636,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 adresyData.remove(tableViewAdresy.getSelectionModel().getSelectedItem());
                 tableViewAdresy.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Biochemie:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Biochemie> biochemieL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_BIOCHEMIE";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2654,9 +2671,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 biochemieData.remove(tableViewBiochemie.getSelectionModel().getSelectedItem());
                 tableViewBiochemie.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Diagnozy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Diagnozy> diagnozyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_DIAGNOZY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2681,9 +2706,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 diagnozyData.remove(tableViewDiagnozy.getSelectionModel().getSelectedItem());
                 tableViewDiagnozy.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Dodavatele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Dodavatele> dodavateleL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_DODAVATELE";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2707,9 +2740,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 dodavateleData.remove(tableViewDodavatele.getSelectionModel().getSelectedItem());
                 tableViewDodavatele.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Doktori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Doktori> doktoriL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_DOKTORI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2735,9 +2776,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 doktoriData.remove(tableViewDoktori.getSelectionModel().getSelectedItem());
                 tableViewDoktori.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Druhy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Druhy> druhyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_DRUHY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2761,9 +2810,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 druhyData.remove(tableViewDruhy.getSelectionModel().getSelectedItem());
                 tableViewDruhy.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Faktury:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Faktury> fakturyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_FAKTURY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2787,12 +2844,20 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 fakturyData.remove(tableViewFaktury.getSelectionModel().getSelectedItem());
                 tableViewFaktury.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case FotoDoktoru:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 break;
             case KrevniObrazy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<KrevniObrazy> krevniObrazyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_KREVNI_OBRAZY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2816,9 +2881,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 krevniObrazyData.remove(tableViewKrevniObrazy.getSelectionModel().getSelectedItem());
                 tableViewKrevniObrazy.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Leciva:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Leciva> lecivaL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_LECIVA";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2842,12 +2915,20 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 lecivaData.remove(tableViewLeciva.getSelectionModel().getSelectedItem());
                 tableViewLeciva.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case LogTable:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 break;
             case Majitele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Majitele> majiteleL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_MAJITELE";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2873,9 +2954,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 majiteleData.remove(tableViewMajitele.getSelectionModel().getSelectedItem());
                 tableViewMajitele.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Objednavky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Objednavky> objednavkyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_OBJEDNAVKY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2900,9 +2989,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 objednavkyData.remove(tableViewObjednavky.getSelectionModel().getSelectedItem());
                 tableViewObjednavky.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Odbery:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Odbery> odberyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_ODBERY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2927,9 +3024,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 odberyData.remove(tableViewOdbery.getSelectionModel().getSelectedItem());
                 tableViewOdbery.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Operace:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Operace> operaceL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_OPERACE";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2954,9 +3059,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 operaceData.remove(tableViewOperace.getSelectionModel().getSelectedItem());
                 tableViewOperace.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Pohlavi:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Pohlavi> pohlaviL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_POHLAVI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2980,9 +3093,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 pohlaviData.remove(tableViewPohlavi.getSelectionModel().getSelectedItem());
                 tableViewPohlavi.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Polozky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Polozky> polozkyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_POLOZKY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -3006,9 +3127,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 polozkyData.remove(tableViewPolozky.getSelectionModel().getSelectedItem());
                 tableViewPolozky.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Posty:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Posty> postyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_POSTY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -3032,9 +3161,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 postyData.remove(tableViewPosty.getSelectionModel().getSelectedItem());
                 tableViewPosty.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case TypyPlatby:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<TypyPlatby> typyPlatbyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_TYPY_PLATBY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -3058,9 +3195,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 postyData.remove(tableViewPosty.getSelectionModel().getSelectedItem());
                 tableViewPosty.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Vysetreni:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Vysetreni> vysetreniL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_VYSETRENI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -3084,9 +3229,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 vysetreniData.remove(tableViewVysetreni.getSelectionModel().getSelectedItem());
                 tableViewVysetreni.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Zakroky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Zakroky> zakrokyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_ZAKROKY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -3110,8 +3263,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 zakrokyData.remove(tableViewZakroky.getSelectionModel().getSelectedItem());
                 tableViewZakroky.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Zpravy:
+                /////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Zpravy> zpravyL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_ZPRAVY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -3136,9 +3298,17 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 zpravyData.remove(tableViewZpravy.getSelectionModel().getSelectedItem());
                 tableViewZpravy.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
                 break;
             case Zvirata:
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try{
                 ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
                 sql = "SELECT * FROM PO_ZVIRATA";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -3164,6 +3334,13 @@ public class FXMLAdministratorController implements Initializable {
                 cst.executeUpdate();
                 zvirataData.remove(tableViewZvirata.getSelectionModel().getSelectedItem());
                 tableViewZvirata.refresh();
+                } catch (Exception ex) {
+                    if(!ex.getMessage().isEmpty()){
+                    Bezpecnost.vypisChybu(ex.getMessage());
+                    }else{
+                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    }
+                }
         }
     }
 
