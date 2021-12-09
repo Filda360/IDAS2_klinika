@@ -11,5 +11,5 @@ package utils;
  */
 public enum enumTabulky {
     Administratori,Adresy,Biochemie,Diagnozy,Dodavatele,Doktori,Druhy,Faktury,FotoDoktoru,KrevniObrazy,Leciva,LogTable,Majitele,Objednavky,Odbery,
-    Operace,Pohlavi,Polozky,Posty,TypyPlatby,Vysetreni,Zakroky,Zvirata
+    Operace,Pohlavi,Polozky,Posty,TypyPlatby,Vysetreni,Zakroky,Zpravy,Zvirata
 }

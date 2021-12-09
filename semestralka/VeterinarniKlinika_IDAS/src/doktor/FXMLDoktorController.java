@@ -25,6 +25,7 @@ import dataTridy.Vysetreni;
 import dataTridy.VysetreniOld;
 import dataTridy.ZakrokOld;
 import dataTridy.Zakroky;
+import dataTridy.Zpravy;
 import dataTridy.Zvirata;
 import java.io.File;
 import java.io.FileInputStream;
@@ -318,6 +319,14 @@ public class FXMLDoktorController implements Initializable {
     @FXML
     private TableColumn<Zakroky, ComboBox> zakroky_operace;
     @FXML
+    private TableView<Zpravy> tableViewZpravy;
+    @FXML
+    private TableColumn<Zpravy, String> zpravy_prijemce;
+    @FXML
+    private TableColumn<Zpravy, String> zpravy_odesilatel;
+    @FXML
+    private TableColumn<Zpravy, String> zpravy_text;
+    @FXML
     private TableView<Zvirata> tableViewZvirata;
     @FXML
     private TableColumn<Zvirata, String> zvirata_jmeno;
@@ -362,6 +371,7 @@ public class FXMLDoktorController implements Initializable {
     public static ObservableList<TypyPlatby> typyPlatbyData = FXCollections.observableArrayList();
     public static ObservableList<Vysetreni> vysetreniData = FXCollections.observableArrayList();
     public static ObservableList<Zakroky> zakrokyData = FXCollections.observableArrayList();
+    public ObservableList<Zpravy> zpravyData = FXCollections.observableArrayList();
     public static ObservableList<Zvirata> zvirataData = FXCollections.observableArrayList();
     //comboboxy 
     public static ObservableList<Posty> cbPostyData = FXCollections.observableArrayList();
@@ -667,6 +677,16 @@ public class FXMLDoktorController implements Initializable {
         zvirata_druh.setCellValueFactory(new PropertyValueFactory<>("druhy"));
         zvirata_doktor.setCellValueFactory(new PropertyValueFactory<>("doktori"));
         tableViewZvirata.setEditable(true);
+        
+        tableViewZpravy.setItems(zpravyData);
+        zpravy_prijemce.setCellValueFactory(new PropertyValueFactory<>("prijemce"));
+        zpravy_odesilatel.setCellValueFactory(new PropertyValueFactory<>("odesilatel"));
+        zpravy_text.setCellValueFactory(new PropertyValueFactory<>("text"));
+        tableViewZakroky.setEditable(false);
+
+        zpravy_prijemce.setCellFactory(TextFieldTableCell.forTableColumn());
+        zpravy_odesilatel.setCellFactory(TextFieldTableCell.forTableColumn());
+        zpravy_text.setCellFactory(TextFieldTableCell.forTableColumn());
 
         zvirata_jmeno.setCellFactory(TextFieldTableCell.forTableColumn());
         zvirata_datum_narozeni.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -961,6 +981,9 @@ public class FXMLDoktorController implements Initializable {
                     Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
                     cbAdresyData.add(ad);
                 }
+                ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
+                cbDoktori.setItems(doktoriData);
+                
                 sql = "SELECT * FROM PO_DOKTORI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -971,7 +994,7 @@ public class FXMLDoktorController implements Initializable {
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getString(7),
                             rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11),
-                            rs.getString(12), rs.getString(13), cbAdresy);
+                            rs.getString(12), rs.getString(13), cbAdresy,rs.getInt(14),cbDoktori);
                     for (Adresy adresa : cbAdresyData) {
                         if (adresa.getIdAdresy() == dok.getIdAdresy()) {
                             cbAdresy.getSelectionModel().select(adresa);
@@ -979,6 +1002,13 @@ public class FXMLDoktorController implements Initializable {
                         }
                     }
                     doktoriData.add(dok);
+                }
+                for (Doktori dok1 : doktoriData) {
+                    for (Doktori dok2 : doktoriData) {
+                        if(dok1.getIdNadrizeneho()==dok2.getIdDoktora()){
+                            dok1.getDoktori().getSelectionModel().select(dok2);
+                        }  
+                    }
                 }
                 tableViewDoktori.refresh();
                 break;
@@ -1133,7 +1163,7 @@ public class FXMLDoktorController implements Initializable {
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getString(7),
                             rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11),
-                            rs.getString(12), rs.getString(13), null);
+                            rs.getString(12), rs.getString(13), null,rs.getInt(14),null);
                     cbDoktoriData.add(dok);
                 }
                 sql = "SELECT * FROM PO_FOTO_DOKTORU";
@@ -1141,14 +1171,14 @@ public class FXMLDoktorController implements Initializable {
                 rs = pstmt.executeQuery();
 
                 while (rs.next()) {
-                    ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
-                    cbDoktori.setItems(cbDoktoriData);
+                    ComboBox<Doktori> cbDoktori2 = new ComboBox<Doktori>();
+                    cbDoktori2.setItems(cbDoktoriData);
                     
                     FotoDoktoru fot = new FotoDoktoru(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4), rs.getString(5), "(Blob)", rs.getInt(7) ,cbDoktori);
+                            rs.getString(4), rs.getString(5), "(Blob)", rs.getInt(7) ,cbDoktori2);
                     for (Doktori doktor : cbDoktoriData) {
                         if (doktor.getIdDoktora() == fot.getIdDoktora()) {
-                            cbDoktori.getSelectionModel().select(doktor);
+                            cbDoktori2.getSelectionModel().select(doktor);
                             break;
                         }
                     }
@@ -1905,7 +1935,7 @@ public class FXMLDoktorController implements Initializable {
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getString(7),
                             rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11),
-                            rs.getString(12), rs.getString(13), null);
+                            rs.getString(12), rs.getString(13), null,rs.getInt(14),null);
                     cbDoktoriData.add(dok);
                 }
                 
@@ -1923,12 +1953,12 @@ public class FXMLDoktorController implements Initializable {
                     ComboBox<Druhy> cbDruhy = new ComboBox<Druhy>();
                     cbDruhy.setItems(cbDruhyData);
                     
-                    ComboBox<Doktori> cbDoktori = new ComboBox<Doktori>();
-                    cbDoktori.setItems(cbDoktoriData);
+                    ComboBox<Doktori> cbDoktori3 = new ComboBox<Doktori>();
+                    cbDoktori3.setItems(cbDoktoriData);
 
                     Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getDouble(4), rs.getString(5), rs.getString(6),rs.getInt(7),
-                            rs.getInt(8),rs.getInt(9),rs.getInt(10),cbMajitele,cbPohlavi,cbDruhy,cbDoktori);
+                            rs.getInt(8),rs.getInt(9),rs.getInt(10),cbMajitele,cbPohlavi,cbDruhy,cbDoktori3);
                     
                     for (Majitele majitel : cbMajiteleData) {
                         if (majitel.getIdMajitele() == zv.getIdMajitele()) {
@@ -1951,7 +1981,7 @@ public class FXMLDoktorController implements Initializable {
                     
                     for (Doktori doktor : cbDoktoriData) {
                         if (doktor.getIdDoktora() == zv.getIdDoktora()) {
-                            cbDoktori.getSelectionModel().select(doktor);
+                            cbDoktori3.getSelectionModel().select(doktor);
                             break;
                         }
                     }

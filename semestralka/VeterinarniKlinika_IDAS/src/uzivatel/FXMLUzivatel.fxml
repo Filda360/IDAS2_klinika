@@ -225,6 +225,13 @@
                   <TableColumn fx:id="vysetreni_zvire" prefWidth="150.0" text="zvire" />
                </columns>
             </TableView>
+            <TableView fx:id="tableViewZpravy" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="zpravy_prijemce" prefWidth="150.0" text="prijemce" />
+                <TableColumn fx:id="zpravy_odesilatel" prefWidth="150.0" text="odesilatel" />
+                  <TableColumn fx:id="zpravy_text" prefWidth="150.0" text="zprava" />
+              </columns>
+            </TableView>
             <TableView fx:id="tableViewZakroky" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="zakroky_datum" prefWidth="150.0" text="datum" />

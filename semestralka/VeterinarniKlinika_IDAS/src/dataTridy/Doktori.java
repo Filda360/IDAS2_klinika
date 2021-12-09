@@ -26,8 +26,10 @@ public class Doktori {
     String heslo;
     String prihlasovaciJmeno;
     ComboBox<Adresy> adresy;
+    int idNadrizeneho;
+    ComboBox<Doktori> doktori;
 
-    public Doktori(int idDoktora, String titul, String delkaUvazku, String datumNastupu, double plat, String jmeno, String prijmeni, String datumNarozeni, String telefon, String email, int idAdresy, String heslo, String prihlasovaciJmeno, ComboBox<Adresy> adresy) {
+    public Doktori(int idDoktora, String titul, String delkaUvazku, String datumNastupu, double plat, String jmeno, String prijmeni, String datumNarozeni, String telefon, String email, int idAdresy, String heslo, String prihlasovaciJmeno, ComboBox<Adresy> adresy, int idNadrizeneho, ComboBox<Doktori> doktori) {
         this.idDoktora = idDoktora;
         this.titul = titul;
         this.delkaUvazku = delkaUvazku;
@@ -42,7 +44,27 @@ public class Doktori {
         this.heslo = heslo;
         this.prihlasovaciJmeno = prihlasovaciJmeno;
         this.adresy = adresy;
+        this.idNadrizeneho = idNadrizeneho;
+        this.doktori = doktori;
     }
+
+    public int getIdNadrizeneho() {
+        return idNadrizeneho;
+    }
+
+    public void setIdNadrizeneho(int idNadrizeneho) {
+        this.idNadrizeneho = idNadrizeneho;
+    }
+
+    public ComboBox<Doktori> getDoktori() {
+        return doktori;
+    }
+
+    public void setDoktori(ComboBox<Doktori> doktori) {
+        this.doktori = doktori;
+    }
+
+    
 
     public ComboBox<Adresy> getAdresy() {
         return adresy;
