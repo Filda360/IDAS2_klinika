@@ -2,32 +2,35 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doktor.FXMLDoktorController">
+<BorderPane prefHeight="600.0" prefWidth="1024.0" stylesheets="@doktorlCss.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doktor.FXMLDoktorController">
    <top>
       <VBox prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER" prefHeight="28.0" prefWidth="600.0">
                <children>
-                  <Label text="Zobraz Tabulku" />
+                  <Label text="Vítejte" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="10.0">
                <children>
-                  <Label text="Typ uzivatele" />
-                  <ComboBox fx:id="comboTypUzivatele" prefWidth="150.0" />
-                  <Label text="Uzivatel" />
-                  <ComboBox fx:id="comboUzivatel" prefWidth="150.0" />
+                  <CheckBox fx:id="chBDatum" mnemonicParsing="false" text="filtr datum" />
+                  <DatePicker fx:id="dpDatum" />
+                  <CheckBox fx:id="chBFiltr" mnemonicParsing="false" text="nazev" />
+                  <TextField fx:id="tfFiltr" />
                   <Label text="Tabulka" />
-                  <ComboBox fx:id="comboTabulky" prefWidth="150.0" />
+                  <ComboBox fx:id="comboTabulky" onAction="#cbTabulkaOnAction" prefWidth="150.0" />
                   <Button mnemonicParsing="false" onAction="#button_obnovit" text="Obnovit" />
                </children>
             </HBox>
@@ -51,9 +54,10 @@
       <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="115.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="operace:" />
-            <Button mnemonicParsing="false" onAction="#button_pridat" prefWidth="105.0" text="Pridat zaznam" />
-            <Button mnemonicParsing="false" onAction="#button_odebrat" prefWidth="105.0" text="Odebrat zaznam" />
-            <Button mnemonicParsing="false" onAction="#button_ulozit" prefWidth="105.0" text="Ulozit zaznam" />
+            <Button fx:id="btnPridat" mnemonicParsing="false" onAction="#button_pridat" prefWidth="105.0" text="Pridat zaznam" />
+            <Button fx:id="btnOdebrat" mnemonicParsing="false" onAction="#button_odebrat" prefWidth="105.0" text="Odebrat zaznam" />
+            <Button fx:id="btnUloz" mnemonicParsing="false" onAction="#button_ulozit" prefWidth="105.0" text="Ulozit zaznam" />
+            <Button fx:id="btnNapsatZpravu" mnemonicParsing="false" onAction="#hadnleBtnNapsatZpravu" prefWidth="105.0" text="Napsat zpravu" />
          </children>
       </VBox>
    </right>
@@ -68,8 +72,6 @@
                   <TableColumn fx:id="administratori_telefon" prefWidth="150.0" text="telefon" />
                   <TableColumn fx:id="administratori_email" prefWidth="150.0" text="email" />
                   <TableColumn fx:id="administratori_prihlasovaci_jmeno" prefWidth="150.0" text="prihlasovaci_jmeno" />
-                  <TableColumn fx:id="administratori_heslo" prefWidth="150.0" text="heslo" />
-                  <TableColumn fx:id="administratori_adresa" prefWidth="150.0" text="adresa" />
                </columns>
             </TableView>
              <TableView fx:id="tableViewAdresy" prefHeight="200.0" prefWidth="200.0">
@@ -110,12 +112,10 @@
                 <TableColumn fx:id="doktori_titul" prefWidth="150.0" text="titul" />
                 <TableColumn fx:id="doktori_delka_uvazku" prefWidth="150.0" text="delka_uvazku" />
                 <TableColumn fx:id="doktori_datum_nastupu" prefWidth="150.0" text="datum_nastupu" />
-                <TableColumn fx:id="doktori_plat" prefWidth="150.0" text="plat" />
                 <TableColumn fx:id="doktori_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
                 <TableColumn fx:id="doktori_telefon" prefWidth="150.0" text="telefon" />
                 <TableColumn fx:id="doktori_email" prefWidth="150.0" text="email" />
                 <TableColumn fx:id="doktori_prihlasovaci_jmeno" prefWidth="150.0" text="prihlasovaci_jmeno" />
-                <TableColumn fx:id="doktori_heslo" prefWidth="150.0" text="heslo" />
                 <TableColumn fx:id="doktori_adresa" prefWidth="150.0" text="adresa" />
               </columns>
             </TableView>
@@ -178,7 +178,6 @@
                 <TableColumn fx:id="majitele_telefon" prefWidth="150.0" text="telefon" />
                 <TableColumn fx:id="majitele_email" prefWidth="150.0" text="email" />
                 <TableColumn fx:id="majitele_prihlasovaci_jmeno" prefWidth="150.0" text="prihlasovaci_jmeno" />
-                <TableColumn fx:id="majitele_heslo" prefWidth="150.0" text="heslo" />
                 <TableColumn fx:id="majitele_adresa" prefWidth="150.0" text="adresa" />
               </columns>
             </TableView>
