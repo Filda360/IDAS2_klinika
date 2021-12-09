@@ -2034,9 +2034,7 @@ public class FXMLDoktorController implements Initializable {
 
     @FXML
     private void button_pridat(ActionEvent event) {
-        //switch(){
         
-       // }
     }
 
     @FXML

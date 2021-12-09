@@ -646,11 +646,10 @@ public class FXMLAdministratorController implements Initializable {
         zakroky_zvire.setCellValueFactory(new PropertyValueFactory<>("zvirata"));
         zakroky_operace.setCellValueFactory(new PropertyValueFactory<>("operace"));
         tableViewZakroky.setEditable(true);
-        
-        
+
         zakroky_datum.setCellFactory(TextFieldTableCell.forTableColumn());
         zakroky_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
-        
+
         tableViewZpravy.setItems(zpravyData);
         zpravy_prijemce.setCellValueFactory(new PropertyValueFactory<>("prijemce"));
         zpravy_odesilatel.setCellValueFactory(new PropertyValueFactory<>("odesilatel"));
@@ -866,7 +865,7 @@ public class FXMLAdministratorController implements Initializable {
                 tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
-                adresyData.clear();
+                diagnozyData.clear();
                 sql = "SELECT * FROM PO_DIAGNOZY";
 
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -974,23 +973,22 @@ public class FXMLAdministratorController implements Initializable {
                     cbAdresyData2.add(ad);
                 }
                 ComboBox<Doktori> cbDoktori;
-                cbDoktoriData4.add(new Doktori(-1,"","","",0,"","","","","",-1,"","",null,-1,null));
+                cbDoktoriData4.add(new Doktori(-1, "", "", "", 0, "", "", "", "", "", -1, "", "", null, -1, null));
                 sql = "SELECT * FROM PO_DOKTORI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
-                    
+
                 while (rs.next()) {
                     ComboBox<Adresy> cbAdresy = new ComboBox<Adresy>();
                     cbAdresy.setItems(cbAdresyData2);
-                    
-                     cbDoktori = new ComboBox<Doktori>();
-                     cbDoktori.setItems(cbDoktoriData4);
-                    
-                    
+
+                    cbDoktori = new ComboBox<Doktori>();
+                    cbDoktori.setItems(cbDoktoriData4);
+
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getDate(4).toString(), rs.getDouble(5), rs.getString(6), rs.getString(7),
                             rs.getDate(8).toString(), rs.getString(9), rs.getString(10), rs.getInt(11),
-                            rs.getString(12), rs.getString(13), cbAdresy,rs.getInt(14),cbDoktori);
+                            rs.getString(12), rs.getString(13), cbAdresy, rs.getInt(14), cbDoktori);
                     for (Adresy adresa : cbAdresyData2) {
                         if (adresa.getIdAdresy() == dok.getIdAdresy()) {
                             cbAdresy.getSelectionModel().select(adresa);
@@ -1002,9 +1000,9 @@ public class FXMLAdministratorController implements Initializable {
                 }
                 for (Doktori dok1 : doktoriData) {
                     for (Doktori dok2 : doktoriData) {
-                        if(dok1.getIdNadrizeneho()==dok2.getIdDoktora()){
+                        if (dok1.getIdNadrizeneho() == dok2.getIdDoktora()) {
                             dok1.getDoktori().getSelectionModel().select(dok2);
-                        }  
+                        }
                     }
                 }
                 tableViewDoktori.refresh();
@@ -1164,7 +1162,7 @@ public class FXMLAdministratorController implements Initializable {
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getDate(4).toString(), rs.getDouble(5), rs.getString(6), rs.getString(7),
                             rs.getDate(8).toString(), rs.getString(9), rs.getString(10), rs.getInt(11),
-                            rs.getString(12), rs.getString(13), null,rs.getInt(14),null);
+                            rs.getString(12), rs.getString(13), null, rs.getInt(14), null);
                     cbDoktoriData2.add(dok);
                 }
                 sql = "SELECT * FROM PO_FOTO_DOKTORU";
@@ -1905,68 +1903,67 @@ public class FXMLAdministratorController implements Initializable {
                 tableViewZakroky.setVisible(false);
                 tableViewZpravy.setVisible(true);
                 tableViewZvirata.setVisible(false);
-                
+
                 zpravyData.clear();
                 sql = "SELECT * FROM PO_ZPRAVY";
-                
+
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    Zpravy zpr = new Zpravy(rs.getInt(1),rs.getInt(2),"",rs.getInt(3),"",rs.getString(4),rs.getInt(5),rs.getInt(6));
+                    Zpravy zpr = new Zpravy(rs.getInt(1), rs.getInt(2), "", rs.getInt(3), "", rs.getString(4), rs.getInt(5), rs.getInt(6));
                     zpravyData.add(zpr);
                 }
-                for(Zpravy zp :zpravyData){
-                switch(zp.getTypPrijemce()){
-                case 1:
-                    sql = "SELECT * FROM PO_ADMINISTRATORI WHERE ID_ADMINISTRATORA = "+zp.getIdPrijemce();
-                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                    rs = pstmt.executeQuery();
-                    rs.next();
-                    zp.setPrijemce(rs.getString(2)+" "+rs.getString(3));
-                    break;
-                case 2:
-                    sql = "SELECT * FROM PO_DOKTORI WHERE ID_DOKTORA = "+zp.getIdPrijemce();
-                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                    rs = pstmt.executeQuery();
-                    rs.next();
-                    zp.setPrijemce(rs.getString(6)+" "+rs.getString(7));
-                    break;
-                case 3:
-                    sql = "SELECT * FROM PO_MAJITELE WHERE ID_MAJITELE = "+zp.getIdPrijemce();
-                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                    rs = pstmt.executeQuery();
-                    rs.next();
-                    zp.setPrijemce(rs.getString(3)+" "+rs.getString(4));
-                    break;
+                for (Zpravy zp : zpravyData) {
+                    switch (zp.getTypPrijemce()) {
+                        case 1:
+                            sql = "SELECT * FROM PO_ADMINISTRATORI WHERE ID_ADMINISTRATORA = " + zp.getIdPrijemce();
+                            pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                            rs = pstmt.executeQuery();
+                            rs.next();
+                            zp.setPrijemce(rs.getString(2) + " " + rs.getString(3));
+                            break;
+                        case 2:
+                            sql = "SELECT * FROM PO_DOKTORI WHERE ID_DOKTORA = " + zp.getIdPrijemce();
+                            pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                            rs = pstmt.executeQuery();
+                            rs.next();
+                            zp.setPrijemce(rs.getString(6) + " " + rs.getString(7));
+                            break;
+                        case 3:
+                            sql = "SELECT * FROM PO_MAJITELE WHERE ID_MAJITELE = " + zp.getIdPrijemce();
+                            pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                            rs = pstmt.executeQuery();
+                            rs.next();
+                            zp.setPrijemce(rs.getString(3) + " " + rs.getString(4));
+                            break;
+                    }
+                    switch (zp.getTypOdesilatele()) {
+                        case 1:
+                            sql = "SELECT * FROM PO_ADMINISTRATORI WHERE ID_ADMINISTRATORA = " + zp.getIdOdesilatele();
+                            pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                            rs = pstmt.executeQuery();
+                            rs.next();
+                            zp.setOdesilatel(rs.getString(2) + " " + rs.getString(3));
+                            break;
+                        case 2:
+                            sql = "SELECT * FROM PO_DOKTORI WHERE ID_DOKTORA = " + zp.getIdOdesilatele();
+                            pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                            rs = pstmt.executeQuery();
+                            rs.next();
+                            zp.setOdesilatel(rs.getString(6) + " " + rs.getString(7));
+                            break;
+                        case 3:
+                            sql = "SELECT * FROM PO_MAJITELE WHERE ID_MAJITELE = " + zp.getIdOdesilatele();
+                            pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                            rs = pstmt.executeQuery();
+                            rs.next();
+                            zp.setOdesilatel(rs.getString(3) + " " + rs.getString(4));
+                            break;
+                    }
                 }
-                switch(zp.getTypOdesilatele()){
-                case 1:
-                    sql = "SELECT * FROM PO_ADMINISTRATORI WHERE ID_ADMINISTRATORA = "+zp.getIdOdesilatele();
-                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                    rs = pstmt.executeQuery();
-                    rs.next();
-                    zp.setOdesilatel(rs.getString(2)+" "+rs.getString(3));
-                    break;
-                case 2:
-                    sql = "SELECT * FROM PO_DOKTORI WHERE ID_DOKTORA = "+zp.getIdOdesilatele();
-                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                    rs = pstmt.executeQuery();
-                    rs.next();
-                    zp.setOdesilatel(rs.getString(6)+" "+rs.getString(7));
-                    break;
-                case 3:
-                    sql = "SELECT * FROM PO_MAJITELE WHERE ID_MAJITELE = "+zp.getIdOdesilatele();
-                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                    rs = pstmt.executeQuery();
-                    rs.next();
-                    zp.setOdesilatel(rs.getString(3)+" "+rs.getString(4));
-                    break;
-                }
-                }
-                
-                
+
                 tableViewZpravy.refresh();
-                
+
                 break;
             case Zvirata:
                 ///////////////////////////////////////////////////////////////////////
@@ -2044,7 +2041,7 @@ public class FXMLAdministratorController implements Initializable {
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getDate(4).toString(), rs.getDouble(5), rs.getString(6), rs.getString(7),
                             rs.getDate(8).toString(), rs.getString(9), rs.getString(10), rs.getInt(11),
-                            rs.getString(12), rs.getString(13), null,rs.getInt(14),null);
+                            rs.getString(12), rs.getString(13), null, rs.getInt(14), null);
                     cbDoktoriData3.add(dok);
                 }
 
@@ -2208,7 +2205,7 @@ public class FXMLAdministratorController implements Initializable {
                     cbAdresyD2.add(ad2);
                 }
                 cbAdresy2.getSelectionModel().selectFirst();
-                Dodavatele dod = new Dodavatele(-1, "", "","", 0,cbAdresy2);
+                Dodavatele dod = new Dodavatele(-1, "", "", "", 0, cbAdresy2);
                 dodavateleData.add(dod);
                 tableViewDodavatele.refresh();
                 tableViewDodavatele.getSelectionModel().select(dod);
@@ -2219,7 +2216,7 @@ public class FXMLAdministratorController implements Initializable {
                 ComboBox<Adresy> cbAdresy3 = new ComboBox<>(cbAdresyD3);
                 ObservableList<Doktori> cbDoktoriD4 = FXCollections.observableArrayList();
                 ComboBox<Doktori> cbDoktori4 = new ComboBox<>(cbDoktoriD4);
-                cbDoktoriD4.add(new Doktori(-1,"","","",0,"","","","","",-1,"","",null,-1,null));
+                cbDoktoriD4.add(new Doktori(-1, "", "", "", 0, "", "", "", "", "", -1, "", "", null, -1, null));
                 sql = "SELECT * FROM PO_ADRESY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2229,20 +2226,20 @@ public class FXMLAdministratorController implements Initializable {
                     cbAdresyD3.add(ad3);
                 }
                 cbAdresy3.getSelectionModel().selectFirst();
-                
+
                 sql = "SELECT * FROM PO_DOKTORI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
 
                 while (rs.next()) {
                     Doktori dokt = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4), rs.getInt(5),rs.getString(6), rs.getString(7),rs.getString(8),rs.getString(9),
-                            rs.getString(10),rs.getInt(11),rs.getString(12), rs.getString(13),null,rs.getInt(14),null);
+                            rs.getString(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),
+                            rs.getString(10), rs.getInt(11), rs.getString(12), rs.getString(13), null, rs.getInt(14), null);
                     cbDoktoriD4.add(dokt);
                 }
                 cbDoktori4.getSelectionModel().selectFirst();
-                
-                Doktori dok = new Doktori(-1, "", "","", 0,"", "","","", "",0,"", "",cbAdresy3,-1,cbDoktori4);
+
+                Doktori dok = new Doktori(-1, "", "", "", 0, "", "", "", "", "", 0, "", "", cbAdresy3, -1, cbDoktori4);
                 doktoriData.add(dok);
                 tableViewDoktori.refresh();
                 tableViewDoktori.getSelectionModel().select(dok);
@@ -2270,7 +2267,7 @@ public class FXMLAdministratorController implements Initializable {
                     cbMajiteleD.add(maj);
                 }
                 cbMajitele.getSelectionModel().selectFirst();
-                
+
                 ObservableList<TypyPlatby> cbTypyPlatbyD = FXCollections.observableArrayList();
                 ComboBox<TypyPlatby> cbTypyPlatby = new ComboBox<>(cbTypyPlatbyD);
                 sql = "SELECT * FROM PO_TYPY_PLATBY";
@@ -2282,10 +2279,9 @@ public class FXMLAdministratorController implements Initializable {
                     cbTypyPlatbyD.add(typ);
                 }
                 cbMajitele.getSelectionModel().selectFirst();
-                
-                
+
                 Faktury fak = new Faktury(-1, "01-01-2000", "01-01-2000",
-                            "", -1, -1, cbMajitele, cbTypyPlatby);
+                        "", -1, -1, cbMajitele, cbTypyPlatby);
                 fakturyData.add(fak);
                 tableViewFaktury.refresh();
                 tableViewFaktury.getSelectionModel().select(fak);
@@ -2309,18 +2305,18 @@ public class FXMLAdministratorController implements Initializable {
                 rs = pstmt.executeQuery();
 
                 while (rs.next()) {
-                    Dodavatele dod1 = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getInt(5),null);
+                    Dodavatele dod1 = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), null);
                     cbDodavateleD.add(dod1);
                 }
                 cbDodavatele.getSelectionModel().selectFirst();
-                Leciva lec = new Leciva(-1, "", "",0, "",0,cbDodavatele);
+                Leciva lec = new Leciva(-1, "", "", 0, "", 0, cbDodavatele);
                 lecivaData.add(lec);
                 tableViewLeciva.refresh();
                 tableViewLeciva.getSelectionModel().select(lec);
                 break;
             case LogTable:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                
+
                 break;
             case Majitele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2336,8 +2332,8 @@ public class FXMLAdministratorController implements Initializable {
                 }
                 cbAdresy4.getSelectionModel().selectFirst();
                 Majitele maj = new Majitele(-1, "01-01-2000",
-                            "", "", "01-01-2000",
-                            "", "", -1,"", "", cbAdresy4);
+                        "", "", "01-01-2000",
+                        "", "", -1, "", "", cbAdresy4);
                 majiteleData.add(maj);
                 tableViewMajitele.refresh();
                 tableViewMajitele.getSelectionModel().select(maj);
@@ -2345,7 +2341,7 @@ public class FXMLAdministratorController implements Initializable {
             case Objednavky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ObservableList<Majitele> cbMajiteleD2 = FXCollections.observableArrayList();
-                ComboBox<Majitele> cbMajitele2= new ComboBox<>(cbMajiteleD2);
+                ComboBox<Majitele> cbMajitele2 = new ComboBox<>(cbMajiteleD2);
                 sql = "SELECT * FROM PO_MAJITELE";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2359,7 +2355,7 @@ public class FXMLAdministratorController implements Initializable {
                 }
                 cbMajitele2.getSelectionModel().selectFirst();
                 Objednavky obj = new Objednavky(-1, "", "",
-                            -1, cbMajitele2);
+                        -1, cbMajitele2);
                 objednavkyData.add(obj);
                 tableViewObjednavky.refresh();
                 tableViewObjednavky.getSelectionModel().select(obj);
@@ -2367,7 +2363,7 @@ public class FXMLAdministratorController implements Initializable {
             case Odbery:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ObservableList<Zvirata> cbZvirataD = FXCollections.observableArrayList();
-                ComboBox<Zvirata> cbZvirata= new ComboBox<>(cbZvirataD);
+                ComboBox<Zvirata> cbZvirata = new ComboBox<>(cbZvirataD);
                 sql = "SELECT * FROM PO_ZVIRATA";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2379,14 +2375,14 @@ public class FXMLAdministratorController implements Initializable {
                     cbZvirataD.add(zv);
                 }
                 cbZvirata.getSelectionModel().selectFirst();
-                Odbery od = new Odbery("01-01-2000", -1,-1, "", cbZvirata);
+                Odbery od = new Odbery("01-01-2000", -1, -1, "", cbZvirata);
                 odberyData.add(od);
                 tableViewOdbery.refresh();
                 tableViewOdbery.getSelectionModel().select(od);
                 break;
             case Operace:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                Operace op = new Operace(-1, "","", 0, "");
+                Operace op = new Operace(-1, "", "", 0, "");
                 operaceData.add(op);
                 tableViewOperace.refresh();
                 tableViewOperace.getSelectionModel().select(op);
@@ -2401,7 +2397,7 @@ public class FXMLAdministratorController implements Initializable {
             case Polozky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ObservableList<Faktury> cbFakturyD = FXCollections.observableArrayList();
-                ComboBox<Faktury> cbFaktury= new ComboBox<>(cbFakturyD);
+                ComboBox<Faktury> cbFaktury = new ComboBox<>(cbFakturyD);
                 sql = "SELECT * FROM PO_FAKTURY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2412,14 +2408,14 @@ public class FXMLAdministratorController implements Initializable {
                     cbFakturyD.add(fakt);
                 }
                 cbFaktury.getSelectionModel().selectFirst();
-                Polozky polo = new Polozky(-1, "",0, 0, -1,cbFaktury);
+                Polozky polo = new Polozky(-1, "", 0, 0, -1, cbFaktury);
                 polozkyData.add(polo);
                 tableViewPolozky.refresh();
                 tableViewPolozky.getSelectionModel().select(polo);
                 break;
             case Posty:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                Posty post = new Posty(-1, "","");
+                Posty post = new Posty(-1, "", "");
                 postyData.add(post);
                 tableViewPosty.refresh();
                 tableViewPosty.getSelectionModel().select(post);
@@ -2444,9 +2440,9 @@ public class FXMLAdministratorController implements Initializable {
                     cbDiagnozyD.add(diagn);
                 }
                 cbDiagnozy.getSelectionModel().selectFirst();
-                
+
                 ObservableList<Zvirata> cbZvirataD2 = FXCollections.observableArrayList();
-                ComboBox<Zvirata> cbZvirata2= new ComboBox<>(cbZvirataD2);
+                ComboBox<Zvirata> cbZvirata2 = new ComboBox<>(cbZvirataD2);
                 sql = "SELECT * FROM PO_ZVIRATA";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2458,10 +2454,9 @@ public class FXMLAdministratorController implements Initializable {
                     cbZvirataD2.add(zv);
                 }
                 cbZvirata2.getSelectionModel().selectFirst();
-                
-                
+
                 Vysetreni vys = new Vysetreni(-1, "01-01-2000", "",
-                            -1, -1, cbDiagnozy, cbZvirata2);
+                        -1, -1, cbDiagnozy, cbZvirata2);
                 vysetreniData.add(vys);
                 tableViewVysetreni.refresh();
                 tableViewVysetreni.getSelectionModel().select(vys);
@@ -2475,13 +2470,13 @@ public class FXMLAdministratorController implements Initializable {
                 rs = pstmt.executeQuery();
 
                 while (rs.next()) {
-                    Operace oper = new Operace(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4),rs.getString(5));
+                    Operace oper = new Operace(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5));
                     cbOperaceD.add(oper);
                 }
                 cbOperace.getSelectionModel().selectFirst();
-                
+
                 ObservableList<Zvirata> cbZvirataD3 = FXCollections.observableArrayList();
-                ComboBox<Zvirata> cbZvirata3= new ComboBox<>(cbZvirataD3);
+                ComboBox<Zvirata> cbZvirata3 = new ComboBox<>(cbZvirataD3);
                 sql = "SELECT * FROM PO_ZVIRATA";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2493,21 +2488,20 @@ public class FXMLAdministratorController implements Initializable {
                     cbZvirataD3.add(zv);
                 }
                 cbZvirata3.getSelectionModel().selectFirst();
-                
-                
+
                 Zakroky zak = new Zakroky(-1, "01-01-2000", "",
-                            -1, -1, cbZvirata3, cbOperace);
+                        -1, -1, cbZvirata3, cbOperace);
                 zakrokyData.add(zak);
                 tableViewZakroky.refresh();
                 tableViewZakroky.getSelectionModel().select(zak);
                 break;
             case Zpravy:
-                
+
                 break;
             case Zvirata:
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 ObservableList<Majitele> cbMajiteleD3 = FXCollections.observableArrayList();
-                ComboBox<Majitele> cbMajitele3= new ComboBox<>(cbMajiteleD3);
+                ComboBox<Majitele> cbMajitele3 = new ComboBox<>(cbMajiteleD3);
                 sql = "SELECT * FROM PO_MAJITELE";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2520,9 +2514,9 @@ public class FXMLAdministratorController implements Initializable {
                     cbMajiteleD3.add(maj2);
                 }
                 cbMajitele3.getSelectionModel().selectFirst();
-                
+
                 ObservableList<Pohlavi> cbPohlaviD = FXCollections.observableArrayList();
-                ComboBox<Pohlavi> cbPohlavi= new ComboBox<>(cbPohlaviD);
+                ComboBox<Pohlavi> cbPohlavi = new ComboBox<>(cbPohlaviD);
                 sql = "SELECT * FROM PO_POHLAVI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2532,9 +2526,9 @@ public class FXMLAdministratorController implements Initializable {
                     cbPohlaviD.add(poh);
                 }
                 cbPohlavi.getSelectionModel().selectFirst();
-                
+
                 ObservableList<Druhy> cbDruhyD = FXCollections.observableArrayList();
-                ComboBox<Druhy> cbDruhy= new ComboBox<>(cbDruhyD);
+                ComboBox<Druhy> cbDruhy = new ComboBox<>(cbDruhyD);
                 sql = "SELECT * FROM PO_DRUHY";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -2544,9 +2538,9 @@ public class FXMLAdministratorController implements Initializable {
                     cbDruhyD.add(dru);
                 }
                 cbDruhy.getSelectionModel().selectFirst();
-                
+
                 ObservableList<Doktori> cbDoktoriD = FXCollections.observableArrayList();
-                ComboBox<Doktori> cbDoktori= new ComboBox<>(cbDoktoriD);
+                ComboBox<Doktori> cbDoktori = new ComboBox<>(cbDoktoriD);
                 sql = "SELECT * FROM PO_DOKTORI";
 
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2556,12 +2550,12 @@ public class FXMLAdministratorController implements Initializable {
                     Doktori dokt = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getDate(4).toString(), rs.getDouble(5), rs.getString(6), rs.getString(7),
                             rs.getDate(8).toString(), rs.getString(9), rs.getString(10), rs.getInt(11),
-                            rs.getString(12), rs.getString(13), null,rs.getInt(14),null);
+                            rs.getString(12), rs.getString(13), null, rs.getInt(14), null);
                     cbDoktoriD.add(dokt);
                 }
                 cbDoktori.getSelectionModel().selectFirst();
-                
-                Zvirata zvir = new Zvirata(-1, "", "01-01-2000",0, "", "", -1,-1,-1, -1, cbMajitele3, cbPohlavi, cbDruhy, cbDoktori);
+
+                Zvirata zvir = new Zvirata(-1, "", "01-01-2000", 0, "", "", -1, -1, -1, -1, cbMajitele3, cbPohlavi, cbDruhy, cbDoktori);
                 zvirataData.add(zvir);
                 tableViewZvirata.refresh();
                 tableViewZvirata.getSelectionModel().select(zvir);
@@ -2576,279 +2570,279 @@ public class FXMLAdministratorController implements Initializable {
         switch (comboTabulky.getValue()) {
             case Administratori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Administratori> adminL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_ADMINISTRATORI";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Administratori> adminL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ADMINISTRATORI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Administratori ad = new Administratori(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), null);
-                    adminL.add(ad);
-                }
-                idVymazat = -1;
-                for (Administratori admin : adminL) {
-                    if (admin.getIdAdministratora() == tableViewAdministratori.getSelectionModel().getSelectedItem().getIdAdministratora()) {
-                        idVymazat = admin.getIdAdministratora();
-                        break;
+                    while (rs.next()) {
+                        Administratori ad = new Administratori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), null);
+                        adminL.add(ad);
                     }
-                }
+                    idVymazat = -1;
+                    for (Administratori admin : adminL) {
+                        if (admin.getIdAdministratora() == tableViewAdministratori.getSelectionModel().getSelectedItem().getIdAdministratora()) {
+                            idVymazat = admin.getIdAdministratora();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ADMINISTRATORI(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                administratoriData.remove(tableViewAdministratori.getSelectionModel().getSelectedItem());
-                tableViewAdministratori.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ADMINISTRATORI(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    administratoriData.remove(tableViewAdministratori.getSelectionModel().getSelectedItem());
+                    tableViewAdministratori.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Adresy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Adresy> adresyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_ADRESY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Adresy> adresyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ADRESY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getInt(4), null);
-                    adresyL.add(ad);
-                }
-                idVymazat = -1;
-                for (Adresy datF : adresyL) {
-                    if (datF.getIdAdresy() == tableViewAdresy.getSelectionModel().getSelectedItem().getIdAdresy()) {
-                        idVymazat = datF.getIdAdresy();
-                        break;
+                    while (rs.next()) {
+                        Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getInt(4), null);
+                        adresyL.add(ad);
                     }
-                }
+                    idVymazat = -1;
+                    for (Adresy datF : adresyL) {
+                        if (datF.getIdAdresy() == tableViewAdresy.getSelectionModel().getSelectedItem().getIdAdresy()) {
+                            idVymazat = datF.getIdAdresy();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ADRESY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                adresyData.remove(tableViewAdresy.getSelectionModel().getSelectedItem());
-                tableViewAdresy.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ADRESY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    adresyData.remove(tableViewAdresy.getSelectionModel().getSelectedItem());
+                    tableViewAdresy.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Biochemie:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Biochemie> biochemieL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_BIOCHEMIE";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Biochemie> biochemieL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_BIOCHEMIE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Biochemie bio = new Biochemie(rs.getInt(1), rs.getDouble(2), rs.getDouble(3),
-                            rs.getDouble(4), rs.getDouble(5),rs.getDouble(6));
-                    biochemieL.add(bio);
-                }
-                idVymazat = -1;
-                for (Biochemie datB : biochemieL) {
-                    if (datB.getIdOdberu() == tableViewBiochemie.getSelectionModel().getSelectedItem().getIdOdberu()) {
-                        idVymazat = datB.getIdOdberu();
-                        break;
+                    while (rs.next()) {
+                        Biochemie bio = new Biochemie(rs.getInt(1), rs.getDouble(2), rs.getDouble(3),
+                                rs.getDouble(4), rs.getDouble(5), rs.getDouble(6));
+                        biochemieL.add(bio);
                     }
-                }
+                    idVymazat = -1;
+                    for (Biochemie datB : biochemieL) {
+                        if (datB.getIdOdberu() == tableViewBiochemie.getSelectionModel().getSelectedItem().getIdOdberu()) {
+                            idVymazat = datB.getIdOdberu();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_BIOCHEMIE(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                biochemieData.remove(tableViewBiochemie.getSelectionModel().getSelectedItem());
-                tableViewBiochemie.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_BIOCHEMIE(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    biochemieData.remove(tableViewBiochemie.getSelectionModel().getSelectedItem());
+                    tableViewBiochemie.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Diagnozy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Diagnozy> diagnozyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_DIAGNOZY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Diagnozy> diagnozyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DIAGNOZY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Diagnozy diag = new Diagnozy(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getInt(4));
-                    diagnozyL.add(diag);
-                }
-                idVymazat = -1;
-                for (Diagnozy datD : diagnozyL) {
-                    if (datD.getIdDiagnozy() == tableViewDiagnozy.getSelectionModel().getSelectedItem().getIdDiagnozy()) {
-                        idVymazat = datD.getIdDiagnozy();
-                        break;
+                    while (rs.next()) {
+                        Diagnozy diag = new Diagnozy(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getInt(4));
+                        diagnozyL.add(diag);
                     }
-                }
+                    idVymazat = -1;
+                    for (Diagnozy datD : diagnozyL) {
+                        if (datD.getIdDiagnozy() == tableViewDiagnozy.getSelectionModel().getSelectedItem().getIdDiagnozy()) {
+                            idVymazat = datD.getIdDiagnozy();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DIAGNOZY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                diagnozyData.remove(tableViewDiagnozy.getSelectionModel().getSelectedItem());
-                tableViewDiagnozy.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DIAGNOZY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    diagnozyData.remove(tableViewDiagnozy.getSelectionModel().getSelectedItem());
+                    tableViewDiagnozy.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Dodavatele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Dodavatele> dodavateleL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_DODAVATELE";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Dodavatele> dodavateleL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DODAVATELE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Dodavatele doda = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getString(4),rs.getInt(5),null);
-                    dodavateleL.add(doda);
-                }
-                idVymazat = -1;
-                for (Dodavatele datD : dodavateleL) {
-                    if (datD.getIdDodavatele() == tableViewDodavatele.getSelectionModel().getSelectedItem().getIdDodavatele()) {
-                        idVymazat = datD.getIdDodavatele();
-                        break;
+                    while (rs.next()) {
+                        Dodavatele doda = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), null);
+                        dodavateleL.add(doda);
                     }
-                }
+                    idVymazat = -1;
+                    for (Dodavatele datD : dodavateleL) {
+                        if (datD.getIdDodavatele() == tableViewDodavatele.getSelectionModel().getSelectedItem().getIdDodavatele()) {
+                            idVymazat = datD.getIdDodavatele();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DODAVATELE(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                dodavateleData.remove(tableViewDodavatele.getSelectionModel().getSelectedItem());
-                tableViewDodavatele.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DODAVATELE(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    dodavateleData.remove(tableViewDodavatele.getSelectionModel().getSelectedItem());
+                    tableViewDodavatele.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Doktori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Doktori> doktoriL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_DOKTORI";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Doktori> doktoriL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DOKTORI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3)
-                            ,rs.getString(4),rs.getInt(5),rs.getString(6),rs.getString(7),
-                            rs.getString(8),rs.getString(9),rs.getString(10),rs.getInt(11),rs.getString(12),rs.getString(13),null,rs.getInt(14),null);
-                    doktoriL.add(dok);
-                }
-                idVymazat = -1;
-                for (Doktori datD : doktoriL) {
-                    if (datD.getIdDoktora() == tableViewDoktori.getSelectionModel().getSelectedItem().getIdDoktora()) {
-                        idVymazat = datD.getIdDoktora();
-                        break;
+                    while (rs.next()) {
+                        Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                 rs.getString(4), rs.getInt(5), rs.getString(6), rs.getString(7),
+                                rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getString(12), rs.getString(13), null, rs.getInt(14), null);
+                        doktoriL.add(dok);
                     }
-                }
+                    idVymazat = -1;
+                    for (Doktori datD : doktoriL) {
+                        if (datD.getIdDoktora() == tableViewDoktori.getSelectionModel().getSelectedItem().getIdDoktora()) {
+                            idVymazat = datD.getIdDoktora();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DOKTORI(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                doktoriData.remove(tableViewDoktori.getSelectionModel().getSelectedItem());
-                tableViewDoktori.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DOKTORI(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    doktoriData.remove(tableViewDoktori.getSelectionModel().getSelectedItem());
+                    tableViewDoktori.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Druhy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Druhy> druhyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_DRUHY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Druhy> druhyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DRUHY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Druhy druh = new Druhy(rs.getInt(1), rs.getString(2));
-                    druhyL.add(druh);
-                }
-                idVymazat = -1;
-                for (Druhy druhyD : druhyL) {
-                    if (druhyD.getIdDruhu() == tableViewDruhy.getSelectionModel().getSelectedItem().getIdDruhu()) {
-                        idVymazat = druhyD.getIdDruhu();
-                        break;
+                    while (rs.next()) {
+                        Druhy druh = new Druhy(rs.getInt(1), rs.getString(2));
+                        druhyL.add(druh);
                     }
-                }
+                    idVymazat = -1;
+                    for (Druhy druhyD : druhyL) {
+                        if (druhyD.getIdDruhu() == tableViewDruhy.getSelectionModel().getSelectedItem().getIdDruhu()) {
+                            idVymazat = druhyD.getIdDruhu();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DRUHY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                druhyData.remove(tableViewDruhy.getSelectionModel().getSelectedItem());
-                tableViewDruhy.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_DRUHY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    druhyData.remove(tableViewDruhy.getSelectionModel().getSelectedItem());
+                    tableViewDruhy.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Faktury:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Faktury> fakturyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_FAKTURY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Faktury> fakturyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_FAKTURY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Faktury fak = new Faktury(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getInt(6),null,null);
-                    fakturyL.add(fak);
-                }
-                idVymazat = -1;
-                for (Faktury fakturyD : fakturyL) {
-                    if (fakturyD.getIdFaktury() == tableViewFaktury.getSelectionModel().getSelectedItem().getIdFaktury()) {
-                        idVymazat = fakturyD.getIdFaktury();
-                        break;
+                    while (rs.next()) {
+                        Faktury fak = new Faktury(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), null, null);
+                        fakturyL.add(fak);
                     }
-                }
+                    idVymazat = -1;
+                    for (Faktury fakturyD : fakturyL) {
+                        if (fakturyD.getIdFaktury() == tableViewFaktury.getSelectionModel().getSelectedItem().getIdFaktury()) {
+                            idVymazat = fakturyD.getIdFaktury();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_FAKTURY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                fakturyData.remove(tableViewFaktury.getSelectionModel().getSelectedItem());
-                tableViewFaktury.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_FAKTURY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    fakturyData.remove(tableViewFaktury.getSelectionModel().getSelectedItem());
+                    tableViewFaktury.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
@@ -2857,69 +2851,69 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case KrevniObrazy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<KrevniObrazy> krevniObrazyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_KREVNI_OBRAZY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<KrevniObrazy> krevniObrazyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_KREVNI_OBRAZY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    KrevniObrazy krev = new KrevniObrazy(rs.getInt(1), rs.getDouble(2),rs.getDouble(3),rs.getDouble(4),rs.getDouble(5));
-                    krevniObrazyL.add(krev);
-                }
-                idVymazat = -1;
-                for (KrevniObrazy krevD : krevniObrazyL) {
-                    if (krevD.getIdOdberu() == tableViewKrevniObrazy.getSelectionModel().getSelectedItem().getIdOdberu()) {
-                        idVymazat = krevD.getIdOdberu();
-                        break;
+                    while (rs.next()) {
+                        KrevniObrazy krev = new KrevniObrazy(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5));
+                        krevniObrazyL.add(krev);
                     }
-                }
+                    idVymazat = -1;
+                    for (KrevniObrazy krevD : krevniObrazyL) {
+                        if (krevD.getIdOdberu() == tableViewKrevniObrazy.getSelectionModel().getSelectedItem().getIdOdberu()) {
+                            idVymazat = krevD.getIdOdberu();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_KREVNI_OBRAZY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                krevniObrazyData.remove(tableViewKrevniObrazy.getSelectionModel().getSelectedItem());
-                tableViewKrevniObrazy.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_KREVNI_OBRAZY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    krevniObrazyData.remove(tableViewKrevniObrazy.getSelectionModel().getSelectedItem());
+                    tableViewKrevniObrazy.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Leciva:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Leciva> lecivaL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_LECIVA";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Leciva> lecivaL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_LECIVA";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Leciva leciva = new Leciva(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getInt(6),null);
-                    lecivaL.add(leciva);
-                }
-                idVymazat = -1;
-                for (Leciva lecivaD : lecivaL) {
-                    if (lecivaD.getIdLeku() == tableViewLeciva.getSelectionModel().getSelectedItem().getIdLeku()) {
-                        idVymazat = lecivaD.getIdLeku();
-                        break;
+                    while (rs.next()) {
+                        Leciva leciva = new Leciva(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getInt(6), null);
+                        lecivaL.add(leciva);
                     }
-                }
+                    idVymazat = -1;
+                    for (Leciva lecivaD : lecivaL) {
+                        if (lecivaD.getIdLeku() == tableViewLeciva.getSelectionModel().getSelectedItem().getIdLeku()) {
+                            idVymazat = lecivaD.getIdLeku();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_LECIVA(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                lecivaData.remove(tableViewLeciva.getSelectionModel().getSelectedItem());
-                tableViewLeciva.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_LECIVA(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    lecivaData.remove(tableViewLeciva.getSelectionModel().getSelectedItem());
+                    tableViewLeciva.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
@@ -2928,417 +2922,417 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Majitele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Majitele> majiteleL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_MAJITELE";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Majitele> majiteleL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_MAJITELE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Majitele krev = new Majitele(rs.getInt(1), rs.getString(2),rs.getString(3),
-                            rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),
-                            rs.getInt(8),rs.getString(9),rs.getString(10),null);
-                    majiteleL.add(krev);
-                }
-                idVymazat = -1;
-                for (Majitele majD : majiteleL) {
-                    if (majD.getIdMajitele() == tableViewMajitele.getSelectionModel().getSelectedItem().getIdMajitele()) {
-                        idVymazat = majD.getIdMajitele();
-                        break;
+                    while (rs.next()) {
+                        Majitele krev = new Majitele(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),
+                                rs.getInt(8), rs.getString(9), rs.getString(10), null);
+                        majiteleL.add(krev);
                     }
-                }
+                    idVymazat = -1;
+                    for (Majitele majD : majiteleL) {
+                        if (majD.getIdMajitele() == tableViewMajitele.getSelectionModel().getSelectedItem().getIdMajitele()) {
+                            idVymazat = majD.getIdMajitele();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_MAJITELE(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                majiteleData.remove(tableViewMajitele.getSelectionModel().getSelectedItem());
-                tableViewMajitele.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_MAJITELE(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    majiteleData.remove(tableViewMajitele.getSelectionModel().getSelectedItem());
+                    tableViewMajitele.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Objednavky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Objednavky> objednavkyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_OBJEDNAVKY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Objednavky> objednavkyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_OBJEDNAVKY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Objednavky obj = new Objednavky(rs.getInt(1), rs.getString(2),rs.getString(3),
-                            rs.getInt(4),null);
-                    objednavkyL.add(obj);
-                }
-                idVymazat = -1;
-                for (Objednavky objD : objednavkyL) {
-                    if (objD.getIdObjednavky() == tableViewObjednavky.getSelectionModel().getSelectedItem().getIdObjednavky()) {
-                        idVymazat = objD.getIdObjednavky();
-                        break;
+                    while (rs.next()) {
+                        Objednavky obj = new Objednavky(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getInt(4), null);
+                        objednavkyL.add(obj);
                     }
-                }
+                    idVymazat = -1;
+                    for (Objednavky objD : objednavkyL) {
+                        if (objD.getIdObjednavky() == tableViewObjednavky.getSelectionModel().getSelectedItem().getIdObjednavky()) {
+                            idVymazat = objD.getIdObjednavky();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_OBJEDNAVKY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                objednavkyData.remove(tableViewObjednavky.getSelectionModel().getSelectedItem());
-                tableViewObjednavky.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_OBJEDNAVKY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    objednavkyData.remove(tableViewObjednavky.getSelectionModel().getSelectedItem());
+                    tableViewObjednavky.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Odbery:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Odbery> odberyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_ODBERY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Odbery> odberyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ODBERY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Odbery odb = new Odbery(rs.getString(1), rs.getInt(2),rs.getInt(3),
-                            rs.getString(4),null);
-                    odberyL.add(odb);
-                }
-                idVymazat = -1;
-                for (Odbery odD : odberyL) {
-                    if (odD.getIdOdberu() == tableViewOdbery.getSelectionModel().getSelectedItem().getIdOdberu()) {
-                        idVymazat = odD.getIdOdberu();
-                        break;
+                    while (rs.next()) {
+                        Odbery odb = new Odbery(rs.getString(1), rs.getInt(2), rs.getInt(3),
+                                rs.getString(4), null);
+                        odberyL.add(odb);
                     }
-                }
+                    idVymazat = -1;
+                    for (Odbery odD : odberyL) {
+                        if (odD.getIdOdberu() == tableViewOdbery.getSelectionModel().getSelectedItem().getIdOdberu()) {
+                            idVymazat = odD.getIdOdberu();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ODBERY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                odberyData.remove(tableViewOdbery.getSelectionModel().getSelectedItem());
-                tableViewOdbery.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ODBERY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    odberyData.remove(tableViewOdbery.getSelectionModel().getSelectedItem());
+                    tableViewOdbery.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Operace:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Operace> operaceL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_OPERACE";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Operace> operaceL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_OPERACE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Operace opb = new Operace(rs.getInt(1), rs.getString(2),rs.getString(3),
-                            rs.getDouble(4),rs.getString(5));
-                    operaceL.add(opb);
-                }
-                idVymazat = -1;
-                for (Operace opb : operaceL) {
-                    if (opb.getIdOperace() == tableViewOperace.getSelectionModel().getSelectedItem().getIdOperace()) {
-                        idVymazat = opb.getIdOperace();
-                        break;
+                    while (rs.next()) {
+                        Operace opb = new Operace(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getDouble(4), rs.getString(5));
+                        operaceL.add(opb);
                     }
-                }
+                    idVymazat = -1;
+                    for (Operace opb : operaceL) {
+                        if (opb.getIdOperace() == tableViewOperace.getSelectionModel().getSelectedItem().getIdOperace()) {
+                            idVymazat = opb.getIdOperace();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_OPERACE(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                operaceData.remove(tableViewOperace.getSelectionModel().getSelectedItem());
-                tableViewOperace.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_OPERACE(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    operaceData.remove(tableViewOperace.getSelectionModel().getSelectedItem());
+                    tableViewOperace.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Pohlavi:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Pohlavi> pohlaviL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_POHLAVI";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Pohlavi> pohlaviL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_POHLAVI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Pohlavi poh = new Pohlavi(rs.getInt(1), rs.getString(2));
-                    pohlaviL.add(poh);
-                }
-                idVymazat = -1;
-                for (Pohlavi pohl : pohlaviL) {
-                    if (pohl.getIdPohlavi() == tableViewPohlavi.getSelectionModel().getSelectedItem().getIdPohlavi()) {
-                        idVymazat = pohl.getIdPohlavi();
-                        break;
+                    while (rs.next()) {
+                        Pohlavi poh = new Pohlavi(rs.getInt(1), rs.getString(2));
+                        pohlaviL.add(poh);
                     }
-                }
+                    idVymazat = -1;
+                    for (Pohlavi pohl : pohlaviL) {
+                        if (pohl.getIdPohlavi() == tableViewPohlavi.getSelectionModel().getSelectedItem().getIdPohlavi()) {
+                            idVymazat = pohl.getIdPohlavi();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_POHLAVI(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                pohlaviData.remove(tableViewPohlavi.getSelectionModel().getSelectedItem());
-                tableViewPohlavi.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_POHLAVI(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    pohlaviData.remove(tableViewPohlavi.getSelectionModel().getSelectedItem());
+                    tableViewPohlavi.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Polozky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Polozky> polozkyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_POLOZKY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Polozky> polozkyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_POLOZKY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Polozky pol = new Polozky(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5),null);
-                    polozkyL.add(pol);
-                }
-                idVymazat = -1;
-                for (Polozky polD : polozkyL) {
-                    if (polD.getIdPolozky() == tableViewPolozky.getSelectionModel().getSelectedItem().getIdPolozky()) {
-                        idVymazat = polD.getIdPolozky();
-                        break;
+                    while (rs.next()) {
+                        Polozky pol = new Polozky(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), null);
+                        polozkyL.add(pol);
                     }
-                }
+                    idVymazat = -1;
+                    for (Polozky polD : polozkyL) {
+                        if (polD.getIdPolozky() == tableViewPolozky.getSelectionModel().getSelectedItem().getIdPolozky()) {
+                            idVymazat = polD.getIdPolozky();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_POLOZKY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                polozkyData.remove(tableViewPolozky.getSelectionModel().getSelectedItem());
-                tableViewPolozky.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_POLOZKY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    polozkyData.remove(tableViewPolozky.getSelectionModel().getSelectedItem());
+                    tableViewPolozky.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Posty:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Posty> postyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_POSTY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Posty> postyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_POSTY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Posty pol = new Posty(rs.getInt(1), rs.getString(2), rs.getString(3));
-                    postyL.add(pol);
-                }
-                idVymazat = -1;
-                for (Posty polD : postyL) {
-                    if (polD.getIdPosty() == tableViewPosty.getSelectionModel().getSelectedItem().getIdPosty()) {
-                        idVymazat = polD.getIdPosty();
-                        break;
+                    while (rs.next()) {
+                        Posty pol = new Posty(rs.getInt(1), rs.getString(2), rs.getString(3));
+                        postyL.add(pol);
                     }
-                }
+                    idVymazat = -1;
+                    for (Posty polD : postyL) {
+                        if (polD.getIdPosty() == tableViewPosty.getSelectionModel().getSelectedItem().getIdPosty()) {
+                            idVymazat = polD.getIdPosty();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_POSTY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                postyData.remove(tableViewPosty.getSelectionModel().getSelectedItem());
-                tableViewPosty.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_POSTY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    postyData.remove(tableViewPosty.getSelectionModel().getSelectedItem());
+                    tableViewPosty.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case TypyPlatby:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<TypyPlatby> typyPlatbyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_TYPY_PLATBY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<TypyPlatby> typyPlatbyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_TYPY_PLATBY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    TypyPlatby typy = new TypyPlatby(rs.getInt(1), rs.getString(2));
-                    typyPlatbyL.add(typy);
-                }
-                idVymazat = -1;
-                for (TypyPlatby typD : typyPlatbyL) {
-                    if (typD.getIdTypu() == tableViewTypyPlatby.getSelectionModel().getSelectedItem().getIdTypu()) {
-                        idVymazat = typD.getIdTypu();
-                        break;
+                    while (rs.next()) {
+                        TypyPlatby typy = new TypyPlatby(rs.getInt(1), rs.getString(2));
+                        typyPlatbyL.add(typy);
                     }
-                }
+                    idVymazat = -1;
+                    for (TypyPlatby typD : typyPlatbyL) {
+                        if (typD.getIdTypu() == tableViewTypyPlatby.getSelectionModel().getSelectedItem().getIdTypu()) {
+                            idVymazat = typD.getIdTypu();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_TYPY_PLATBY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                postyData.remove(tableViewPosty.getSelectionModel().getSelectedItem());
-                tableViewPosty.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_TYPY_PLATBY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    postyData.remove(tableViewPosty.getSelectionModel().getSelectedItem());
+                    tableViewPosty.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Vysetreni:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Vysetreni> vysetreniL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_VYSETRENI";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Vysetreni> vysetreniL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_VYSETRENI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Vysetreni vys = new Vysetreni(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),null,null);
-                    vysetreniL.add(vys);
-                }
-                idVymazat = -1;
-                for (Vysetreni vysD : vysetreniL) {
-                    if (vysD.getIdVysetreni() == tableViewVysetreni.getSelectionModel().getSelectedItem().getIdVysetreni()) {
-                        idVymazat = vysD.getIdVysetreni();
-                        break;
+                    while (rs.next()) {
+                        Vysetreni vys = new Vysetreni(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), null, null);
+                        vysetreniL.add(vys);
                     }
-                }
+                    idVymazat = -1;
+                    for (Vysetreni vysD : vysetreniL) {
+                        if (vysD.getIdVysetreni() == tableViewVysetreni.getSelectionModel().getSelectedItem().getIdVysetreni()) {
+                            idVymazat = vysD.getIdVysetreni();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_VYSETRENI(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                vysetreniData.remove(tableViewVysetreni.getSelectionModel().getSelectedItem());
-                tableViewVysetreni.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_VYSETRENI(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    vysetreniData.remove(tableViewVysetreni.getSelectionModel().getSelectedItem());
+                    tableViewVysetreni.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Zakroky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Zakroky> zakrokyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_ZAKROKY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Zakroky> zakrokyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZAKROKY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Zakroky zak = new Zakroky(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),null,null);
-                    zakrokyL.add(zak);
-                }
-                idVymazat = -1;
-                for (Zakroky zakD : zakrokyL) {
-                    if (zakD.getIdZakroku() == tableViewZakroky.getSelectionModel().getSelectedItem().getIdZakroku()) {
-                        idVymazat = zakD.getIdZakroku();
-                        break;
+                    while (rs.next()) {
+                        Zakroky zak = new Zakroky(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), null, null);
+                        zakrokyL.add(zak);
                     }
-                }
+                    idVymazat = -1;
+                    for (Zakroky zakD : zakrokyL) {
+                        if (zakD.getIdZakroku() == tableViewZakroky.getSelectionModel().getSelectedItem().getIdZakroku()) {
+                            idVymazat = zakD.getIdZakroku();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZAKROKY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                zakrokyData.remove(tableViewZakroky.getSelectionModel().getSelectedItem());
-                tableViewZakroky.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZAKROKY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    zakrokyData.remove(tableViewZakroky.getSelectionModel().getSelectedItem());
+                    tableViewZakroky.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Zpravy:
                 /////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Zpravy> zpravyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_ZPRAVY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                try {
+                    ObservableList<Zpravy> zpravyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZPRAVY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Zpravy zp = new Zpravy(rs.getInt(1), rs.getInt(2),"",rs.getInt(3),
-                            "",rs.getString(4),rs.getInt(5),rs.getInt(6));
-                    zpravyL.add(zp);
-                }
-                idVymazat = -1;
-                for (Zpravy zpD : zpravyL) {
-                    if (zpD.getIdZpravy() == tableViewZpravy.getSelectionModel().getSelectedItem().getIdZpravy()) {
-                        idVymazat = zpD.getIdZpravy();
-                        break;
+                    while (rs.next()) {
+                        Zpravy zp = new Zpravy(rs.getInt(1), rs.getInt(2), "", rs.getInt(3),
+                                "", rs.getString(4), rs.getInt(5), rs.getInt(6));
+                        zpravyL.add(zp);
                     }
-                }
+                    idVymazat = -1;
+                    for (Zpravy zpD : zpravyL) {
+                        if (zpD.getIdZpravy() == tableViewZpravy.getSelectionModel().getSelectedItem().getIdZpravy()) {
+                            idVymazat = zpD.getIdZpravy();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZPRAVY(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                zpravyData.remove(tableViewZpravy.getSelectionModel().getSelectedItem());
-                tableViewZpravy.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZPRAVY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    zpravyData.remove(tableViewZpravy.getSelectionModel().getSelectedItem());
+                    tableViewZpravy.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
                 break;
             case Zvirata:
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                try{
-                ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_ZVIRATA";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZVIRATA";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getDouble(4),
-                            rs.getString(5),rs.getString(6),rs.getInt(7),rs.getInt(8),rs.getInt(9),rs.getInt(10),
-                    null,null,null,null);
-                    zvirataL.add(zv);
-                }
-                idVymazat = -1;
-                for (Zvirata zvD : zvirataL) {
-                    if (zvD.getIdZvirete() == tableViewZvirata.getSelectionModel().getSelectedItem().getIdZvirete()) {
-                        idVymazat = zvD.getIdZvirete();
-                        break;
+                    while (rs.next()) {
+                        Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4),
+                                rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10),
+                                null, null, null, null);
+                        zvirataL.add(zv);
                     }
-                }
+                    idVymazat = -1;
+                    for (Zvirata zvD : zvirataL) {
+                        if (zvD.getIdZvirete() == tableViewZvirata.getSelectionModel().getSelectedItem().getIdZvirete()) {
+                            idVymazat = zvD.getIdZvirete();
+                            break;
+                        }
+                    }
 
-                cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZVIRATA(?,?)}");
-                cst.setInt(1, idVymazat);
-                cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
-                cst.executeUpdate();
-                zvirataData.remove(tableViewZvirata.getSelectionModel().getSelectedItem());
-                tableViewZvirata.refresh();
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZVIRATA(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    zvirataData.remove(tableViewZvirata.getSelectionModel().getSelectedItem());
+                    tableViewZvirata.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
                     }
                 }
         }
@@ -3352,122 +3346,716 @@ public class FXMLAdministratorController implements Initializable {
             case Administratori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 try {
-                ObservableList<Administratori> adminL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_ADMINISTRATORI";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
+                    ObservableList<Administratori> adminL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ADMINISTRATORI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Administratori ad = new Administratori(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), null);
-                    adminL.add(ad);
-                }
-                ObservableList<Adresy> adresyL = FXCollections.observableArrayList();
-                sql = "SELECT * FROM PO_ADRESY";
-                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
-                rs = pstmt.executeQuery();
-
-                while (rs.next()) {
-                    Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
-                    adresyL.add(ad);
-                }
-
-                Administratori ad = tableViewAdministratori.getSelectionModel().getSelectedItem();
-
-                if (ad.getJmeno().isEmpty()
-                        || ad.getPrijmeni().isEmpty()
-                        || ad.getDatumNarozeni().isEmpty()
-                        || ad.getTelefon().isEmpty()
-                        || ad.getEmail().isEmpty()
-                        || ad.getPrihlasovaciJmeno().isEmpty()
-                        || ad.getHeslo().isEmpty()
-                        || ad.getHeslo().isEmpty()
-                        || ad.getAdresy().getValue() == null) {
-                    throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
-                }
-                boolean jePritomny = false;
-                for (Administratori admin : adminL) {
-                    if (admin.getIdAdministratora() == ad.getIdAdministratora()) {
-                        jePritomny = true;
-                        break;
+                    while (rs.next()) {
+                        Administratori ad = new Administratori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), null);
+                        adminL.add(ad);
                     }
-                }
-                int idAdresy = -1;
-                boolean nalezena = false;
-                for (Adresy adr : adresyL) {
-                    if (adr.getIdAdresy() == ad.getAdresy().getValue().getIdAdresy()) {
-                        idAdresy = adr.getIdAdresy();
-                        nalezena = true;
-                        break;
+                    ObservableList<Adresy> adresyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ADRESY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                        adresyL.add(ad);
                     }
-                }
-                if (!nalezena) {
-                    throw new Exception("Adresa nenalezena");
-                }
-                System.out.println(Date.valueOf(ad.getDatumNarozeni()));
-                if (jePritomny) {
-                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_ADMINISTRATORI(?,?,?,?,?,?,?,?,?)}");
-                    cst.setInt(1, ad.getIdAdministratora());
-                    cst.setString(2, ad.getJmeno());
-                    cst.setString(3, ad.getPrijmeni());
-                    cst.setDate(4, Date.valueOf(ad.getDatumNarozeni()));
-                    cst.setString(5, ad.getTelefon());
-                    cst.setString(6, ad.getEmail());
-                    cst.setInt(7, idAdresy);
-                    cst.setString(8, ad.getPrihlasovaciJmeno());
-                    cst.setString(9, ad.getHeslo());
-                } else {
 
-                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ADMINISTRATORI(?,?,?,?,?,?,?,?)}");
+                    Administratori ad = tableViewAdministratori.getSelectionModel().getSelectedItem();
 
-                    cst.setString(1, ad.getJmeno());
-                    cst.setString(2, ad.getPrijmeni());
-                    cst.setDate(3, Date.valueOf(ad.getDatumNarozeni()));
-                    cst.setString(4, ad.getTelefon());
-                    cst.setString(5, ad.getEmail());
-                    cst.setInt(6, idAdresy);
-                    cst.setString(7, ad.getPrihlasovaciJmeno());
-                    cst.setString(8, ad.getHeslo());
-                }
-                cst.executeUpdate();
-                tableViewAdministratori.refresh();
+                    if (ad.getJmeno().isEmpty()
+                            || ad.getPrijmeni().isEmpty()
+                            || ad.getDatumNarozeni().isEmpty()
+                            || ad.getTelefon().isEmpty()
+                            || ad.getEmail().isEmpty()
+                            || ad.getPrihlasovaciJmeno().isEmpty()
+                            || ad.getHeslo().isEmpty()
+                            || ad.getHeslo().isEmpty()
+                            || ad.getAdresy().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Administratori admin : adminL) {
+                        if (admin.getIdAdministratora() == ad.getIdAdministratora()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idAdresy = -1;
+                    boolean nalezena = false;
+                    for (Adresy adr : adresyL) {
+                        if (adr.getIdAdresy() == ad.getAdresy().getValue().getIdAdresy()) {
+                            idAdresy = adr.getIdAdresy();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Adresa nenalezena");
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_ADMINISTRATORI(?,?,?,?,?,?,?,?,?,?)}");
+                        cst.setInt(1, ad.getIdAdministratora());
+                        cst.setString(2, ad.getJmeno());
+                        cst.setString(3, ad.getPrijmeni());
+                        cst.setDate(4, Date.valueOf(ad.getDatumNarozeni()));
+                        cst.setString(5, ad.getTelefon());
+                        cst.setString(6, ad.getEmail());
+                        cst.setInt(7, idAdresy);
+                        cst.setString(8, ad.getPrihlasovaciJmeno());
+                        cst.setString(9, ad.getHeslo());
+                        cst.setInt(10, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ADMINISTRATORI(?,?,?,?,?,?,?,?,?)}");
+
+                        cst.setString(1, ad.getJmeno());
+                        cst.setString(2, ad.getPrijmeni());
+                        cst.setDate(3, Date.valueOf(ad.getDatumNarozeni()));
+                        cst.setString(4, ad.getTelefon());
+                        cst.setString(5, ad.getEmail());
+                        cst.setInt(6, idAdresy);
+                        cst.setString(7, ad.getPrihlasovaciJmeno());
+                        cst.setString(8, ad.getHeslo());
+                        cst.setInt(9, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewAdministratori.refresh();
                 } catch (Exception ex) {
-                    if(!ex.getMessage().isEmpty()){
-                    Bezpecnost.vypisChybu(ex.getMessage());
-                    }else{
-                    Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
                     }
                 }
                 break;
             case Adresy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Adresy> adresyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ADRESY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                        adresyL.add(ad);
+                    }
+                    ObservableList<Posty> postyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_POSTY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Posty post = new Posty(rs.getInt(1), rs.getString(2), rs.getString(3));
+                        postyL.add(post);
+                    }
+
+                    Adresy adD = tableViewAdresy.getSelectionModel().getSelectedItem();
+
+                    if (adD.getUlice().isEmpty()
+                            || adD.getCisloPopisne().isEmpty()
+                            || adD.getPosty().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Adresy adre : adresyL) {
+                        if (adre.getIdAdresy() == adD.getIdAdresy()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idPosty = -1;
+                    boolean nalezena = false;
+                    for (Posty post : postyL) {
+                        if (post.getIdPosty() == adD.getPosty().getValue().getIdPosty()) {
+                            idPosty = post.getIdPosty();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Posta nenalezena");
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_ADRESY(?,?,?,?,?)}");
+                        cst.setInt(1, adD.getIdAdresy());
+                        cst.setString(2, adD.getUlice());
+                        cst.setString(3, adD.getCisloPopisne());
+                        cst.setInt(4, idPosty);
+                        cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ADRESY(?,?,?,?)}");
+                        cst.setString(1, adD.getUlice());
+                        cst.setString(2, adD.getCisloPopisne());
+                        cst.setInt(3, idPosty);
+                        cst.setInt(4, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewAdresy.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Biochemie:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Biochemie> biochemieL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_BIOCHEMIE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Biochemie ad = new Biochemie(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6));
+                        biochemieL.add(ad);
+                    }
+                    Biochemie bioD = tableViewBiochemie.getSelectionModel().getSelectedItem();
+
+                    
+                    boolean jePritomny = false;
+                    for (Biochemie bioCh : biochemieL) {
+                        if (bioCh.getIdOdberu() == bioD.getIdOdberu()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_BIOCHEMIE(?,?,?,?,?,?,?)}");
+                        cst.setInt(1, bioD.getIdOdberu());
+                        cst.setDouble(2, bioD.getUrea());
+                        cst.setDouble(3, bioD.getKreatinin());
+                        cst.setDouble(4, bioD.getBilirubin());
+                        cst.setDouble(5, bioD.getAst());
+                        cst.setDouble(6, bioD.getAlt());
+                        cst.setInt(7, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_BIOCHEMIE(?,?,?,?,?,?)}");
+                        cst.setDouble(1, bioD.getUrea());
+                        cst.setDouble(2, bioD.getKreatinin());
+                        cst.setDouble(3, bioD.getBilirubin());
+                        cst.setDouble(4, bioD.getAst());
+                        cst.setDouble(5, bioD.getAlt());
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewBiochemie.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Diagnozy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Diagnozy> diagnozyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DIAGNOZY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Diagnozy diag = new Diagnozy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                        diagnozyL.add(diag);
+                    }
+                    Diagnozy diaD = tableViewDiagnozy.getSelectionModel().getSelectedItem();
+
+                    
+                    boolean jePritomny = false;
+                    for (Diagnozy diaG : diagnozyL) {
+                        if (diaG.getIdDiagnozy() == diaD.getIdDiagnozy()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_DIAGNOZY(?,?,?,?,?)}");
+                        cst.setInt(1, diaD.getIdDiagnozy());
+                        cst.setString(2, diaD.getNazev());
+                        cst.setString(3, diaD.getOznaceni());
+                        cst.setDouble(4, diaD.getStupenZavaznosti());
+                        cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_DIAGNOZY(?,?,?,?)}");
+                        cst.setString(1, diaD.getNazev());
+                        cst.setString(2, diaD.getOznaceni());
+                        cst.setDouble(3, diaD.getStupenZavaznosti());
+                        cst.setInt(4, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewDiagnozy.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Dodavatele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Dodavatele> dodavateleL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DODAVATELE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Dodavatele dod = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getInt(5), null);
+                        dodavateleL.add(dod);
+                    }
+                    ObservableList<Adresy> adresyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ADRESY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                        adresyL.add(ad);
+                    }
+
+                    Dodavatele dodD = tableViewDodavatele.getSelectionModel().getSelectedItem();
+
+                    if (dodD.getNazev().isEmpty()
+                            || dodD.getTelefon().isEmpty()
+                            || dodD.getEmail().isEmpty()
+                            || dodD.getAdresy().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Dodavatele dodA : dodavateleL) {
+                        if (dodA.getIdDodavatele() == dodD.getIdDodavatele()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idAdresy = -1;
+                    boolean nalezena = false;
+                    for (Adresy adr : adresyL) {
+                        if (adr.getIdAdresy() == dodD.getAdresy().getValue().getIdAdresy()) {
+                            idAdresy = adr.getIdAdresy();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Adresa nenalezena");
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_DODAVATELE(?,?,?,?,?,?)}");
+                        cst.setInt(1, dodD.getIdDodavatele());
+                        cst.setString(2, dodD.getNazev());
+                        cst.setString(3, dodD.getTelefon());
+                        cst.setString(4, dodD.getEmail());
+                        cst.setInt(5, idAdresy);
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_DODAVATELE(?,?,?,?,?)}");
+                        cst.setString(1, dodD.getNazev());
+                        cst.setString(2, dodD.getTelefon());
+                        cst.setString(3, dodD.getEmail());
+                        cst.setInt(4, idAdresy);
+                        cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewDodavatele.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Doktori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Doktori> doktoriL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DOKTORI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getDouble(5),
+                                rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getInt(11),rs.getString(12),rs.getString(13),null,rs.getInt(14),null);
+                        doktoriL.add(dok);
+                    }
+                    ObservableList<Adresy> adresyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ADRESY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                        adresyL.add(ad);
+                    }
+
+                    Doktori dokD = tableViewDoktori.getSelectionModel().getSelectedItem();
+
+                    if (dokD.getTitul().isEmpty()
+                            || dokD.getDelkaUvazku().isEmpty()
+                            || dokD.getDatumNastupu().isEmpty()
+                            || dokD.getJmeno().isEmpty()
+                            || dokD.getPrijmeni().isEmpty()
+                            || dokD.getDatumNarozeni().isEmpty()
+                            || dokD.getTelefon().isEmpty()
+                            || dokD.getEmail().isEmpty()
+                            || dokD.getHeslo().isEmpty()
+                            || dokD.getPrihlasovaciJmeno().isEmpty()
+                            || dokD.getDoktori().getValue() == null
+                            || dokD.getAdresy().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Doktori dokA : doktoriL) {
+                        if (dokA.getIdDoktora() == dokD.getIdDoktora()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idAdresy = -1;
+                    boolean nalezena = false;
+                    for (Adresy adr : adresyL) {
+                        if (adr.getIdAdresy() == dokD.getAdresy().getValue().getIdAdresy()) {
+                            idAdresy = adr.getIdAdresy();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Adresa nenalezena");
+                    }
+                    
+                    int idDoktora = -1;
+                    for (Doktori dokB : doktoriL) {
+                        if (dokB.getIdNadrizeneho() == dokD.getDoktori().getValue().getIdDoktora()) {
+                            idDoktora = dokB.getIdNadrizeneho();
+                            break;
+                        }
+                    }
+                    
+                    if (jePritomny) { //15
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_DOKTORI(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"); 
+                        cst.setInt(1, dokD.getIdDoktora());
+                        cst.setString(2, dokD.getTitul());
+                        cst.setString(3, dokD.getDelkaUvazku());
+                        cst.setString(4, dokD.getDatumNastupu());
+                        cst.setDouble(5, dokD.getPlat());
+                        cst.setString(6, dokD.getJmeno());
+                        cst.setString(7, dokD.getPrijmeni());
+                        cst.setString(8, dokD.getDatumNarozeni());
+                        cst.setString(9, dokD.getTelefon());
+                        cst.setString(10, dokD.getEmail());
+                        cst.setInt(11, idAdresy);
+                        cst.setString(12, dokD.getHeslo());
+                        cst.setString(13, dokD.getPrihlasovaciJmeno());
+                        cst.setInt(14, idDoktora);
+                        cst.setInt(15, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {//14
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_DOKTORI(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+                        cst.setString(1, dokD.getTitul());
+                        cst.setString(2, dokD.getDelkaUvazku());
+                        cst.setString(3, dokD.getDatumNastupu());
+                        cst.setDouble(4, dokD.getPlat());
+                        cst.setString(5, dokD.getJmeno());
+                        cst.setString(6, dokD.getPrijmeni());
+                        cst.setString(7, dokD.getDatumNarozeni());
+                        cst.setString(8, dokD.getTelefon());
+                        cst.setString(9, dokD.getEmail());
+                        cst.setInt(10, idAdresy);
+                        cst.setString(11, dokD.getHeslo());
+                        cst.setString(12, dokD.getPrihlasovaciJmeno());
+                        cst.setInt(13, idDoktora);
+                        cst.setInt(14, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewDoktori.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Druhy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Druhy> druhyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DRUHY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Druhy druh = new Druhy(rs.getInt(1), rs.getString(2));
+                        druhyL.add(druh);
+                    }
+                    Druhy druD = tableViewDruhy.getSelectionModel().getSelectedItem();
+
+                    if (druD.getDruh().isEmpty()) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    
+                    boolean jePritomny = false;
+                    for (Druhy druH : druhyL) {
+                        if (druH.getIdDruhu() == druD.getIdDruhu()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_DRUHY(?,?,?)}");
+                        cst.setInt(1, druD.getIdDruhu());
+                        cst.setString(2, druD.getDruh());
+                        cst.setInt(3, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_DRUHY(?,?)}");
+                        cst.setString(1, druD.getDruh());
+                        cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewDruhy.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Faktury:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Faktury> fakturyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_FAKTURY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Faktury fak = new Faktury(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getInt(5),rs.getInt(6),null, null);
+                        fakturyL.add(fak);
+                    }
+                    ObservableList<Majitele> majiteleL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_MAJITELE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Majitele maj = new Majitele(rs.getInt(1), rs.getDate(2).toString(), rs.getString(3),
+                            rs.getString(4), rs.getDate(5).toString(), rs.getString(6), rs.getString(7),
+                            rs.getInt(8), rs.getString(9), rs.getString(10), null);
+                        majiteleL.add(maj);
+                    }
+                    ObservableList<TypyPlatby> typyPlatbyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_TYPY_PLATBY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        TypyPlatby typy = new TypyPlatby(rs.getInt(1), rs.getString(2));
+                        typyPlatbyL.add(typy);
+                    }
+
+                    Faktury fakD = tableViewFaktury.getSelectionModel().getSelectedItem();
+
+                    if (fakD.getDatumVystaveni().isEmpty()
+                            || fakD.getDatumSplatnosti().isEmpty()
+                            || fakD.getStav().isEmpty()
+                            || fakD.getMajitele().getValue() == null
+                            || fakD.getTypy().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Faktury fakA : fakturyL) {
+                        if (fakA.getIdFaktury() == fakD.getIdFaktury()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idMajitele = -1;
+                    boolean nalezena = false;
+                    for (Majitele majE : majiteleL) {
+                        if (majE.getIdMajitele() == fakD.getMajitele().getValue().getIdMajitele()) {
+                            idMajitele = majE.getIdAdresy();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Majitel nenalezen");
+                    }
+                    int idTypu = -1;
+                    boolean nalezena2 = false;
+                    for (TypyPlatby typY : typyPlatbyL) {
+                        if (typY.getIdTypu() == fakD.getTypy().getValue().getIdTypu()) {
+                            idMajitele = typY.getIdTypu();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena2) {
+                        throw new Exception("TypPlatby nenalezen");
+                    }
+                    
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_FAKTURY(?,?,?,?,?,?,?)}");
+                        cst.setInt(1, fakD.getIdFaktury());
+                        cst.setString(2, fakD.getDatumVystaveni());
+                        cst.setString(3, fakD.getDatumSplatnosti());
+                        cst.setString(4, fakD.getStav());
+                        cst.setInt(5, idMajitele);
+                        cst.setInt(6, idTypu);
+                        cst.setInt(7, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_FAKTURY(?,?,?,?,?,?)}");
+                        cst.setString(1, fakD.getDatumVystaveni());
+                        cst.setString(2, fakD.getDatumSplatnosti());
+                        cst.setString(3, fakD.getStav());
+                        cst.setInt(4, idMajitele);
+                        cst.setInt(5, idTypu);
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewFaktury.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case FotoDoktoru:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 break;
             case KrevniObrazy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<KrevniObrazy> krevniObrazyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_KREVNI_OBRAZY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        KrevniObrazy krevni = new KrevniObrazy(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4),rs.getDouble(5));
+                        krevniObrazyL.add(krevni);
+                    }
+                    KrevniObrazy krevD = tableViewKrevniObrazy.getSelectionModel().getSelectedItem();
+
+                    
+                    boolean jePritomny = false;
+                    for (KrevniObrazy krvY : krevniObrazyL) {
+                        if (krvY.getIdOdberu() == krevD.getIdOdberu()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_KREVNI_OBRAZY(?,?,?,?,?,?)}");
+                        cst.setInt(1, krevD.getIdOdberu());
+                        cst.setDouble(2, krevD.getErytrocyty());
+                        cst.setDouble(3, krevD.getLeukocyty());
+                        cst.setDouble(4, krevD.getTrombocyty());
+                        cst.setDouble(5, krevD.getHemoglobin());
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } 
+                    cst.executeUpdate();
+                    tableViewKrevniObrazy.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Leciva:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Leciva> lecivaL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_LECIVA";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Leciva lec = new Leciva(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getString(5),rs.getInt(6), null);
+                        lecivaL.add(lec);
+                    }
+                    ObservableList<Dodavatele> dodavateleL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DODAVATELE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Dodavatele dod = new Dodavatele(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getInt(5), null);
+                        dodavateleL.add(dod);
+                    }
+
+                    Leciva lecD = tableViewLeciva.getSelectionModel().getSelectedItem();
+
+                    if (lecD.getNazev().isEmpty()
+                            || lecD.getDatumExpirace().isEmpty()
+                            || lecD.getPopis().isEmpty()
+                            || lecD.getDodavatele().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Leciva lecA : lecivaL) {
+                        if (lecA.getIdDodavatele() == lecA.getIdDodavatele()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idDodavatele = -1;
+                    boolean nalezena = false;
+                    for (Dodavatele dod : dodavateleL) {
+                        if (dod.getIdAdresy() == lecD.getDodavatele().getValue().getIdAdresy()) {
+                            idDodavatele = dod.getIdDodavatele();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Dodavatel nenalezen");
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_LECIVA(?,?,?,?,?,?,?)}");
+                        cst.setInt(1, lecD.getIdLeku());
+                        cst.setString(2, lecD.getNazev());
+                        cst.setString(3, lecD.getDatumExpirace());
+                        cst.setInt(4, lecD.getPocetSkladem());
+                        cst.setString(5, lecD.getPopis());
+                        cst.setInt(6, idDodavatele);
+                        cst.setInt(7, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_LECIVA(?,?,?,?,?,?)}");
+                        cst.setString(1, lecD.getNazev());
+                        cst.setString(2, lecD.getDatumExpirace());
+                        cst.setInt(3, lecD.getPocetSkladem());
+                        cst.setString(4, lecD.getPopis());
+                        cst.setInt(5, idDodavatele);
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewLeciva.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case LogTable:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3614,7 +4202,7 @@ public class FXMLAdministratorController implements Initializable {
             if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
-            tableViewAdresy.getItems().get(event.getTablePosition().getRow()).setUlice(event.getNewValue());
+            tableViewAdresy.getItems().get(event.getTablePosition().getRow()).setCisloPopisne(event.getNewValue());
             tableViewAdresy.refresh();
         } catch (Exception e) {
             tableViewAdresy.refresh();
@@ -3646,7 +4234,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void biochemie_bilirubin_edit(TableColumn.CellEditEvent<Biochemie, Double> event) {
-    try {
+        try {
             tableViewBiochemie.getItems().get(event.getTablePosition().getRow()).setBilirubin(event.getNewValue());
             tableViewBiochemie.refresh();
         } catch (Exception e) {
@@ -3657,7 +4245,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void biochemie_ast_edit(TableColumn.CellEditEvent<Biochemie, Double> event) {
-    try {
+        try {
             tableViewBiochemie.getItems().get(event.getTablePosition().getRow()).setAst(event.getNewValue());
             tableViewBiochemie.refresh();
         } catch (Exception e) {
@@ -3668,7 +4256,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void biochemie_alt_edit(TableColumn.CellEditEvent<Biochemie, Double> event) {
-    try {
+        try {
             tableViewBiochemie.getItems().get(event.getTablePosition().getRow()).setAlt(event.getNewValue());
             tableViewBiochemie.refresh();
         } catch (Exception e) {
@@ -3679,8 +4267,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void diagnozy_nazev_edit(TableColumn.CellEditEvent<Diagnozy, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDiagnozy.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
@@ -3693,8 +4281,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void diagnozy_oznaceni_edit(TableColumn.CellEditEvent<Diagnozy, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDiagnozy.getItems().get(event.getTablePosition().getRow()).setOznaceni(event.getNewValue());
@@ -3707,7 +4295,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void diagnozy_stupen_zavaznosti_edit(TableColumn.CellEditEvent<Diagnozy, Integer> event) {
-    try {
+        try {
             tableViewDiagnozy.getItems().get(event.getTablePosition().getRow()).setStupenZavaznosti(event.getNewValue());
             tableViewDiagnozy.refresh();
         } catch (Exception e) {
@@ -3718,8 +4306,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void dodavatele_nazev_edit(TableColumn.CellEditEvent<Dodavatele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDodavatele.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
@@ -3732,8 +4320,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void dodavatele_telefon_edit(TableColumn.CellEditEvent<Dodavatele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDodavatele.getItems().get(event.getTablePosition().getRow()).setTelefon(event.getNewValue());
@@ -3746,8 +4334,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void dodavatele_email_edit(TableColumn.CellEditEvent<Dodavatele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDodavatele.getItems().get(event.getTablePosition().getRow()).setEmail(event.getNewValue());
@@ -3760,8 +4348,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void doktori_jmeno_edit(TableColumn.CellEditEvent<Doktori, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setJmeno(event.getNewValue());
@@ -3774,8 +4362,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void doktori_prijmeni_edit(TableColumn.CellEditEvent<Doktori, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setPrijmeni(event.getNewValue());
@@ -3788,8 +4376,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void doktori_titul_edit(TableColumn.CellEditEvent<Doktori, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setTitul(event.getNewValue());
@@ -3803,7 +4391,7 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private void doktori_delka_uvazku_edit(TableColumn.CellEditEvent<Doktori, String> event) {
         try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setDelkaUvazku(event.getNewValue());
@@ -3816,8 +4404,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void doktori_datum_nastupu_edit(TableColumn.CellEditEvent<Doktori, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setDatumNastupu(event.getNewValue());
@@ -3830,7 +4418,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void doktori_plat_edit(TableColumn.CellEditEvent<Doktori, Integer> event) {
-    try {
+        try {
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setPlat(event.getNewValue());
             tableViewDoktori.refresh();
         } catch (Exception e) {
@@ -3842,7 +4430,7 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private void doktori_datum_narozeni_edit(TableColumn.CellEditEvent<Doktori, String> event) {
         try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setDatumNarozeni(event.getNewValue());
@@ -3855,8 +4443,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void doktori_telefon_edit(TableColumn.CellEditEvent<Doktori, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setTelefon(event.getNewValue());
@@ -3869,8 +4457,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void doktori_email_edit(TableColumn.CellEditEvent<Doktori, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setEmail(event.getNewValue());
@@ -3883,8 +4471,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void doktori_prihlasovaci_jmeno_edit(TableColumn.CellEditEvent<Doktori, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setPrihlasovaciJmeno(event.getNewValue());
@@ -3897,7 +4485,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void doktori_heslo_edit(TableColumn.CellEditEvent<Doktori, String> event) {
-    try {
+        try {
             String heslo = event.getNewValue();
             if (!Bezpecnost.jeHesloDostatecne(heslo)) {
                 throw new Exception("Heslo není dostatečně silné, je požadováno alespoň jedno velké písmeno, malé písmeno a číslo, minimální délka je 6 znaků !");
@@ -3914,8 +4502,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void druhy_druh_edit(TableColumn.CellEditEvent<Druhy, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewDruhy.getItems().get(event.getTablePosition().getRow()).setDruh(event.getNewValue());
@@ -3928,8 +4516,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void faktury_datum_vystaveni_edit(TableColumn.CellEditEvent<Faktury, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewFaktury.getItems().get(event.getTablePosition().getRow()).setDatumVystaveni(event.getNewValue());
@@ -3942,8 +4530,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void faktury_datum_splatnosti_edit(TableColumn.CellEditEvent<Faktury, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewFaktury.getItems().get(event.getTablePosition().getRow()).setDatumSplatnosti(event.getNewValue());
@@ -3956,8 +4544,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void faktury_stav_edit(TableColumn.CellEditEvent<Faktury, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewFaktury.getItems().get(event.getTablePosition().getRow()).setStav(event.getNewValue());
@@ -3970,7 +4558,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void foto_doktoru_nazev_edit(TableColumn.CellEditEvent<FotoDoktoru, String> event) {
-    
+
     }
 
     @FXML
@@ -3987,8 +4575,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void krevni_obrazy_erytrocyty_edit(TableColumn.CellEditEvent<KrevniObrazy, Double> event) {
-    try {
-        
+        try {
+
             tableViewKrevniObrazy.getItems().get(event.getTablePosition().getRow()).setErytrocyty(event.getNewValue());
             tableViewKrevniObrazy.refresh();
         } catch (Exception e) {
@@ -3999,8 +4587,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void krevni_obrazy_leukocyty_edit(TableColumn.CellEditEvent<KrevniObrazy, Double> event) {
-    try {
-        
+        try {
+
             tableViewKrevniObrazy.getItems().get(event.getTablePosition().getRow()).setLeukocyty(event.getNewValue());
             tableViewKrevniObrazy.refresh();
         } catch (Exception e) {
@@ -4011,7 +4599,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void krevni_obrazy_trombocyty_edit(TableColumn.CellEditEvent<KrevniObrazy, Double> event) {
-    try {
+        try {
             tableViewKrevniObrazy.getItems().get(event.getTablePosition().getRow()).setTrombocyty(event.getNewValue());
             tableViewKrevniObrazy.refresh();
         } catch (Exception e) {
@@ -4022,7 +4610,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void krevni_obrazy_hemoglobin_edit(TableColumn.CellEditEvent<KrevniObrazy, Double> event) {
-    try {
+        try {
             tableViewKrevniObrazy.getItems().get(event.getTablePosition().getRow()).setHemoglobin(event.getNewValue());
             tableViewKrevniObrazy.refresh();
         } catch (Exception e) {
@@ -4033,8 +4621,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void leciva_nazev_edit(TableColumn.CellEditEvent<Leciva, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewLeciva.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
@@ -4047,8 +4635,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void leciva_datum_expirace_edit(TableColumn.CellEditEvent<Leciva, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewLeciva.getItems().get(event.getTablePosition().getRow()).setDatumExpirace(event.getNewValue());
@@ -4061,8 +4649,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void leciva_pocet_skladem_edit(TableColumn.CellEditEvent<Leciva, Integer> event) {
-    try {
-        
+        try {
+
             tableViewLeciva.getItems().get(event.getTablePosition().getRow()).setPocetSkladem(event.getNewValue());
             tableViewLeciva.refresh();
         } catch (Exception e) {
@@ -4073,8 +4661,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void leciva_popis_edit(TableColumn.CellEditEvent<Leciva, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewLeciva.getItems().get(event.getTablePosition().getRow()).setPopis(event.getNewValue());
@@ -4087,8 +4675,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void majitele_jmeno_edit(TableColumn.CellEditEvent<Majitele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setJmeno(event.getNewValue());
@@ -4101,8 +4689,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void majitele_prijmeni_edit(TableColumn.CellEditEvent<Majitele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setPrijmeni(event.getNewValue());
@@ -4115,8 +4703,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void majitele_datum_registrace_edit(TableColumn.CellEditEvent<Majitele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setDatumRegistrace(event.getNewValue());
@@ -4129,8 +4717,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void majitele_datum_narozeni_edit(TableColumn.CellEditEvent<Majitele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setDatumNarozeni(event.getNewValue());
@@ -4143,8 +4731,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void majitele_telefon_edit(TableColumn.CellEditEvent<Majitele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setTelefon(event.getNewValue());
@@ -4157,8 +4745,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void majitele_email_edit(TableColumn.CellEditEvent<Majitele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setEmail(event.getNewValue());
@@ -4171,8 +4759,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void majitele_prihlasovaci_jmeno_edit(TableColumn.CellEditEvent<Majitele, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewMajitele.getItems().get(event.getTablePosition().getRow()).setPrihlasovaciJmeno(event.getNewValue());
@@ -4185,8 +4773,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void majitele_heslo_edit(TableColumn.CellEditEvent<Majitele, String> event) {
-    try {
-        String heslo = event.getNewValue();
+        try {
+            String heslo = event.getNewValue();
             if (!Bezpecnost.jeHesloDostatecne(heslo)) {
                 throw new Exception("Heslo není dostatečně silné, je požadováno alespoň jedno velké písmeno, malé písmeno a číslo, minimální délka je 6 znaků !");
             }
@@ -4201,8 +4789,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void objednavky_pricina_edit(TableColumn.CellEditEvent<Objednavky, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewObjednavky.getItems().get(event.getTablePosition().getRow()).setPricina(event.getNewValue());
@@ -4215,8 +4803,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void objednavky_termin_edit(TableColumn.CellEditEvent<Objednavky, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewObjednavky.getItems().get(event.getTablePosition().getRow()).setTermin(event.getNewValue());
@@ -4229,8 +4817,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void odbery_datum_edit(TableColumn.CellEditEvent<Odbery, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewOdbery.getItems().get(event.getTablePosition().getRow()).setDatum(event.getNewValue());
@@ -4243,8 +4831,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void odbery_poznamka_edit(TableColumn.CellEditEvent<Odbery, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewOdbery.getItems().get(event.getTablePosition().getRow()).setPoznamka(event.getNewValue());
@@ -4257,8 +4845,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void operace_nazev_edit(TableColumn.CellEditEvent<Operace, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewOperace.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
@@ -4271,8 +4859,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void operace_oznaceni_edit(TableColumn.CellEditEvent<Operace, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewOperace.getItems().get(event.getTablePosition().getRow()).setOznaceni(event.getNewValue());
@@ -4285,7 +4873,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void operace_delka_edit(TableColumn.CellEditEvent<Operace, Double> event) {
-    try {
+        try {
             tableViewOperace.getItems().get(event.getTablePosition().getRow()).setDelka(event.getNewValue());
             tableViewOperace.refresh();
         } catch (Exception e) {
@@ -4296,8 +4884,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void operace_riziko_edit(TableColumn.CellEditEvent<Operace, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewOperace.getItems().get(event.getTablePosition().getRow()).setRiziko(event.getNewValue());
@@ -4310,8 +4898,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void pohlavi_pohlavi_edit(TableColumn.CellEditEvent<Pohlavi, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewPohlavi.getItems().get(event.getTablePosition().getRow()).setPohlavi(event.getNewValue());
@@ -4324,8 +4912,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void polozky_nazev_edit(TableColumn.CellEditEvent<Polozky, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewPolozky.getItems().get(event.getTablePosition().getRow()).setNazev(event.getNewValue());
@@ -4338,7 +4926,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void polozky_pocet_edit(TableColumn.CellEditEvent<Polozky, Integer> event) {
-    try {
+        try {
             tableViewPolozky.getItems().get(event.getTablePosition().getRow()).setPocet(event.getNewValue());
             tableViewPolozky.refresh();
         } catch (Exception e) {
@@ -4349,7 +4937,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void polozky_cena_edit(TableColumn.CellEditEvent<Polozky, Integer> event) {
-    try {
+        try {
             tableViewPolozky.getItems().get(event.getTablePosition().getRow()).setCena(event.getNewValue());
             tableViewPolozky.refresh();
         } catch (Exception e) {
@@ -4360,8 +4948,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void posty_mesto_edit(TableColumn.CellEditEvent<Posty, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewPosty.getItems().get(event.getTablePosition().getRow()).setMesto(event.getNewValue());
@@ -4374,8 +4962,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void posty_psc_edit(TableColumn.CellEditEvent<Posty, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewPosty.getItems().get(event.getTablePosition().getRow()).setPSC(event.getNewValue());
@@ -4388,8 +4976,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void typy_platby_typ_edit(TableColumn.CellEditEvent<TypyPlatby, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewTypyPlatby.getItems().get(event.getTablePosition().getRow()).setTyp(event.getNewValue());
@@ -4402,8 +4990,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void vysetreni_datum_edit(TableColumn.CellEditEvent<Vysetreni, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewVysetreni.getItems().get(event.getTablePosition().getRow()).setDatum(event.getNewValue());
@@ -4416,8 +5004,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void vysetreni_poznamka_edit(TableColumn.CellEditEvent<Vysetreni, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewVysetreni.getItems().get(event.getTablePosition().getRow()).setPoznamka(event.getNewValue());
@@ -4430,8 +5018,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void zakroky_datum_edit(TableColumn.CellEditEvent<Zakroky, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewZakroky.getItems().get(event.getTablePosition().getRow()).setDatum(event.getNewValue());
@@ -4444,8 +5032,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void zakroky_poznamka_edit(TableColumn.CellEditEvent<Zakroky, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewZakroky.getItems().get(event.getTablePosition().getRow()).setPoznamka(event.getNewValue());
@@ -4458,8 +5046,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void zvirata_jmeno_edit(TableColumn.CellEditEvent<Zvirata, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setJmeno(event.getNewValue());
@@ -4472,8 +5060,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void zvirata_datum_narozeni_edit(TableColumn.CellEditEvent<Zvirata, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setDatumNarozeni(event.getNewValue());
@@ -4486,7 +5074,7 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void zvirata_vaha_edit(TableColumn.CellEditEvent<Zvirata, Double> event) {
-    try {
+        try {
             tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setVaha(event.getNewValue());
             tableViewZvirata.refresh();
         } catch (Exception e) {
@@ -4497,8 +5085,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void zvirata_poznamka_edit(TableColumn.CellEditEvent<Zvirata, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setPoznamka(event.getNewValue());
@@ -4511,8 +5099,8 @@ public class FXMLAdministratorController implements Initializable {
 
     @FXML
     private void zvirata_cislo_cipu_edit(TableColumn.CellEditEvent<Zvirata, String> event) {
-    try {
-        if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
+        try {
+            if (Bezpecnost.obsahujeNebezpecneZnaky(event.getNewValue())) {
                 throw new Exception("Obsahuje nebezpecne znaky");
             }
             tableViewZvirata.getItems().get(event.getTablePosition().getRow()).setCisloCipu(event.getNewValue());
