@@ -4062,6 +4062,95 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Majitele:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Majitele> majiteleL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_MAJITELE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Majitele maj = new Majitele(rs.getInt(1), rs.getDate(2).toString(), rs.getString(3),
+                            rs.getString(4), rs.getDate(5).toString(), rs.getString(6), rs.getString(7),
+                            rs.getInt(8), rs.getString(9), rs.getString(10), null);
+                        majiteleL.add(maj);
+                    }
+                    ObservableList<Adresy> adresyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ADRESY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Adresy ad = new Adresy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+                        adresyL.add(ad);
+                    }
+
+                    Majitele majD = tableViewMajitele.getSelectionModel().getSelectedItem();
+
+                    if (majD.getDatumRegistrace().isEmpty()
+                            || majD.getJmeno().isEmpty()
+                            || majD.getPrijmeni().isEmpty()
+                            || majD.getDatumNarozeni().isEmpty()
+                            || majD.getTelefon().isEmpty()
+                            || majD.getEmail().isEmpty()
+                            || majD.getHeslo().isEmpty()
+                            || majD.getPrihlasovaciJmeno().isEmpty()
+                            || majD.getAdresy().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Majitele majA : majiteleL) {
+                        if (majA.getIdMajitele() == majD.getIdMajitele()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idAdresy = -1;
+                    boolean nalezena = false;
+                    for (Adresy adR : adresyL) {
+                        if (adR.getIdAdresy() == majD.getAdresy().getValue().getIdAdresy()) {
+                            idAdresy = adR.getIdAdresy();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Adresa nenalezena");
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_MAJITELE(?,?,?,?,?,?,?,?,?,?,?)}");
+                        cst.setInt(1, majD.getIdMajitele());
+                        cst.setString(2, majD.getDatumRegistrace());
+                        cst.setString(3, majD.getJmeno());
+                        cst.setString(4, majD.getPrijmeni());
+                        cst.setString(5, majD.getDatumNarozeni());
+                        cst.setString(6, majD.getTelefon());
+                        cst.setString(7, majD.getEmail());
+                        cst.setInt(8, majD.getIdAdresy());
+                        cst.setString(9, majD.getHeslo());
+                        cst.setString(10, majD.getPrihlasovaciJmeno());
+                        cst.setInt(11, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_MAJITELE(?,?,?,?,?,?,?,?,?,?)}");
+                        cst.setString(1, majD.getDatumRegistrace());
+                        cst.setString(2, majD.getJmeno());
+                        cst.setString(3, majD.getPrijmeni());
+                        cst.setString(4, majD.getDatumNarozeni());
+                        cst.setString(5, majD.getTelefon());
+                        cst.setString(6, majD.getEmail());
+                        cst.setInt(7, majD.getIdAdresy());
+                        cst.setString(8, majD.getHeslo());
+                        cst.setString(9, majD.getPrihlasovaciJmeno());
+                        cst.setInt(10, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewMajitele.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Objednavky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
