@@ -30,10 +30,13 @@ import dataTridy.Zvirata;
 //import static doktor.FXMLDoktorController.zakrokData;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -57,6 +60,7 @@ import prihlasovani.PrihlasenyUzivatel;
 import utils.ComboBoxy;
 import utils.enumMajitelTabulky;
 import utils.enumUzivatel;
+import veterinarniklinika.Bezpecnost;
 import veterinarniklinika.FXMLUvodniController;
 import veterinarniklinika.VeterinarniKlinika;
 import veterinarniklinika.enumRole;
@@ -372,6 +376,12 @@ public class FXMLUzivatelController implements Initializable {
 
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
+    @FXML
+    private Button btnPridat;
+    @FXML
+    private Button btnOdebrat;
+    @FXML
+    private Button btnUlozit;
     
 
     @Override
@@ -673,9 +683,14 @@ public class FXMLUzivatelController implements Initializable {
         zvirata_vaha.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         zvirata_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
         zvirata_cislo_cipu.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        try {
+            obnovit();
+        } catch (SQLException ex) {
+            zobrazErrorDialog("Chyba", ex.getMessage());
+        }
     }
 
-    @FXML
     private void button_obnovit(ActionEvent event) throws SQLException {
         obnovit();
     }
@@ -684,6 +699,9 @@ public class FXMLUzivatelController implements Initializable {
         String sql;
         switch (comboTabulky.getValue()) {
             case Adresy:
+                btnPridat.setVisible(false);
+                btnOdebrat.setVisible(false);
+                btnUlozit.setVisible(true);
                 ///////////////////////////////////////////////////////////////////////
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(true);
@@ -741,6 +759,10 @@ public class FXMLUzivatelController implements Initializable {
                 break;
             case Doktori:
                 ///////////////////////////////////////////////////////////////////////
+                btnPridat.setVisible(false);
+                btnOdebrat.setVisible(false);
+                btnUlozit.setVisible(false);
+                
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
@@ -805,6 +827,10 @@ public class FXMLUzivatelController implements Initializable {
             
             case Faktury:
                 ///////////////////////////////////////////////////////////////////////
+                btnPridat.setVisible(false);
+                btnOdebrat.setVisible(false);
+                btnUlozit.setVisible(false);
+                
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
@@ -885,6 +911,10 @@ public class FXMLUzivatelController implements Initializable {
                 break;
             case Objednavky:
                 ///////////////////////////////////////////////////////////////////////
+                btnPridat.setVisible(true);
+                btnOdebrat.setVisible(true);
+                btnUlozit.setVisible(true);
+                
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
@@ -950,6 +980,10 @@ public class FXMLUzivatelController implements Initializable {
                 break;
             case Odbery:
                 ///////////////////////////////////////////////////////////////////////
+                btnPridat.setVisible(false);
+                btnOdebrat.setVisible(false);
+                btnUlozit.setVisible(false);
+                
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
@@ -1012,6 +1046,10 @@ public class FXMLUzivatelController implements Initializable {
             
             case Polozky:
                 ///////////////////////////////////////////////////////////////////////
+                btnPridat.setVisible(false);
+                btnOdebrat.setVisible(false);
+                btnUlozit.setVisible(false);
+                
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
@@ -1073,6 +1111,10 @@ public class FXMLUzivatelController implements Initializable {
             
             case Vysetreni:
                 ///////////////////////////////////////////////////////////////////////
+                btnPridat.setVisible(false);
+                btnOdebrat.setVisible(false);
+                btnUlozit.setVisible(false);
+                
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
@@ -1155,6 +1197,10 @@ public class FXMLUzivatelController implements Initializable {
                 break;
             case Zakroky:
                 ///////////////////////////////////////////////////////////////////////
+                btnPridat.setVisible(false);
+                btnOdebrat.setVisible(false);
+                btnUlozit.setVisible(false);
+                
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
@@ -1235,7 +1281,11 @@ public class FXMLUzivatelController implements Initializable {
                 break;
                 case Zpravy:
                 ///////////////////////////////////////////////////////////////////////
-                    tableViewAdministratori.setVisible(false);
+                btnOdebrat.setVisible(true);
+                btnPridat.setVisible(false);
+                btnUlozit.setVisible(false);
+                 
+                tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
                 tableViewDiagnozy.setVisible(false);
@@ -1323,6 +1373,10 @@ public class FXMLUzivatelController implements Initializable {
                     break;
             case Zvirata:
                 ///////////////////////////////////////////////////////////////////////
+                btnPridat.setVisible(true);
+                btnOdebrat.setVisible(true);
+                btnUlozit.setVisible(true);
+                
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
                 tableViewBiochemie.setVisible(false);
@@ -1492,18 +1546,241 @@ public class FXMLUzivatelController implements Initializable {
     }
 
     @FXML
-    private void button_pridat(ActionEvent event) {
-        //switch(){
-        
-       // }
+    private void button_pridat(ActionEvent event) throws SQLException{
+    String sql;
+        switch (comboTabulky.getValue()) {
+
+            case Objednavky:
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Majitele> cbMajiteleD2 = FXCollections.observableArrayList();
+                ComboBox<Majitele> cbMajitele2= new ComboBox<>(cbMajiteleD2);
+                sql = "SELECT * FROM PO_MAJITELE WHERE ID_MAJITELE = " + FXMLUvodniController.prihlasenyUzivatel.getId();
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Majitele maj2 = new Majitele(rs.getInt(1), rs.getDate(2).toString(),
+                            rs.getString(3), rs.getString(4), rs.getDate(5).toString(),
+                            rs.getString(6), rs.getString(7), rs.getInt(8),
+                            rs.getString(9), rs.getString(10), null);
+                    cbMajiteleD2.add(maj2);
+                }
+                cbMajitele2.getSelectionModel().selectFirst();
+                cbMajitele2.setDisable(true);
+                
+                Objednavky obj = new Objednavky(-1, "", "",
+                            -1, cbMajitele2);
+                objednavkyData.add(obj);
+                tableViewObjednavky.refresh();
+                tableViewObjednavky.getSelectionModel().select(obj);
+                break;
+            case Zpravy:
+                
+                break;
+            case Zvirata:
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ObservableList<Majitele> cbMajiteleD3 = FXCollections.observableArrayList();
+                ComboBox<Majitele> cbMajitele3= new ComboBox<>(cbMajiteleD3);
+                sql = "SELECT * FROM PO_MAJITELE WHERE ID_MAJITELE = " + FXMLUvodniController.prihlasenyUzivatel.getId();
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Majitele maj2 = new Majitele(rs.getInt(1), rs.getDate(2).toString(),
+                            rs.getString(3), rs.getString(4), rs.getDate(5).toString(),
+                            rs.getString(6), rs.getString(7), rs.getInt(8),
+                            rs.getString(9), rs.getString(10), null);
+                    cbMajiteleD3.add(maj2);
+                }
+                cbMajitele3.getSelectionModel().selectFirst();
+                cbMajitele3.setDisable(true);
+                
+                ObservableList<Pohlavi> cbPohlaviD = FXCollections.observableArrayList();
+                ComboBox<Pohlavi> cbPohlavi= new ComboBox<>(cbPohlaviD);
+                sql = "SELECT * FROM PO_POHLAVI";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Pohlavi poh = new Pohlavi(rs.getInt(1), rs.getString(2));
+                    cbPohlaviD.add(poh);
+                }
+                cbPohlavi.getSelectionModel().selectFirst();
+                
+                ObservableList<Druhy> cbDruhyD = FXCollections.observableArrayList();
+                ComboBox<Druhy> cbDruhy= new ComboBox<>(cbDruhyD);
+                sql = "SELECT * FROM PO_DRUHY";
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Druhy dru = new Druhy(rs.getInt(1), rs.getString(2));
+                    cbDruhyD.add(dru);
+                }
+                cbDruhy.getSelectionModel().selectFirst();
+                
+                ObservableList<Doktori> cbDoktoriD = FXCollections.observableArrayList();
+                ComboBox<Doktori> cbDoktori= new ComboBox<>(cbDoktoriD);
+                sql = "SELECT * FROM PO_DOKTORI";
+
+                pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    Doktori dokt = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                            rs.getDate(4).toString(), rs.getDouble(5), rs.getString(6), rs.getString(7),
+                            rs.getDate(8).toString(), rs.getString(9), rs.getString(10), rs.getInt(11),
+                            rs.getString(12), rs.getString(13), null,rs.getInt(14),null);
+                    cbDoktoriD.add(dokt);
+                }
+                cbDoktori.getSelectionModel().selectFirst();
+                
+                Zvirata zvir = new Zvirata(-1, "", "01-01-2000",0, "", "", -1,-1,-1, -1, cbMajitele3, cbPohlavi, cbDruhy, cbDoktori);
+                zvirataData.add(zvir);
+                tableViewZvirata.refresh();
+                tableViewZvirata.getSelectionModel().select(zvir);
+        }
     }
 
     @FXML
     private void button_odebrat(ActionEvent event) {
+CallableStatement cst = null;
+        String sql;
+        int idVymazat;
+        switch (comboTabulky.getValue()) {
+           
+            case Objednavky:
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                if(tableViewObjednavky.getSelectionModel().getSelectedItem() == null){ 
+                    zobrazErrorDialog("Chyba !", "Nejdříve vyber položku, kterou chceš smazat !");
+                }else{
+                    try{
+                    ObservableList<Objednavky> objednavkyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_OBJEDNAVKY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Objednavky obj = new Objednavky(rs.getInt(1), rs.getString(2),rs.getString(3),
+                                rs.getInt(4),null);
+                        objednavkyL.add(obj);
+                    }
+                    idVymazat = -1;
+                    for (Objednavky objD : objednavkyL) {
+                        if (objD.getIdObjednavky() == tableViewObjednavky.getSelectionModel().getSelectedItem().getIdObjednavky()) {
+                            idVymazat = objD.getIdObjednavky();
+                            break;
+                        }
+                    }
+
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_OBJEDNAVKY(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    objednavkyData.remove(tableViewObjednavky.getSelectionModel().getSelectedItem());
+                    tableViewObjednavky.refresh();
+                    } catch (Exception ex) {
+                        if(!ex.getMessage().isEmpty()){
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                        }else{
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                        }
+                    }   
+                }           
+                break;
+            
+            case Zpravy:
+                /////////////////////////////////////////////////////////////////////////////////
+                if(tableViewZpravy.getSelectionModel().getSelectedItem() == null){ 
+                    zobrazErrorDialog("Chyba !", "Nejdříve vyber položku, kterou chceš smazat !");
+                }else{ 
+                    try{
+                        ObservableList<Zpravy> zpravyL = FXCollections.observableArrayList();
+                        sql = "SELECT * FROM PO_ZPRAVY";
+                        pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                        rs = pstmt.executeQuery();
+
+                        while (rs.next()) {
+                            Zpravy zp = new Zpravy(rs.getInt(1), rs.getInt(2),"",rs.getInt(3),
+                            "",rs.getString(4),rs.getInt(5),rs.getInt(6));
+                            zpravyL.add(zp);
+                        }
+                        idVymazat = -1;
+                        for (Zpravy zpD : zpravyL) {
+                            if (zpD.getIdZpravy() == tableViewZpravy.getSelectionModel().getSelectedItem().getIdZpravy()) {
+                                idVymazat = zpD.getIdZpravy();
+                                break;
+                        }
+                        }
+
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZPRAVY(?,?)}");
+                        cst.setInt(1, idVymazat);
+                        cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                        cst.executeUpdate();
+                        zpravyData.remove(tableViewZpravy.getSelectionModel().getSelectedItem());
+                        tableViewZpravy.refresh();
+                    } catch (Exception ex) {
+                        if(!ex.getMessage().isEmpty()){
+                         Bezpecnost.vypisChybu(ex.getMessage());
+                        }else{
+                            Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                        }
+                    }
+                }  
+                break;
+            case Zvirata:
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                if(tableViewZpravy.getSelectionModel().getSelectedItem() == null){ 
+                    zobrazErrorDialog("Chyba !", "Nejdříve vyber položku, kterou chceš smazat !");
+                }else{
+                    try{
+                    ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZVIRATA";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getDouble(4),
+                                rs.getString(5),rs.getString(6),rs.getInt(7),rs.getInt(8),rs.getInt(9),rs.getInt(10),
+                        null,null,null,null);
+                        zvirataL.add(zv);
+                    }
+                    idVymazat = -1;
+                    for (Zvirata zvD : zvirataL) {
+                        if (zvD.getIdZvirete() == tableViewZvirata.getSelectionModel().getSelectedItem().getIdZvirete()) {
+                            idVymazat = zvD.getIdZvirete();
+                            break;
+                        }
+                    }
+
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_DEL_ZVIRATA(?,?)}");
+                    cst.setInt(1, idVymazat);
+                    cst.setInt(2,FXMLUvodniController.prihlasenyUzivatel.getId());
+                    cst.executeUpdate();
+                    zvirataData.remove(tableViewZvirata.getSelectionModel().getSelectedItem());
+                    tableViewZvirata.refresh();
+                    } catch (Exception ex) {
+                        if(!ex.getMessage().isEmpty()){
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                        }else{
+                        Bezpecnost.vypisChybu("Chyba pri mazani, nutne odstranit nejprve zavisle tabulky");
+                        }
+                    }
+                }
+        }
     }
 
     @FXML
     private void button_ulozit(ActionEvent event) {
+    }
+
+    @FXML
+    private void cbTabulkyOnAction(ActionEvent event) {
+        try {
+            obnovit();
+        } catch (SQLException ex) {
+            zobrazErrorDialog("Chyba !", ex.getMessage());
+        }
     }
 
 }
