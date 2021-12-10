@@ -55,96 +55,102 @@
          <children>
             <TableView fx:id="tableViewAdministratori" prefHeight="200.0" prefWidth="200.0">
                <columns>
-                  <TableColumn fx:id="administratori_jmeno" prefWidth="150.0" text="jmeno" />
-                  <TableColumn fx:id="administratori_prijmeni" prefWidth="150.0" text="prijmeni" />
-                  <TableColumn fx:id="administratori_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
-                  <TableColumn fx:id="administratori_telefon" prefWidth="150.0" text="telefon" />
-                  <TableColumn fx:id="administratori_email" prefWidth="150.0" text="email" />
-                  <TableColumn fx:id="administratori_prihlasovaci_jmeno" prefWidth="150.0" text="prihlasovaci_jmeno" />
-                  <TableColumn fx:id="administratori_heslo" prefWidth="150.0" text="heslo" />
+                  <TableColumn fx:id="administratori_jmeno" onEditCommit="#administratori_jmeno_edit" prefWidth="150.0" text="jmeno" />
+                  <TableColumn fx:id="administratori_prijmeni" onEditCommit="#administratori_prijmeni_edit" prefWidth="150.0" text="prijmeni" />
+                  <TableColumn fx:id="administratori_datum_narozeni" onEditCommit="#administratori_datum_narozeni_edit" prefWidth="150.0" text="datum_narozeni" />
+                  <TableColumn fx:id="administratori_telefon" onEditCommit="#administratori_telefon_edit" prefWidth="150.0" text="telefon" />
+                  <TableColumn fx:id="administratori_email" onEditCommit="#administratori_email_edit" prefWidth="150.0" text="email" />
+                  <TableColumn fx:id="administratori_prihlasovaci_jmeno" onEditCommit="#administratori_prihlasovaci_jmeno_edit" prefWidth="150.0" text="prihlasovaci_jmeno" />
+                  <TableColumn fx:id="administratori_heslo" onEditCommit="#administratori_heslo_edit" prefWidth="150.0" text="heslo" />
                   <TableColumn fx:id="administratori_adresa" prefWidth="150.0" text="adresa" />
                </columns>
             </TableView>
              <TableView fx:id="tableViewAdresy" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="adresy_ulice" prefWidth="150.0" text="ulice" />
-                <TableColumn fx:id="adresy_cislo_popisne" prefWidth="150.0" text="cislo_popisne" />
+                <TableColumn fx:id="adresy_ulice" onEditCommit="#adresy_ulice_edit" prefWidth="150.0" text="ulice" />
+                <TableColumn fx:id="adresy_cislo_popisne" onEditCommit="#adresy_cislo_popisne_edit" prefWidth="150.0" text="cislo_popisne" />
                 <TableColumn fx:id="adresy_posta" prefWidth="150.0" text="posta" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewBiochemie" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="biochemie_urea" prefWidth="150.0" text="urea" />
-                <TableColumn fx:id="biochemie_kreatinin" prefWidth="150.0" text="kreatinin" />
-                <TableColumn fx:id="biochemie_bilirubin" prefWidth="150.0" text="bilirubin" />
-                <TableColumn fx:id="biochemie_ast" prefWidth="150.0" text="ast" />
-                <TableColumn fx:id="biochemie_alt" prefWidth="150.0" text="ast" />
+                <TableColumn fx:id="biochemie_urea" onEditCommit="#biochemie_urea_edit" prefWidth="150.0" text="urea" />
+                <TableColumn fx:id="biochemie_kreatinin" onEditCommit="#biochemie_kreatinin_edit" prefWidth="150.0" text="kreatinin" />
+                <TableColumn fx:id="biochemie_bilirubin" onEditCommit="#biochemie_bilirubin_edit" prefWidth="150.0" text="bilirubin" />
+                <TableColumn fx:id="biochemie_ast" onEditCommit="#biochemie_ast_edit" prefWidth="150.0" text="ast" />
+                <TableColumn fx:id="biochemie_alt" onEditCommit="#biochemie_alt_edit" prefWidth="150.0" text="ast" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewDiagnozy" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="diagnozy_nazev" prefWidth="150.0" text="nazev" />
-                <TableColumn fx:id="diagnozy_oznaceni" prefWidth="150.0" text="oznaceni" />
-                <TableColumn fx:id="diagnozy_stupen_zavaznosti" prefWidth="150.0" text="stupen_zavaznosti" />
+                <TableColumn fx:id="diagnozy_nazev" onEditCommit="#diagnozy_nazev_edit" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="diagnozy_oznaceni" onEditCommit="#diagnozy_oznaceni_edit" prefWidth="150.0" text="oznaceni" />
+                <TableColumn fx:id="diagnozy_stupen_zavaznosti" onEditCommit="#diagnozy_stupen_zavaznosti_edit" prefWidth="150.0" text="stupen_zavaznosti" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewDodavatele" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="dodavatele_nazev" prefWidth="150.0" text="nazev" />
-                <TableColumn fx:id="dodavatele_telefon" prefWidth="150.0" text="telefon" />
-                <TableColumn fx:id="dodavatele_email" prefWidth="150.0" text="email" />
+                <TableColumn fx:id="dodavatele_nazev" onEditCommit="#dodavatele_nazev_edit" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="dodavatele_telefon" onEditCommit="#dodavatele_telefon_edit" prefWidth="150.0" text="telefon" />
+                <TableColumn fx:id="dodavatele_email" onEditCommit="#dodavatele_email_edit" prefWidth="150.0" text="email" />
                 <TableColumn fx:id="dodavatele_adresa" prefWidth="150.0" text="adresa" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewDoktori" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="doktori_jmeno" prefWidth="150.0" text="jmeno" />
-                <TableColumn fx:id="doktori_prijmeni" prefWidth="150.0" text="prijmeni" />
-                <TableColumn fx:id="doktori_titul" prefWidth="150.0" text="titul" />
-                <TableColumn fx:id="doktori_datum_nastupu" prefWidth="150.0" text="datum_nastupu" />
-                <TableColumn fx:id="doktori_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
-                <TableColumn fx:id="doktori_telefon" prefWidth="150.0" text="telefon" />
-                <TableColumn fx:id="doktori_email" prefWidth="150.0" text="email" />
+                <TableColumn fx:id="doktori_jmeno" onEditCommit="#doktori_jmeno_edit" prefWidth="150.0" text="jmeno" />
+                <TableColumn fx:id="doktori_prijmeni" onEditCommit="#doktori_prijmeni_edit" prefWidth="150.0" text="prijmeni" />
+                <TableColumn fx:id="doktori_titul" onEditCommit="#doktori_titul_edit" prefWidth="150.0" text="titul" />
+                <TableColumn fx:id="doktori_delka_uvazku" onEditCommit="#doktori_delka_uvazku_edit" prefWidth="150.0" text="delka_uvazku" />
+                <TableColumn fx:id="doktori_datum_nastupu" onEditCommit="#doktori_datum_nastupu_edit" prefWidth="150.0" text="datum_nastupu" />
+                <TableColumn fx:id="doktori_plat" onEditCommit="#doktori_plat_edit" prefWidth="150.0" text="plat" />
+                <TableColumn fx:id="doktori_datum_narozeni" onEditCommit="#doktori_datum_narozeni_edit" prefWidth="150.0" text="datum_narozeni" />
+                <TableColumn fx:id="doktori_telefon" onEditCommit="#doktori_telefon_edit" prefWidth="150.0" text="telefon" />
+                <TableColumn fx:id="doktori_email" onEditCommit="#doktori_email_edit" prefWidth="150.0" text="email" />
+                <TableColumn fx:id="doktori_prihlasovaci_jmeno" onEditCommit="#doktori_prihlasovaci_jmeno_edit" prefWidth="150.0" text="prihlasovaci_jmeno" />
+                <TableColumn fx:id="doktori_heslo" onEditCommit="#doktori_heslo_edit" prefWidth="150.0" text="heslo" />
+                <TableColumn fx:id="doktori_adresa" prefWidth="150.0" text="adresa" />
+                <TableColumn fx:id="doktori_nadrizeny" prefWidth="150.0" text="nadrizeny" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewDruhy" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="druhy_druh" prefWidth="150.0" text="druh" />
+                <TableColumn fx:id="druhy_druh" onEditCommit="#druhy_druh_edit" prefWidth="150.0" text="druh" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewFaktury" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="faktury_datum_vystaveni" prefWidth="150.0" text="datum_vystaveni" />
-                <TableColumn fx:id="faktury_datum_splatnosti" prefWidth="150.0" text="datum_splatnosti" />
-                <TableColumn fx:id="faktury_stav" prefWidth="150.0" text="stav" />
+                <TableColumn fx:id="faktury_datum_vystaveni" onEditCommit="#faktury_datum_vystaveni_edit" prefWidth="150.0" text="datum_vystaveni" />
+                <TableColumn fx:id="faktury_datum_splatnosti" onEditCommit="#faktury_datum_splatnosti_edit" prefWidth="150.0" text="datum_splatnosti" />
+                <TableColumn fx:id="faktury_stav" onEditCommit="#faktury_stav_edit" prefWidth="150.0" text="stav" />
                 <TableColumn fx:id="faktury_typ" prefWidth="150.0" text="typ" />
                 <TableColumn fx:id="faktury_majitel" prefWidth="150.0" text="majitel" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewFotoDoktoru" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="foto_doktoru_nazev" prefWidth="150.0" text="nazev" />
-                <TableColumn fx:id="foto_doktoru_typ_souboru" prefWidth="150.0" text="typ_souboru" />
-                <TableColumn fx:id="foto_doktoru_pripona" prefWidth="150.0" text="pripona" />
-                <TableColumn fx:id="foto_doktoru_datum_nahrani" prefWidth="150.0" text="datum_nahrani" />
-                <TableColumn fx:id="foto_doktoru_obsah" prefWidth="150.0" text="obsah" />
+                <TableColumn fx:id="foto_doktoru_nazev" onEditCommit="#foto_doktoru_nazev_edit" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="foto_doktoru_typ_souboru" onEditCommit="#foto_doktoru_typ_souboru_edit" prefWidth="150.0" text="typ_souboru" />
+                <TableColumn fx:id="foto_doktoru_pripona" onEditCommit="#foto_doktoru_pripona_edit" prefWidth="150.0" text="pripona" />
+                <TableColumn fx:id="foto_doktoru_datum_nahrani" onEditCommit="#foto_doktoru_datum_nahrani_edit" prefWidth="150.0" text="datum_nahrani" />
+                <TableColumn fx:id="foto_doktoru_obsah" onEditStart="#foto_doktoru_typ_souboru_edit" prefWidth="150.0" text="obsah" />
                 <TableColumn fx:id="foto_doktoru_doktor" prefWidth="150.0" text="doktor" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewKrevniObrazy" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="krevni_obrazy_erytrocyty" prefWidth="150.0" text="erytrocyty" />
-                <TableColumn fx:id="krevni_obrazy_leukocyty" prefWidth="150.0" text="leukocyty" />
-                <TableColumn fx:id="krevni_obrazy_trombocyty" prefWidth="150.0" text="trombocyty" />
-                <TableColumn fx:id="krevni_obrazy_hemoglobin" prefWidth="150.0" text="hemoglobin" />
+                <TableColumn fx:id="krevni_obrazy_erytrocyty" onEditCommit="#krevni_obrazy_erytrocyty_edit" prefWidth="150.0" text="erytrocyty" />
+                <TableColumn fx:id="krevni_obrazy_leukocyty" onEditCommit="#krevni_obrazy_leukocyty_edit" prefWidth="150.0" text="leukocyty" />
+                <TableColumn fx:id="krevni_obrazy_trombocyty" onEditCommit="#krevni_obrazy_trombocyty_edit" prefWidth="150.0" text="trombocyty" />
+                <TableColumn fx:id="krevni_obrazy_hemoglobin" onEditCommit="#krevni_obrazy_hemoglobin_edit" prefWidth="150.0" text="hemoglobin" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewLeciva" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="leciva_nazev" prefWidth="150.0" text="nazev" />
-                <TableColumn fx:id="leciva_datum_expirace" prefWidth="150.0" text="datum_expirace" />
-                <TableColumn fx:id="leciva_pocet_skladem" prefWidth="150.0" text="pocet_skladem" />
-                <TableColumn fx:id="leciva_popis" prefWidth="150.0" text="popis" />
+                <TableColumn fx:id="leciva_nazev" onEditCommit="#leciva_nazev_edit" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="leciva_datum_expirace" onEditCommit="#leciva_datum_expirace_edit" prefWidth="150.0" text="datum_expirace" />
+                <TableColumn fx:id="leciva_pocet_skladem" onEditCommit="#leciva_pocet_skladem_edit" prefWidth="150.0" text="pocet_skladem" />
+                <TableColumn fx:id="leciva_popis" onEditCommit="#leciva_popis_edit" prefWidth="150.0" text="popis" />
                 <TableColumn fx:id="leciva_dodavatel" prefWidth="150.0" text="dodavatel" />
               </columns>
             </TableView>
@@ -159,70 +165,78 @@
             </TableView>
             <TableView fx:id="tableViewMajitele" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="majitele_jmeno" prefWidth="150.0" text="jmeno" />
-                <TableColumn fx:id="majitele_prijmeni" prefWidth="150.0" text="prijmeni" />
-                <TableColumn fx:id="majitele_datum_registrace" prefWidth="150.0" text="datum_registrace" />
-                <TableColumn fx:id="majitele_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
-                <TableColumn fx:id="majitele_telefon" prefWidth="150.0" text="telefon" />
-                <TableColumn fx:id="majitele_email" prefWidth="150.0" text="email" />
-                <TableColumn fx:id="majitele_prihlasovaci_jmeno" prefWidth="150.0" text="prihlasovaci_jmeno" />
-                <TableColumn fx:id="majitele_heslo" prefWidth="150.0" text="heslo" />
+                <TableColumn fx:id="majitele_jmeno" onEditCommit="#majitele_jmeno_edit" prefWidth="150.0" text="jmeno" />
+                <TableColumn fx:id="majitele_prijmeni" onEditCommit="#majitele_prijmeni_edit" prefWidth="150.0" text="prijmeni" />
+                <TableColumn fx:id="majitele_datum_registrace" onEditCommit="#majitele_datum_registrace_edit" prefWidth="150.0" text="datum_registrace" />
+                <TableColumn fx:id="majitele_datum_narozeni" onEditCommit="#majitele_datum_narozeni_edit" prefWidth="150.0" text="datum_narozeni" />
+                <TableColumn fx:id="majitele_telefon" onEditCommit="#majitele_telefon_edit" prefWidth="150.0" text="telefon" />
+                <TableColumn fx:id="majitele_email" onEditCommit="#majitele_email_edit" prefWidth="150.0" text="email" />
+                <TableColumn fx:id="majitele_prihlasovaci_jmeno" onEditCommit="#majitele_prihlasovaci_jmeno_edit" prefWidth="150.0" text="prihlasovaci_jmeno" />
+                <TableColumn fx:id="majitele_heslo" onEditCommit="#majitele_heslo_edit" prefWidth="150.0" text="heslo" />
                 <TableColumn fx:id="majitele_adresa" prefWidth="150.0" text="adresa" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewObjednavky" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="objednavky_pricina" prefWidth="150.0" text="pricina" />
-                <TableColumn fx:id="objednavky_termin" prefWidth="150.0" text="termin" />
+                <TableColumn fx:id="objednavky_pricina" onEditCommit="#objednavky_pricina_edit" prefWidth="150.0" text="pricina" />
+                <TableColumn fx:id="objednavky_termin" onEditCommit="#objednavky_termin_edit" prefWidth="150.0" text="termin" />
                 <TableColumn fx:id="objednavky_majitel" prefWidth="150.0" text="majitel" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewOdbery" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="odbery_datum" prefWidth="150.0" text="datum" />
-                <TableColumn fx:id="odbery_poznamka" prefWidth="150.0" text="poznamka" />
+                <TableColumn fx:id="odbery_datum" onEditCommit="#odbery_datum_edit" prefWidth="150.0" text="datum" />
+                <TableColumn fx:id="odbery_poznamka" onEditCommit="#odbery_poznamka_edit" prefWidth="150.0" text="poznamka" />
                 <TableColumn fx:id="odbery_zvire" prefWidth="150.0" text="zvire" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewOperace" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="operace_nazev" prefWidth="150.0" text="nazev" />
-                <TableColumn fx:id="operace_oznaceni" prefWidth="150.0" text="oznaceni" />
-                <TableColumn fx:id="operace_delka" prefWidth="150.0" text="delka" />
-                <TableColumn fx:id="operace_riziko" prefWidth="150.0" text="riziko" />
+                <TableColumn fx:id="operace_nazev" onEditCommit="#operace_nazev_edit" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="operace_oznaceni" onEditCommit="#operace_oznaceni_edit" prefWidth="150.0" text="oznaceni" />
+                <TableColumn fx:id="operace_delka" onEditCommit="#operace_delka_edit" prefWidth="150.0" text="delka" />
+                <TableColumn fx:id="operace_riziko" onEditCommit="#operace_riziko_edit" prefWidth="150.0" text="riziko" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewPohlavi" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="pohlavi_pohlavi" prefWidth="150.0" text="pohlavi" />
+                <TableColumn fx:id="pohlavi_pohlavi" onEditCommit="#pohlavi_pohlavi_edit" prefWidth="150.0" text="pohlavi" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewPolozky" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="polozky_nazev" prefWidth="150.0" text="nazev" />
-                <TableColumn fx:id="polozky_pocet" prefWidth="150.0" text="pocet" />
-                <TableColumn fx:id="polozky_cena" prefWidth="150.0" text="cena" />
+                <TableColumn fx:id="polozky_nazev" onEditCommit="#polozky_nazev_edit" prefWidth="150.0" text="nazev" />
+                <TableColumn fx:id="polozky_pocet" onEditCommit="#polozky_pocet_edit" prefWidth="150.0" text="pocet" />
+                <TableColumn fx:id="polozky_cena" onEditCommit="#polozky_cena_edit" prefWidth="150.0" text="cena" />
                 <TableColumn fx:id="polozky_faktura" prefWidth="150.0" text="faktura" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewPosty" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="posty_mesto" prefWidth="150.0" text="mesto" />
-                <TableColumn fx:id="posty_psc" prefWidth="150.0" text="psc" />
+                <TableColumn fx:id="posty_mesto" onEditCommit="#posty_mesto_edit" prefWidth="150.0" text="mesto" />
+                <TableColumn fx:id="posty_psc" onEditCommit="#posty_psc_edit" prefWidth="150.0" text="psc" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewTypyPlatby" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="typy_platby_typ" prefWidth="150.0" text="typ" />
+                <TableColumn fx:id="typy_platby_typ" onEditCommit="#typy_platby_typ_edit" prefWidth="150.0" text="typ" />
               </columns>
             </TableView>
             <TableView fx:id="tableViewVysetreni" prefHeight="200.0" prefWidth="200.0">
                <columns>
-                  <TableColumn fx:id="vysetreni_datum" prefWidth="150.0" text="datum" />
-                  <TableColumn fx:id="vysetreni_poznamka" prefWidth="150.0" text="poznamka" />
+                  <TableColumn fx:id="vysetreni_datum" onEditCommit="#vysetreni_datum_edit" prefWidth="150.0" text="datum" />
+                  <TableColumn fx:id="vysetreni_poznamka" onEditCommit="#vysetreni_poznamka_edit" prefWidth="150.0" text="poznamka" />
                   <TableColumn fx:id="vysetreni_diagnoza" prefWidth="150.0" text="diagnoza" />                 
                   <TableColumn fx:id="vysetreni_zvire" prefWidth="150.0" text="zvire" />
                </columns>
+            </TableView>
+            <TableView fx:id="tableViewZakroky" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="zakroky_datum" onEditCommit="#zakroky_datum_edit" prefWidth="150.0" text="datum" />
+                <TableColumn fx:id="zakroky_poznamka" onEditCommit="#zakroky_poznamka_edit" prefWidth="150.0" text="poznamka" />
+                  <TableColumn fx:id="zakroky_zvire" prefWidth="150.0" text="zvire" />
+                  <TableColumn fx:id="zakroky_operace" prefWidth="150.0" text="operace" />
+              </columns>
             </TableView>
             <TableView fx:id="tableViewZpravy" prefHeight="200.0" prefWidth="200.0">
               <columns>
@@ -231,21 +245,13 @@
                   <TableColumn fx:id="zpravy_text" prefWidth="150.0" text="zprava" />
               </columns>
             </TableView>
-            <TableView fx:id="tableViewZakroky" prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                <TableColumn fx:id="zakroky_datum" prefWidth="150.0" text="datum" />
-                <TableColumn fx:id="zakroky_poznamka" prefWidth="150.0" text="poznamka" />
-                  <TableColumn fx:id="zakroky_zvire" prefWidth="150.0" text="zvire" />
-                  <TableColumn fx:id="zakroky_operace" prefWidth="150.0" text="operace" />
-              </columns>
-            </TableView>
             <TableView fx:id="tableViewZvirata" prefHeight="200.0" prefWidth="200.0">
                <columns>
-                  <TableColumn fx:id="zvirata_jmeno" prefWidth="150.0" text="jmeno" />
-                  <TableColumn fx:id="zvirata_datum_narozeni" prefWidth="150.0" text="datum_narozeni" />
-                  <TableColumn fx:id="zvirata_vaha" prefWidth="150.0" text="vaha" />
-                  <TableColumn fx:id="zvirata_poznamka" prefWidth="150.0" text="poznamka" />
-                  <TableColumn fx:id="zvirata_cislo_cipu" prefWidth="150.0" text="cislo_cipu" />
+                  <TableColumn fx:id="zvirata_jmeno" onEditCommit="#zvirata_jmeno_edit" prefWidth="150.0" text="jmeno" />
+                  <TableColumn fx:id="zvirata_datum_narozeni" onEditCommit="#zvirata_datum_narozeni_edit" prefWidth="150.0" text="datum_narozeni" />
+                  <TableColumn fx:id="zvirata_vaha" onEditCommit="#zvirata_vaha_edit" prefWidth="150.0" text="vaha" />
+                  <TableColumn fx:id="zvirata_poznamka" onEditCommit="#zvirata_poznamka_edit" prefWidth="150.0" text="poznamka" />
+                  <TableColumn fx:id="zvirata_cislo_cipu" onEditCommit="#zvirata_cislo_cipu_edit" prefWidth="150.0" text="cislo_cipu" />
                   <TableColumn fx:id="zvirata_majitel" prefWidth="150.0" text="majitel" />
                   <TableColumn fx:id="zvirata_pohlavi" prefWidth="150.0" text="pohlavi" />
                   <TableColumn fx:id="zvirata_druh" prefWidth="150.0" text="druh" />
