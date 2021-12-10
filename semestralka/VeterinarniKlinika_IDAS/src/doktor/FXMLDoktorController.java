@@ -39,6 +39,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
+import java.sql.Types;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -54,6 +56,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -70,6 +73,7 @@ import javafx.stage.Stage;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import jdk.nashorn.internal.codegen.types.Type;
 import prihlasovani.PrihlasenyUzivatel;
 import utils.ComboBoxy;
 import utils.enumDoktoriTabulky;
@@ -739,6 +743,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(false);
                 btnUloz.setVisible(false);
                 btnNapsatZpravu.setVisible(true);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(true);
                 tableViewAdministratori.setEditable(false);
@@ -807,6 +812,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(false);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                  
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(true);
@@ -873,6 +879,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -921,6 +928,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -979,6 +987,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1052,6 +1061,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(false);
                 btnUloz.setVisible(false);
                 btnNapsatZpravu.setVisible(true);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1146,6 +1156,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1202,6 +1213,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1296,6 +1308,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1346,6 +1359,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1422,6 +1436,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(false);
                 btnUloz.setVisible(false);
                 btnNapsatZpravu.setVisible(true);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1502,6 +1517,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1578,6 +1594,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1653,6 +1670,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1710,6 +1728,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1784,6 +1803,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1840,6 +1860,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1934,6 +1955,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -2028,6 +2050,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(false);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -2127,6 +2150,7 @@ public class FXMLDoktorController implements Initializable {
                 btnOdebrat.setVisible(true);
                 btnUloz.setVisible(true);
                 btnNapsatZpravu.setVisible(false);
+                btnNajdiPodobna.setVisible(true);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -2312,7 +2336,7 @@ public class FXMLDoktorController implements Initializable {
 
     @FXML
     private void button_pridat(ActionEvent event) throws SQLException{
-String sql;
+        String sql;
         switch (comboTabulky.getValue()) {
             case Administratori:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3671,14 +3695,108 @@ String sql;
 
     @FXML
     private void btnNadizeniOnAction(ActionEvent event) {
+        CallableStatement cst = null;
+        String sql;
+        int idOdeslat;
+        try {
+            cst = VeterinarniKlinika.con.prepareCall("{CALL ? := NAJDINADRIZENE(?)}");
+            cst.registerOutParameter(1, Types.VARCHAR);
+            cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());          
+            cst.executeUpdate();
+            
+            String s = cst.getString(1).replace(";", "\n");
+            
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Moji nadřízení");
+            alert.setHeaderText("Doktoři:");
+            alert.setContentText(s);
+
+            alert.showAndWait();
+
+        } catch (Exception ex) {
+            if (!ex.getMessage().isEmpty()) {
+                Bezpecnost.vypisChybu(ex.getMessage());
+            } else {
+                Bezpecnost.vypisChybu("Ups, něco se nepovedlo.");
+            }
+        }
     }
 
     @FXML
     private void btnChudaciOnAction(ActionEvent event) {
+        CallableStatement cst = null;
+        String sql;
+        int idOdeslat;
+        try {
+            cst = VeterinarniKlinika.con.prepareCall("{CALL ODMEN_NEJVETSI_CHUDAKY}");
+
+            cst.executeUpdate();
+
+        } catch (Exception ex) {
+            if (!ex.getMessage().isEmpty()) {
+                Bezpecnost.vypisChybu(ex.getMessage());
+            } else {
+                Bezpecnost.vypisChybu("Ups, něco se nepovedlo.");
+            }
+        }
     }
 
     @FXML
-    private void btnNajdiPodobnaOnAction(ActionEvent event) {
+    private void btnNajdiPodobnaOnAction(ActionEvent event) throws SQLException {
+        CallableStatement cst = null;
+        String sql;
+        int idHledaneho;
+        int idDruhu;
+        switch (comboTabulky.getValue()) {
+            case Zvirata:
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZVIRATA";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4),
+                                rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10),
+                                null, null, null, null);
+                        zvirataL.add(zv);
+                    }
+                    idHledaneho = -1;
+                    idDruhu = -1;
+                    for (Zvirata zvD : zvirataL) {
+                        if (zvD.getIdZvirete() == tableViewZvirata.getSelectionModel().getSelectedItem().getIdZvirete()) {
+                            idHledaneho = zvD.getIdZvirete();
+                            idDruhu = zvD.getIdDruhu();
+                            break;
+                        }
+                    }
+
+                    cst = VeterinarniKlinika.con.prepareCall("{CALL ZVIRATA_S_PODOBNOU_VAHOU(?,?,?)}");
+                    cst.setInt(1, idHledaneho);
+                    cst.setInt(2, idDruhu);
+                    cst.registerOutParameter(3, Types.VARCHAR);
+                    
+                    cst.executeUpdate();
+                    
+                    String vysledek = cst.getString(3).replace(";", "\n");
+                    
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Nalezená zvířata stejného druhu s podobnou váhou");
+                    alert.setHeaderText("Zvířata:");
+                    alert.setContentText(vysledek);
+
+                    alert.showAndWait();
+                    
+                    tableViewZvirata.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chyba při vyhledávání");
+                    }
+                }
+        }
     }
 
 }
