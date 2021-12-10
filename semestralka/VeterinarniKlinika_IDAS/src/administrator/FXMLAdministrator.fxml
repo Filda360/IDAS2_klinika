@@ -42,7 +42,6 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnVystavitFakturu" mnemonicParsing="false" onAction="#handleBtnVystavitFakturuOnAction" prefWidth="105.0" text="vystavit fakturu" />
             <Button fx:id="btnMojeUdaje" mnemonicParsing="false" onAction="#handleBtnMojeUdajeOnAction" text="moje údaje" />
             <Button fx:id="btnOdhlasit" mnemonicParsing="false" onAction="#handleBtnOdhlasitOnAction" text="odhlásit" />
          </children>

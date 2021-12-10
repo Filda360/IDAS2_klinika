@@ -60,7 +60,6 @@ import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import prihlasovani.PrihlasenyUzivatel;
-import utils.ComboBoxy;
 import utils.enumMajitelTabulky;
 import utils.enumUzivatel;
 import veterinarniklinika.Bezpecnost;
