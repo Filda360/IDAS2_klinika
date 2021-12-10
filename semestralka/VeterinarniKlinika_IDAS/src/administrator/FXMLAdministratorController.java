@@ -737,7 +737,7 @@ public class FXMLAdministratorController implements Initializable {
                         cst.setInt(1, idOdeslat);
                         cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
                         cst.setInt(3, 1);
-                        cst.setInt(4, 2);
+                        cst.setInt(4, 1);
 
                         TextInputDialog dialog = new TextInputDialog("Zpravy");
                         dialog.getDialogPane().setMinWidth(300);
@@ -796,7 +796,7 @@ public class FXMLAdministratorController implements Initializable {
                         cst.setInt(1, idOdeslat);
                         cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
                         cst.setInt(3, 2);
-                        cst.setInt(4, 2);
+                        cst.setInt(4, 1);
 
                         TextInputDialog dialog = new TextInputDialog("Zpravy");
                         dialog.getDialogPane().setMinWidth(300);
@@ -854,7 +854,7 @@ public class FXMLAdministratorController implements Initializable {
                         cst.setInt(1, idOdeslat);
                         cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
                         cst.setInt(3, 3);
-                        cst.setInt(4, 2);
+                        cst.setInt(4, 1);
 
                         TextInputDialog dialog = new TextInputDialog("Zpravy");
                         dialog.getDialogPane().setMinWidth(300);
