@@ -74,8 +74,9 @@ import veterinarniklinika.VeterinarniKlinika;
 
 public class FXMLAdministratorController implements Initializable {
     
-    static Administrator prihlasenyAdmin = (Administrator)FXMLUvodniController.prihlasenyUzivatel;
-    static int prihlasenyAdminId = FXMLUvodniController.prihlasenyUzivatel.getId();
+    //deklarace nutných proměnných
+    
+    //deklarace tabulek, sloupců a jiných prvků JAVA FX
 
     @FXML
     private ComboBox<enumTabulky> comboTabulky;
@@ -361,6 +362,7 @@ public class FXMLAdministratorController implements Initializable {
     @FXML
     private Button btnVystavitFakturu;
 
+    //deklarace a definice datových struktur pro jednotlivé tabulky
     public ObservableList<Administratori> administratoriData = FXCollections.observableArrayList();
     public ObservableList<Adresy> adresyData = FXCollections.observableArrayList();
     public ObservableList<Biochemie> biochemieData = FXCollections.observableArrayList();
@@ -385,24 +387,26 @@ public class FXMLAdministratorController implements Initializable {
     public ObservableList<Zakroky> zakrokyData = FXCollections.observableArrayList();
     public ObservableList<Zpravy> zpravyData = FXCollections.observableArrayList();
     public ObservableList<Zvirata> zvirataData = FXCollections.observableArrayList();
-    //comboboxy
+    // deklarace a definice datových struktur pro comboboxy
     public ObservableList<enumUzivatel> cbTypUzivateleData = FXCollections.observableArrayList();
     public ObservableList<Doktori> cbDoktoriData = FXCollections.observableArrayList();
     public ObservableList<Majitele> cbMajiteleData = FXCollections.observableArrayList();
 
+    //deklararace a definice proměnných pro připojení do databáze
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        //nastavení comboboxů
         comboTabulky.setItems(FXCollections.observableArrayList(enumTabulky.values()));
         comboTabulky.getSelectionModel().selectFirst();
-//        comboUzivatel.setItems(FXCollections.observableArrayList(enumUzivatel.values()));
-//        comboUzivatel.getSelectionModel().selectFirst();
         comboTypUzivatele.setItems(FXCollections.observableArrayList(enumUzivatel.values()));
         comboTypUzivatele.getItems().remove(enumUzivatel.Admin);
         comboTypUzivatele.getSelectionModel().selectFirst();
 
+        //nastavení tabulek a sloupců tabulek na správné datové typy
         tableViewAdministratori.setItems(administratoriData);
         administratori_jmeno.setCellValueFactory(new PropertyValueFactory<>("jmeno"));
         administratori_prijmeni.setCellValueFactory(new PropertyValueFactory<>("prijmeni"));
@@ -696,6 +700,8 @@ public class FXMLAdministratorController implements Initializable {
         zvirata_poznamka.setCellFactory(TextFieldTableCell.forTableColumn());
         zvirata_cislo_cipu.setCellFactory(TextFieldTableCell.forTableColumn());
         
+        
+        //prvotní obnovení (propsání tabulky) a comboboxu pro emulaci
         try {
             comboTypUzivatele_change(new ActionEvent());
             obnovit();
@@ -704,6 +710,7 @@ public class FXMLAdministratorController implements Initializable {
         }
     }
     
+    //Metoda pro napsání zprávy
     @FXML
     private void hadnleBtnNapsatZpravu(ActionEvent event) {
     CallableStatement cst = null;
