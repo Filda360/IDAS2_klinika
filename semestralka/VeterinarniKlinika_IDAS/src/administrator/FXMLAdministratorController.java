@@ -3900,7 +3900,7 @@ public class FXMLAdministratorController implements Initializable {
                     for (TypyPlatby typY : typyPlatbyL) {
                         if (typY.getIdTypu() == fakD.getTypy().getValue().getIdTypu()) {
                             idMajitele = typY.getIdTypu();
-                            nalezena = true;
+                            nalezena2 = true;
                             break;
                         }
                     }
@@ -4154,30 +4154,520 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Objednavky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //TODO
+                try {
+                    ObservableList<Objednavky> objednavkyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_OBJEDNAVKY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Objednavky obj = new Objednavky(rs.getInt(1), rs.getString(2), rs.getDate(3).toString(),
+                            rs.getInt(4), null);
+                        objednavkyL.add(obj);
+                    }
+                    ObservableList<Majitele> majiteleL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_MAJITELE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Majitele maj = new Majitele(rs.getInt(1), rs.getDate(2).toString(), rs.getString(3),
+                            rs.getString(4), rs.getDate(5).toString(), rs.getString(6), rs.getString(7),
+                            rs.getInt(8), rs.getString(9), rs.getString(10), null);
+                        majiteleL.add(maj);
+                    }
+
+                    Objednavky objD = tableViewObjednavky.getSelectionModel().getSelectedItem();
+
+                    if (objD.getPricina().isEmpty()
+                            || objD.getTermin().isEmpty()
+                            || objD.getMajitele().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Objednavky objA : objednavkyL) {
+                        if (objA.getIdObjednavky() == objD.getIdObjednavky()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idMajitele = -1;
+                    boolean nalezena = false;
+                    for (Majitele maJ : majiteleL) {
+                        if (maJ.getIdMajitele() == objD.getMajitele().getValue().getIdMajitele()) {
+                            idMajitele = maJ.getIdMajitele();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Majitel nenalezen");
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_OBJEDNAVKY(?,?,?,?,?)}");
+                        cst.setInt(1, objD.getIdObjednavky());
+                        cst.setString(2, objD.getPricina());
+                        cst.setString(3, objD.getTermin());
+                        cst.setInt(4, idMajitele);
+                        cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_OBJEDNAVKY(?,?,?,?)}");
+                        cst.setString(1, objD.getPricina());
+                        cst.setString(2, objD.getTermin());
+                        cst.setInt(3, idMajitele);
+                        cst.setInt(4, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewObjednavky.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Odbery:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Odbery> odberyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ODBERY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Odbery obj = new Odbery(rs.getString(1), rs.getInt(2), rs.getInt(3),rs.getString(4), null);
+                        odberyL.add(obj);
+                    }
+                    ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZVIRATA";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4),
+                                rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10),
+                                null, null, null, null);
+                        zvirataL.add(zv);
+                    }
+
+                    Odbery odbD = tableViewOdbery.getSelectionModel().getSelectedItem();
+
+                    if (odbD.getDatum().isEmpty()
+                            || odbD.getPoznamka().isEmpty()
+                            || odbD.getZvirata().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Odbery odbA : odberyL) {
+                        if (odbA.getIdOdberu() == odbD.getIdOdberu()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idZvirete = -1;
+                    boolean nalezena = false;
+                    for (Zvirata zvI : zvirataL) {
+                        if (zvI.getIdZvirete() == odbD.getZvirata().getValue().getIdZvirete()) {
+                            idZvirete = zvI.getIdZvirete();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Zvire nenalezeno");
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_ODBERY(?,?,?,?,?)}");
+                        cst.setInt(1, odbD.getIdOdberu());
+                        cst.setInt(2, odbD.getIdZvirete());
+                        cst.setString(3, odbD.getDatum());
+                        cst.setInt(4, idZvirete);
+                        cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ODBERY(?,?,?,?)}");
+                        cst.setInt(1, odbD.getIdZvirete());
+                        cst.setString(2, odbD.getDatum());
+                        cst.setInt(3, idZvirete);
+                        cst.setInt(4, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewOdbery.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Operace:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Operace> operaceL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_OPERACE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Operace ope = new Operace(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getDouble(4), rs.getString(5));
+                        operaceL.add(ope);
+                    }
+                    
+                    Operace opeD = tableViewOperace.getSelectionModel().getSelectedItem();
+
+                    if (opeD.getNazev().isEmpty()
+                            || opeD.getOznaceni().isEmpty()
+                            || opeD.getRiziko().isEmpty()) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Operace opeA : operaceL) {
+                        if (opeA.getIdOperace() == opeD.getIdOperace()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_OPERACE(?,?,?,?,?,?)}");
+                        cst.setInt(1, opeD.getIdOperace());
+                        cst.setString(2, opeD.getNazev());
+                        cst.setString(3, opeD.getOznaceni());
+                        cst.setDouble(4, opeD.getDelka());
+                        cst.setString(5, opeD.getRiziko());
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_OPERACE(?,?,?,?,?)}");
+                        cst.setString(1, opeD.getNazev());
+                        cst.setString(2, opeD.getOznaceni());
+                        cst.setDouble(3, opeD.getDelka());
+                        cst.setString(4, opeD.getRiziko());
+                        cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewOperace.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Pohlavi:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Pohlavi> pohlaviL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_POHLAVI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Pohlavi poh = new Pohlavi(rs.getInt(1), rs.getString(2));
+                        pohlaviL.add(poh);
+                    }
+                    
+                    Pohlavi pohD = tableViewPohlavi.getSelectionModel().getSelectedItem();
+
+                    if (pohD.getPohlavi().isEmpty()) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Pohlavi pohA : pohlaviL) {
+                        if (pohA.getIdPohlavi() == pohD.getIdPohlavi()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_POHLAVI(?,?,?)}");
+                        cst.setInt(1, pohD.getIdPohlavi());
+                        cst.setString(2, pohD.getPohlavi());
+                        cst.setInt(3, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_POHLAVI(?,?)}");
+                        cst.setString(1, pohD.getPohlavi());
+                        cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewPohlavi.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Polozky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Polozky> polozkyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_POLOZKY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Polozky pol = new Polozky(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), null);
+                        polozkyL.add(pol);
+                    }
+                    ObservableList<Faktury> fakturyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_FAKTURY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Faktury fak = new Faktury(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getInt(5),rs.getInt(6),null, null);
+                        fakturyL.add(fak);
+                    }
+
+                    Polozky polD = tableViewPolozky.getSelectionModel().getSelectedItem();
+
+                    if (polD.getNazev().isEmpty()
+                            || polD.getFaktury().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Polozky polA : polozkyL) {
+                        if (polA.getIdPolozky() == polD.getIdPolozky()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idFaktury = -1;
+                    boolean nalezena = false;
+                    for (Faktury fakT : fakturyL) {
+                        if (fakT.getIdFaktury() == polD.getFaktury().getValue().getIdFaktury()) {
+                            idFaktury = fakT.getIdFaktury();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Faktura nenalezena");
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_POLOZKY(?,?,?,?,?,?)}");
+                        cst.setInt(1, polD.getIdPolozky());
+                        cst.setString(2, polD.getNazev());
+                        cst.setInt(3, polD.getPocet());
+                        cst.setInt(4, polD.getCena());
+                        cst.setInt(5, idFaktury);
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_POLOZKY(?,?,?,?,?)}");
+                        cst.setString(1, polD.getNazev());
+                        cst.setInt(2, polD.getPocet());
+                        cst.setInt(3, polD.getCena());
+                        cst.setInt(4, idFaktury);
+                        cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewPolozky.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Posty:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Posty> postyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_POSTY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Posty post = new Posty(rs.getInt(1), rs.getString(2), rs.getString(3));
+                        postyL.add(post);
+                    }
+                    
+                    Posty posD = tableViewPosty.getSelectionModel().getSelectedItem();
+
+                    if (posD.getMesto().isEmpty()||
+                            posD.getPSC().isEmpty()) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Posty posA : postyL) {
+                        if (posA.getIdPosty() == posD.getIdPosty()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_POSTY(?,?,?,?)}");
+                        cst.setInt(1, posD.getIdPosty());
+                        cst.setString(2, posD.getMesto());
+                        cst.setString(3, posD.getPSC());
+                        cst.setInt(4, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_POSTY(?,?,?)}");
+                        cst.setString(1, posD.getMesto());
+                        cst.setString(2, posD.getPSC());
+                        cst.setInt(3, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewPosty.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case TypyPlatby:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<TypyPlatby> typyPlatbyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_TYPY_PLATBY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        TypyPlatby typy = new TypyPlatby(rs.getInt(1), rs.getString(2));
+                        typyPlatbyL.add(typy);
+                    }
+                    
+                    TypyPlatby typD = tableViewTypyPlatby.getSelectionModel().getSelectedItem();
+
+                    if (typD.getTyp().isEmpty()) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (TypyPlatby typA : typyPlatbyL) {
+                        if (typA.getIdTypu() == typD.getIdTypu()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_TYPY_PLATBY(?,?,?)}");
+                        cst.setInt(1, typD.getIdTypu());
+                        cst.setString(2, typD.getTyp());
+                        cst.setInt(3, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_TYPY_PLATBY(?,?)}");
+                        cst.setString(1, typD.getTyp());
+                        cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewTypyPlatby.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Vysetreni:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Vysetreni> vysetreniL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_VYSETRENI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Vysetreni vys = new Vysetreni(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), null, null);
+                        vysetreniL.add(vys);
+                    }
+                    ObservableList<Diagnozy> diagnozyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DIAGNOZY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Diagnozy diag = new Diagnozy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                        diagnozyL.add(diag);
+                    }
+                    ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZVIRATA";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4),
+                                rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10),
+                                null, null, null, null);
+                        zvirataL.add(zv);
+                    }
+
+                    Vysetreni vysD = tableViewVysetreni.getSelectionModel().getSelectedItem();
+
+                    if (vysD.getDatum().isEmpty()
+                            || vysD.getPoznamka().isEmpty()
+                            || vysD.getDiagnozy().getValue() == null
+                            || vysD.getZvirata().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Vysetreni vysA : vysetreniL) {
+                        if (vysA.getIdVysetreni() == vysD.getIdVysetreni()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idDiagnozy = -1;
+                    boolean nalezena = false;
+                    for (Diagnozy diaG : diagnozyL) {
+                        if (diaG.getIdDiagnozy() == vysD.getDiagnozy().getValue().getIdDiagnozy()) {
+                            idDiagnozy = diaG.getIdDiagnozy();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Diagnoza nenalezena");
+                    }
+                    int idZvirete = -1;
+                    boolean nalezena2 = false;
+                    for (Zvirata zviR : zvirataL) {
+                        if (zviR.getIdZvirete() == vysD.getZvirata().getValue().getIdZvirete()) {
+                            idZvirete = zviR.getIdZvirete();
+                            nalezena2 = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena2) {
+                        throw new Exception("Zvire nenalezeno");
+                    }
+                    
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_VYSETRENI(?,?,?,?,?,?)}");
+                        cst.setInt(1, vysD.getIdVysetreni());
+                        cst.setString(2, vysD.getDatum());
+                        cst.setString(3, vysD.getPoznamka());
+                        cst.setInt(4, idDiagnozy);
+                        cst.setInt(5, idZvirete);
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_VYSETRENI(?,?,?,?,?)}");
+                        cst.setString(1, vysD.getDatum());
+                        cst.setString(2, vysD.getPoznamka());
+                        cst.setInt(3, idDiagnozy);
+                        cst.setInt(4, idZvirete);
+                        cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewVysetreni.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Zakroky:
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                break;
+            case Zpravy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 break;
             case Zvirata:
