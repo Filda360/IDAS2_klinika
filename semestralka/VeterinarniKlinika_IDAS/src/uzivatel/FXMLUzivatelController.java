@@ -984,7 +984,7 @@ public class FXMLUzivatelController implements Initializable {
                     cbMajitele.setItems(cbMajiteleData);
                     cbMajitele.setEditable(false);
                     
-                    Objednavky obj = new Objednavky(rs.getInt(1), rs.getString(2), rs.getString(3),
+                    Objednavky obj = new Objednavky(rs.getInt(1), rs.getString(2), rs.getDate(3).toString(),
                             rs.getInt(4),cbMajitele);
                     
                     for (Majitele majitel : cbMajiteleData) {
@@ -1440,8 +1440,8 @@ public class FXMLUzivatelController implements Initializable {
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), 
-                            rs.getString(3), rs.getString(4), rs.getString(5),
+                    Majitele maj = new Majitele(rs.getInt(1), rs.getDate(2).toString(), 
+                            rs.getString(3), rs.getString(4), rs.getDate(5).toString(),
                             rs.getString(6), rs.getString(7),rs.getInt(8), 
                             rs.getString(9), rs.getString(10),null);
                     cbMajiteleData.add(maj);
@@ -1473,8 +1473,8 @@ public class FXMLUzivatelController implements Initializable {
 
                 while (rs.next()) {
                     Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4), rs.getDouble(5), rs.getString(6), rs.getString(7),
-                            rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11),
+                            rs.getDate(4).toString(), rs.getDouble(5), rs.getString(6), rs.getString(7),
+                            rs.getDate(8).toString(), rs.getString(9), rs.getString(10), rs.getInt(11),
                             rs.getString(12), rs.getString(13), null,rs.getInt(14),null);
                     cbDoktoriData.add(dok);
                 }
@@ -1496,7 +1496,7 @@ public class FXMLUzivatelController implements Initializable {
                     ComboBox<Doktori> cbDoktori2 = new ComboBox<Doktori>();
                     cbDoktori2.setItems(cbDoktoriData);
 
-                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3),
+                    Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getDate(3).toString(),
                             rs.getDouble(4), rs.getString(5), rs.getString(6),rs.getInt(7),
                             rs.getInt(8),rs.getInt(9),rs.getInt(10),cbMajitele,cbPohlavi,cbDruhy,cbDoktori2);
                     
@@ -1594,7 +1594,7 @@ public class FXMLUzivatelController implements Initializable {
                 cbMajitele2.getSelectionModel().selectFirst();
                 cbMajitele2.setDisable(true);
                 
-                Objednavky obj = new Objednavky(-1, "", "",
+                Objednavky obj = new Objednavky(-1, "", "2021-12-01",
                             -1, cbMajitele2);
                 objednavkyData.add(obj);
                 tableViewObjednavky.refresh();
@@ -1661,7 +1661,7 @@ public class FXMLUzivatelController implements Initializable {
                 }
                 cbDoktori.getSelectionModel().selectFirst();
                 
-                Zvirata zvir = new Zvirata(-1, "", "01-01-2000",0, "", "", -1,-1,-1, -1, cbMajitele3, cbPohlavi, cbDruhy, cbDoktori);
+                Zvirata zvir = new Zvirata(-1, "", "2000-12-01",0, "", "", -1,-1,-1, -1, cbMajitele3, cbPohlavi, cbDruhy, cbDoktori);
                 zvirataData.add(zvir);
                 tableViewZvirata.refresh();
                 tableViewZvirata.getSelectionModel().select(zvir);
