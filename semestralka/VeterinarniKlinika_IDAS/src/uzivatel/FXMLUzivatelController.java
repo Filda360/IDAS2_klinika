@@ -34,6 +34,7 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +52,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
@@ -382,6 +384,8 @@ public class FXMLUzivatelController implements Initializable {
     private Button btnOdebrat;
     @FXML
     private Button btnUlozit;
+    @FXML
+    private Button btnZpava;
     
 
     @Override
@@ -702,6 +706,7 @@ public class FXMLUzivatelController implements Initializable {
                 btnPridat.setVisible(false);
                 btnOdebrat.setVisible(false);
                 btnUlozit.setVisible(true);
+                btnZpava.setVisible(false);
                 ///////////////////////////////////////////////////////////////////////
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(true);
@@ -762,6 +767,7 @@ public class FXMLUzivatelController implements Initializable {
                 btnPridat.setVisible(false);
                 btnOdebrat.setVisible(false);
                 btnUlozit.setVisible(false);
+                btnZpava.setVisible(true);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -830,6 +836,7 @@ public class FXMLUzivatelController implements Initializable {
                 btnPridat.setVisible(false);
                 btnOdebrat.setVisible(false);
                 btnUlozit.setVisible(false);
+                btnZpava.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -914,6 +921,7 @@ public class FXMLUzivatelController implements Initializable {
                 btnPridat.setVisible(true);
                 btnOdebrat.setVisible(true);
                 btnUlozit.setVisible(true);
+                btnZpava.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -929,7 +937,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewLogTable.setVisible(false);
                 tableViewMajitele.setVisible(false);
                 tableViewObjednavky.setVisible(true);
-                tableViewObjednavky.setEditable(false);
+                //tableViewObjednavky.setEditable(false);
                 
                 tableViewOdbery.setVisible(false);
                 tableViewOperace.setVisible(false);
@@ -983,6 +991,7 @@ public class FXMLUzivatelController implements Initializable {
                 btnPridat.setVisible(false);
                 btnOdebrat.setVisible(false);
                 btnUlozit.setVisible(false);
+                btnZpava.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1049,6 +1058,7 @@ public class FXMLUzivatelController implements Initializable {
                 btnPridat.setVisible(false);
                 btnOdebrat.setVisible(false);
                 btnUlozit.setVisible(false);
+                btnZpava.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1114,6 +1124,7 @@ public class FXMLUzivatelController implements Initializable {
                 btnPridat.setVisible(false);
                 btnOdebrat.setVisible(false);
                 btnUlozit.setVisible(false);
+                btnZpava.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1200,6 +1211,7 @@ public class FXMLUzivatelController implements Initializable {
                 btnPridat.setVisible(false);
                 btnOdebrat.setVisible(false);
                 btnUlozit.setVisible(false);
+                btnZpava.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1311,7 +1323,7 @@ public class FXMLUzivatelController implements Initializable {
                 tableViewZvirata.setVisible(false);
                 
                 zpravyData.clear();
-                sql = "SELECT * FROM PO_ZPRAVY WHERE ID_PRIJEMCE = "+FXMLUvodniController.prihlasenyUzivatel.getId() + " OR ID_ODESILATELE = "+FXMLUvodniController.prihlasenyUzivatel.getId();
+                sql = "SELECT * FROM PO_ZPRAVY WHERE ID_PRIJEMCE = "+FXMLUvodniController.prihlasenyUzivatel.getId();
                 
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
@@ -1376,6 +1388,7 @@ public class FXMLUzivatelController implements Initializable {
                 btnPridat.setVisible(true);
                 btnOdebrat.setVisible(true);
                 btnUlozit.setVisible(true);
+                btnZpava.setVisible(false);
                 
                 tableViewAdministratori.setVisible(false);
                 tableViewAdresy.setVisible(false);
@@ -1780,6 +1793,74 @@ CallableStatement cst = null;
             obnovit();
         } catch (SQLException ex) {
             zobrazErrorDialog("Chyba !", ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void btnZpravaOnAction(ActionEvent event) {
+        CallableStatement cst = null;
+        String sql;
+        int idOdeslat;
+        switch (comboTabulky.getValue()) {
+            
+            case Doktori:
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                if(tableViewDoktori.getSelectionModel().getSelectedItem() != null){
+                    try {
+                        ObservableList<Doktori> doktoriL = FXCollections.observableArrayList();
+                        sql = "SELECT * FROM PO_DOKTORI";
+                        pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                        rs = pstmt.executeQuery();
+
+                        while (rs.next()) {
+                            Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                     rs.getString(4), rs.getInt(5), rs.getString(6), rs.getString(7),
+                                    rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getString(12), rs.getString(13), null, rs.getInt(14), null);
+                            doktoriL.add(dok);
+                        }
+                        idOdeslat = -1;
+                        for (Doktori datD : doktoriL) {
+                            if (datD.getIdDoktora() == tableViewDoktori.getSelectionModel().getSelectedItem().getIdDoktora()) {
+                                idOdeslat = datD.getIdDoktora();
+                                break;
+                            }
+                        }
+
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ZPRAVY(?,?,?,?,?,?)}");
+                        cst.setInt(1, idOdeslat);
+                        cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
+                        cst.setInt(3, 2);
+                        cst.setInt(4, 2);
+
+                        TextInputDialog dialog = new TextInputDialog("Zpravy");
+                        dialog.getDialogPane().setMinWidth(300);
+                        dialog.setTitle("Odeslani zpravy");
+                        dialog.setHeaderText("Zpráva:");
+                        //dialog.setContentText("zprava:");
+
+                        // Traditional way to get the response value.
+                        Optional<String> result = dialog.showAndWait();
+                        if (result.isPresent()){
+                            System.out.println("Your name: " + result.get());
+                            cst.setString(5, result.get());
+                        }
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+
+                        cst.executeUpdate();
+
+                        tableViewDoktori.refresh();
+                    } catch (Exception ex) {
+                        if (!ex.getMessage().isEmpty()) {
+                            Bezpecnost.vypisChybu(ex.getMessage());
+                        } else {
+                            Bezpecnost.vypisChybu("Ups, něco se nepovedlo.");
+                        }
+                    }
+                }else{ 
+                    zobrazErrorDialog("Není vybrán příjemce", "Nejprv vybe z tabulky příjemce");
+                }
+                break;
+            
         }
     }
 

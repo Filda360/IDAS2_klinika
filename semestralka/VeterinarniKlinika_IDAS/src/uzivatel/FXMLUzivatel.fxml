@@ -46,6 +46,7 @@
             <Button fx:id="btnPridat" mnemonicParsing="false" onAction="#button_pridat" prefWidth="105.0" text="Pridat zaznam" />
             <Button fx:id="btnOdebrat" mnemonicParsing="false" onAction="#button_odebrat" prefWidth="105.0" text="Odebrat zaznam" />
             <Button fx:id="btnUlozit" mnemonicParsing="false" onAction="#button_ulozit" prefWidth="105.0" text="Ulozit zaznam" />
+            <Button fx:id="btnZpava" mnemonicParsing="false" onAction="#btnZpravaOnAction" prefWidth="105.0" text="odeslat zprávu" />
          </children>
       </VBox>
    </right>
