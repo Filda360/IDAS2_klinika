@@ -22,12 +22,17 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="10.0">
                <children>
+                  <Label text="Emulace" />
                   <Label text="Typ uzivatele" />
-                  <ComboBox fx:id="comboTypUzivatele" prefWidth="150.0" />
+                  <ComboBox fx:id="comboTypUzivatele" onAction="#comboTypUzivatele_change" prefWidth="150.0" />
                   <Label text="Uzivatel" />
-                  <ComboBox fx:id="comboUzivatel" prefWidth="150.0" />
+                  <StackPane prefHeight="40.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+                  <ComboBox fx:id="comboUzivatelDoktor" prefWidth="150.0" />
+                  <ComboBox fx:id="comboUzivatelMajitel"  prefWidth="150.0" />
+                  </StackPane>
+                  <Button mnemonicParsing="false" onAction="#button_emuluj" text="Emuluj" />
                   <Label text="Tabulka" />
-                  <ComboBox fx:id="comboTabulky" prefWidth="150.0" />
+                  <ComboBox fx:id="comboTabulky" onAction="#comboTabulky_change" prefWidth="150.0" />
                   <Button mnemonicParsing="false" onAction="#button_obnovit" text="Obnovit" />
                </children>
             </HBox>
@@ -53,6 +58,7 @@
             <Button mnemonicParsing="false" onAction="#button_pridat" prefWidth="105.0" text="Pridat zaznam" />
             <Button mnemonicParsing="false" onAction="#button_odebrat" prefWidth="105.0" text="Odebrat zaznam" />
             <Button mnemonicParsing="false" onAction="#button_ulozit" prefWidth="105.0" text="Ulozit zaznam" />
+            <Button fx:id="btnNapsatZpravu" mnemonicParsing="false" onAction="#hadnleBtnNapsatZpravu" prefWidth="105.0" text="Napsat zpravu" />
          </children>
       </VBox>
    </right>
@@ -154,7 +160,7 @@
             <TableView fx:id="tableViewLeciva" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="leciva_nazev" onEditCommit="#leciva_nazev_edit" prefWidth="150.0" text="nazev" />
-                <TableColumn fx:id="leciva_datum_expirace"  onEditCommit="#leciva_datum_expirace_edit" prefWidth="150.0" text="datum_expirace" />
+                <TableColumn fx:id="leciva_datum_expirace" onEditCommit="#leciva_datum_expirace_edit" prefWidth="150.0" text="datum_expirace" />
                 <TableColumn fx:id="leciva_pocet_skladem" onEditCommit="#leciva_pocet_skladem_edit" prefWidth="150.0" text="pocet_skladem" />
                 <TableColumn fx:id="leciva_popis" onEditCommit="#leciva_popis_edit" prefWidth="150.0" text="popis" />
                 <TableColumn fx:id="leciva_dodavatel" prefWidth="150.0" text="dodavatel" />
