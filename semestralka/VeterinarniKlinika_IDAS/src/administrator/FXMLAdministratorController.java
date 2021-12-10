@@ -65,7 +65,6 @@ import prihlasovani.Administrator;
 import prihlasovani.Doktor;
 import prihlasovani.Majitel;
 import prihlasovani.PrihlasenyUzivatel;
-import utils.ComboBoxy;
 import utils.enumTabulky;
 import utils.enumUzivatel;
 import veterinarniklinika.Bezpecnost;
@@ -2682,7 +2681,7 @@ public class FXMLAdministratorController implements Initializable {
                     TypyPlatby typ = new TypyPlatby(rs.getInt(1), rs.getString(2));
                     cbTypyPlatbyD.add(typ);
                 }
-                cbMajitele.getSelectionModel().selectFirst();
+                cbTypyPlatby.getSelectionModel().selectFirst();
 
                 Faktury fak = new Faktury(-1, "2000-12-01", "2000-12-01",
                         "", -1, -1, cbMajitele, cbTypyPlatby);
@@ -4243,7 +4242,8 @@ public class FXMLAdministratorController implements Initializable {
                     rs = pstmt.executeQuery();
 
                     while (rs.next()) {
-                        Faktury fak = new Faktury(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), null, null);
+                        Faktury fak = new Faktury(rs.getInt(1), rs.getString(2), 
+                                rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), null, null);
                         fakturyL.add(fak);
                     }
                     ObservableList<Majitele> majiteleL = FXCollections.observableArrayList();
@@ -4287,7 +4287,7 @@ public class FXMLAdministratorController implements Initializable {
                     boolean nalezena = false;
                     for (Majitele majE : majiteleL) {
                         if (majE.getIdMajitele() == fakD.getMajitele().getValue().getIdMajitele()) {
-                            idMajitele = majE.getIdAdresy();
+                            idMajitele = majE.getIdMajitele();
                             nalezena = true;
                             break;
                         }
@@ -4299,7 +4299,7 @@ public class FXMLAdministratorController implements Initializable {
                     boolean nalezena2 = false;
                     for (TypyPlatby typY : typyPlatbyL) {
                         if (typY.getIdTypu() == fakD.getTypy().getValue().getIdTypu()) {
-                            idMajitele = typY.getIdTypu();
+                            idTypu = typY.getIdTypu();
                             nalezena2 = true;
                             break;
                         }
@@ -4410,7 +4410,7 @@ public class FXMLAdministratorController implements Initializable {
                     }
                     boolean jePritomny = false;
                     for (Leciva lecA : lecivaL) {
-                        if (lecA.getIdDodavatele() == lecA.getIdDodavatele()) {
+                        if (lecA.getIdLeku() == lecD.getIdLeku()) {
                             jePritomny = true;
                             break;
                         }
@@ -4418,7 +4418,7 @@ public class FXMLAdministratorController implements Initializable {
                     int idDodavatele = -1;
                     boolean nalezena = false;
                     for (Dodavatele dod : dodavateleL) {
-                        if (dod.getIdAdresy() == lecD.getDodavatele().getValue().getIdAdresy()) {
+                        if (dod.getIdDodavatele() == lecD.getDodavatele().getValue().getIdDodavatele()) {
                             idDodavatele = dod.getIdDodavatele();
                             nalezena = true;
                             break;
@@ -4676,15 +4676,15 @@ public class FXMLAdministratorController implements Initializable {
                     if (jePritomny) {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_ODBERY(?,?,?,?,?)}");
                         cst.setInt(1, odbD.getIdOdberu());
-                        cst.setInt(2, odbD.getIdZvirete());
+                        cst.setInt(2, idZvirete);
                         cst.setDate(3, Date.valueOf(odbD.getDatum()));
-                        cst.setInt(4, idZvirete);
+                        cst.setString(4, odbD.getPoznamka());
                         cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
                     } else {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ODBERY(?,?,?,?)}");
-                        cst.setInt(1, odbD.getIdZvirete());
+                        cst.setInt(1, idZvirete);
                         cst.setDate(2, Date.valueOf(odbD.getDatum()));
-                        cst.setInt(3, idZvirete);
+                        cst.setString(3, odbD.getPoznamka());
                         cst.setInt(4, FXMLUvodniController.prihlasenyUzivatel.getId());
                     }
                     cst.executeUpdate();
@@ -5139,7 +5139,7 @@ public class FXMLAdministratorController implements Initializable {
                         cst.setInt(5, idOperace);
                         cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
                     } else {
-                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ZAKROKY(?,?,?,?,?,?)}");
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ZAKROKY(?,?,?,?,?)}");
                         cst.setDate(1, Date.valueOf(zakD.getDatum()));
                         cst.setString(2, zakD.getPoznamka());
                         cst.setInt(3, idZvirete);

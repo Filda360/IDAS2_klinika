@@ -75,7 +75,6 @@ import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import jdk.nashorn.internal.codegen.types.Type;
 import prihlasovani.PrihlasenyUzivatel;
-import utils.ComboBoxy;
 import utils.enumDoktoriTabulky;
 import utils.enumTabulky;
 import utils.enumUzivatel;
@@ -2474,7 +2473,7 @@ public class FXMLDoktorController implements Initializable {
                     TypyPlatby typ = new TypyPlatby(rs.getInt(1), rs.getString(2));
                     cbTypyPlatbyD.add(typ);
                 }
-                cbMajitele.getSelectionModel().selectFirst();
+                cbTypyPlatby.getSelectionModel().selectFirst();
 
                 Faktury fak = new Faktury(-1, "01-01-2000", "01-01-2000",
                         "", -1, -1, cbMajitele, cbTypyPlatby);
