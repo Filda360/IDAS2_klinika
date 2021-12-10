@@ -1005,11 +1005,15 @@ public class FXMLAdministratorController implements Initializable {
     }
 
     @FXML
-    private void button_emuluj(ActionEvent event) throws SQLException {
+    private void button_emuluj(ActionEvent event) throws SQLException, IOException {
         switch(comboTypUzivatele.getValue()){
             case Doktor:
+                nactiPrihlasenehoDoktora(comboUzivatelDoktor.getValue().getIdDoktora());
+                zobrazDialogDoktor(event);
                 break;
             case Majitel:
+                nactiPrihlasenehoUzivatele(comboUzivatelMajitel.getValue().getIdMajitele());
+                zobrazDialogUzivatel(event);
                 break;
         }
     }
