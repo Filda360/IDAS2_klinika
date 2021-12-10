@@ -40,10 +40,10 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
+            <Button fx:id="btnUpozorni" mnemonicParsing="false" onAction="#btnUpozoniOnAction" text="upozorni oblast" />
             <Button fx:id="btnNadrizeni" mnemonicParsing="false" onAction="#btnNadizeniOnAction" text="zobraz mé nadřízené" />
             <Button fx:id="btnChudaci" mnemonicParsing="false" onAction="#btnChudaciOnAction" text="akce chudaci" />
             <Button fx:id="btnPridejFotku" mnemonicParsing="false" onAction="#btnFotkuOnAction" text="přidej fotku" />
-            <Button fx:id="btnVystavitFakturu" mnemonicParsing="false" onAction="#handleBtnVystavitFakturuOnAction" prefWidth="105.0" text="vystavit fakturu" />
             <Button fx:id="btnMojeUdaje" mnemonicParsing="false" onAction="#handleBtnMojeUdajeOnAction" text="moje údaje" />
             <Button fx:id="btnOdhlasit" mnemonicParsing="false" onAction="#handleBtnOdhlasitOnAction" text="odhlásit" />
          </children>
@@ -61,6 +61,7 @@
             <Button fx:id="btnUloz" mnemonicParsing="false" onAction="#button_ulozit" prefWidth="105.0" text="Ulozit zaznam" />
             <Button fx:id="btnNapsatZpravu" mnemonicParsing="false" onAction="#hadnleBtnNapsatZpravu" prefWidth="105.0" text="Napsat zpravu" />
             <Button fx:id="btnNajdiPodobna" mnemonicParsing="false" onAction="#btnNajdiPodobnaOnAction" prefWidth="105.0" text="Najdi podobná" />
+            <Button fx:id="btnTrpici" mnemonicParsing="false" onAction="#btnTrpiciOnAction" prefWidth="105.0" text="tímto trpící" />
          </children>
       </VBox>
    </right>
