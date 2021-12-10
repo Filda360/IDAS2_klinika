@@ -39,6 +39,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -714,8 +715,7 @@ public class FXMLDoktorController implements Initializable {
     }
 
     private void obnovit() throws SQLException {
-        chBFiltr.setSelected(false);
-        chBDatum.setSelected(false);
+
         String sql;
         switch (comboTabulky.getValue()) {
             case Administratori:
@@ -1060,7 +1060,7 @@ public class FXMLDoktorController implements Initializable {
                 cbDoktoriData4.add(new Doktori(-1,"","","",0,"","","","","",-1,"","",null,-1,null));
                 
                 if(chBFiltr.isSelected()){ 
-                    sql = "SELECT * FROM PO_DOKTORI WHERE jmeno LIKE '" + tfFiltr.getText() + "'";
+                    sql = "SELECT * FROM PO_DOKTORI WHERE prijmeni LIKE '" + tfFiltr.getText() + "'";
                 }else{ 
                     sql = "SELECT * FROM PO_DOKTORI";
                 }
@@ -1207,7 +1207,7 @@ public class FXMLDoktorController implements Initializable {
                 }
                 
                 if(chBFiltr.isSelected()){ 
-                    sql = "SELECT * FROM PO_FAKTURY WHERE ID_MAJITELE = SELECT id_majitele FROM PO_MAJITELE WHERE prijmeni LIKE '" + tfFiltr.getText() + "'";
+                    sql = "SELECT * FROM PO_FAKTURY WHERE ID_MAJITELE IN (SELECT id_majitele FROM PO_MAJITELE WHERE prijmeni LIKE '" + tfFiltr.getText() + "')";
                 }else{ 
                     sql = "SELECT * FROM PO_FAKTURY";
                 }
@@ -1473,9 +1473,8 @@ public class FXMLDoktorController implements Initializable {
                             rs.getDate(5).toString(), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9), rs.getString(10), null);
                     cbMajiteleData2.add(maj);
                 }
-
                 if(chBDatum.isSelected()){ 
-                    sql = "SELECT * FROM PO_OBJEDNAVKY WHERE termin = " + dpDatum.getValue();
+                    sql = "SELECT * FROM PO_OBJEDNAVKY WHERE termin = '" + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(dpDatum.getValue()) + "'";
                 }else{ 
                     sql = "SELECT * FROM PO_OBJEDNAVKY";
                 }
@@ -1547,8 +1546,9 @@ public class FXMLDoktorController implements Initializable {
                     cbZvirataData.add(zv);
                 }
                 
-                if(chBDatum.isSelected()){ 
-                    sql = "SELECT * FROM PO_ODBERY WHERE ID_ZVIRETE = SELECT ID_ZVIRETE FROM PO_ZVIRATA WHERE jmeno LIKE'" + tfFiltr.getText() + "'";
+                if(chBFiltr.isSelected()){ 
+                    
+                    sql = "SELECT * FROM PO_ODBERY WHERE ID_ZVIRETE IN (SELECT ID_ZVIRETE FROM PO_ZVIRATA WHERE jmeno LIKE '" + tfFiltr.getText() + "')";
                 }else{ 
                     sql = "SELECT * FROM PO_ODBERY";
                 }
@@ -1606,7 +1606,7 @@ public class FXMLDoktorController implements Initializable {
 
                 operaceData.clear();
 
-                if(chBDatum.isSelected()){ 
+                if(chBFiltr.isSelected()){ 
                     sql = "SELECT * FROM PO_OPERACE WHERE nazev LIKE '" + tfFiltr.getText() + "'";
                 }else{ 
                     sql = "SELECT * FROM PO_OPERACE";
@@ -1668,7 +1668,7 @@ public class FXMLDoktorController implements Initializable {
                     cbFakturyData.add(fak);
                 }
                 
-                if(chBDatum.isSelected()){ 
+                if(chBFiltr.isSelected()){ 
                     sql = "SELECT * FROM PO_POLOZKY WHERE nazev LIKE '" + tfFiltr.getText() + "'";
                 }else{ 
                     sql = "SELECT * FROM PO_POLOZKY";
@@ -1726,7 +1726,7 @@ public class FXMLDoktorController implements Initializable {
 
                 postyData.clear();
 
-                if(chBDatum.isSelected()){ 
+                if(chBFiltr.isSelected()){ 
                     sql = "SELECT * FROM PO_POSTY WHERE mesto LIKE'" + tfFiltr.getText() + "'";
                 }else{ 
                     sql = "SELECT * FROM PO_POSTY";
@@ -1799,8 +1799,8 @@ public class FXMLDoktorController implements Initializable {
                     cbDiagnozyData.add(di);
                 }
 
-                if(chBDatum.isSelected()){ 
-                    sql = "SELECT * FROM PO_VYSETRENI WHERE ID_ZVIRETE = SELECT ID_ZVIRETE FROM ZVIRATA WHERE jmeno LIKE '" + tfFiltr.getText() + "'";
+                if(chBFiltr.isSelected()){ 
+                    sql = "SELECT * FROM PO_VYSETRENI WHERE ID_ZVIRETE IN (SELECT ID_ZVIRETE FROM ZVIRATA WHERE jmeno LIKE '" + tfFiltr.getText() + "')";
                 }else{ 
                     sql = "SELECT * FROM PO_VYSETRENI";
                 }
@@ -1888,8 +1888,8 @@ public class FXMLDoktorController implements Initializable {
                     cbOperaceData.add(op);
                 }
 
-                if(chBDatum.isSelected()){ 
-                    sql = "SELECT * FROM PO_ZAKROKY WHERE ID_ZVIRETE = SELECT ID_ZVIRETE FROM ZVIRATA WHERE jmeno LIKE '" + tfFiltr.getText() + "'";
+                if(chBFiltr.isSelected()){ 
+                    sql = "SELECT * FROM PO_ZAKROKY WHERE ID_ZVIRETE IN (SELECT ID_ZVIRETE FROM ZVIRATA WHERE jmeno LIKE '" + tfFiltr.getText() + "')";
                 }else{ 
                     sql = "SELECT * FROM PO_ZAKROKY";
                 }
@@ -2100,8 +2100,13 @@ public class FXMLDoktorController implements Initializable {
                             rs.getString(12), rs.getString(13), null,rs.getInt(14),null);
                     cbDoktoriData3.add(dok);
                 }
-
-                sql = "SELECT * FROM PO_ZVIRATA";
+                
+                if(chBFiltr.isSelected()){ 
+                    sql = "SELECT * FROM PO_ZVIRATA WHERE jmeno LIKE '" + tfFiltr.getText() + "'";
+                }else{ 
+                    sql = "SELECT * FROM PO_ZVIRATA";
+                }
+                
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
                 rs = pstmt.executeQuery();
 
@@ -2258,8 +2263,6 @@ public class FXMLDoktorController implements Initializable {
 
     @FXML
     private void cbTabulkaOnAction(ActionEvent event) {
-        chBFiltr.setSelected(true);
-        chBDatum.setSelected(true);
         try {
             obnovit();
         } catch (SQLException ex) {
