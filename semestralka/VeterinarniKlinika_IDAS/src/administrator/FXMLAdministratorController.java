@@ -1569,7 +1569,7 @@ public class FXMLAdministratorController implements Initializable {
                 tableViewZpravy.setVisible(false);
                 tableViewZvirata.setVisible(false);
 
-                operaceData.clear();
+                pohlaviData.clear();
 
                 sql = "SELECT * FROM PO_POHLAVI";
                 pstmt = VeterinarniKlinika.con.prepareStatement(sql);
@@ -2155,7 +2155,7 @@ public class FXMLAdministratorController implements Initializable {
                     cbAdresyD.add(ad);
                 }
                 cbAdresy.getSelectionModel().selectFirst();
-                Administratori ad = new Administratori(-1, "", "", "", "", "", -1, "", "", cbAdresy);
+                Administratori ad = new Administratori(-1, "", "", "2000-12-01", "", "", -1, "", "", cbAdresy);
                 administratoriData.add(ad);
                 tableViewAdministratori.refresh();
                 tableViewAdministratori.getSelectionModel().select(ad);
@@ -2180,10 +2180,10 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Biochemie:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                Biochemie bio = new Biochemie(-1, 0, 0, 0, 0, 0);
-                biochemieData.add(bio);
-                tableViewBiochemie.refresh();
-                tableViewBiochemie.getSelectionModel().select(bio);
+//                Biochemie bio = new Biochemie(-1, 0, 0, 0, 0, 0);
+//                biochemieData.add(bio);
+//                tableViewBiochemie.refresh();
+//                tableViewBiochemie.getSelectionModel().select(bio);
                 break;
             case Diagnozy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2239,7 +2239,7 @@ public class FXMLAdministratorController implements Initializable {
                 }
                 cbDoktori4.getSelectionModel().selectFirst();
 
-                Doktori dok = new Doktori(-1, "", "", "", 0, "", "", "", "", "", 0, "", "", cbAdresy3, -1, cbDoktori4);
+                Doktori dok = new Doktori(-1, "", "", "2000-12-01", 0, "", "", "2000-12-01", "", "", 0, "", "", cbAdresy3, -1, cbDoktori4);
                 doktoriData.add(dok);
                 tableViewDoktori.refresh();
                 tableViewDoktori.getSelectionModel().select(dok);
@@ -2280,7 +2280,7 @@ public class FXMLAdministratorController implements Initializable {
                 }
                 cbMajitele.getSelectionModel().selectFirst();
 
-                Faktury fak = new Faktury(-1, "01-01-2000", "01-01-2000",
+                Faktury fak = new Faktury(-1, "2000-12-01", "2000-12-01",
                         "", -1, -1, cbMajitele, cbTypyPlatby);
                 fakturyData.add(fak);
                 tableViewFaktury.refresh();
@@ -2291,10 +2291,10 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case KrevniObrazy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                KrevniObrazy krev = new KrevniObrazy(-1, 0, 0, 0, 0);
-                krevniObrazyData.add(krev);
-                tableViewKrevniObrazy.refresh();
-                tableViewKrevniObrazy.getSelectionModel().select(krev);
+//                KrevniObrazy krev = new KrevniObrazy(-1, 0, 0, 0, 0);
+//                krevniObrazyData.add(krev);
+//                tableViewKrevniObrazy.refresh();
+//                tableViewKrevniObrazy.getSelectionModel().select(krev);
                 break;
             case Leciva:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2309,7 +2309,7 @@ public class FXMLAdministratorController implements Initializable {
                     cbDodavateleD.add(dod1);
                 }
                 cbDodavatele.getSelectionModel().selectFirst();
-                Leciva lec = new Leciva(-1, "", "", 0, "", 0, cbDodavatele);
+                Leciva lec = new Leciva(-1, "", "2000-12-01", 0, "", 0, cbDodavatele);
                 lecivaData.add(lec);
                 tableViewLeciva.refresh();
                 tableViewLeciva.getSelectionModel().select(lec);
@@ -2331,8 +2331,8 @@ public class FXMLAdministratorController implements Initializable {
                     cbAdresyD4.add(ad4);
                 }
                 cbAdresy4.getSelectionModel().selectFirst();
-                Majitele maj = new Majitele(-1, "01-01-2000",
-                        "", "", "01-01-2000",
+                Majitele maj = new Majitele(-1, "2000-12-01",
+                        "", "", "2000-12-01",
                         "", "", -1, "", "", cbAdresy4);
                 majiteleData.add(maj);
                 tableViewMajitele.refresh();
@@ -2354,7 +2354,7 @@ public class FXMLAdministratorController implements Initializable {
                     cbMajiteleD2.add(maj2);
                 }
                 cbMajitele2.getSelectionModel().selectFirst();
-                Objednavky obj = new Objednavky(-1, "", "",
+                Objednavky obj = new Objednavky(-1, "", "2000-12-01",
                         -1, cbMajitele2);
                 objednavkyData.add(obj);
                 tableViewObjednavky.refresh();
@@ -2375,7 +2375,7 @@ public class FXMLAdministratorController implements Initializable {
                     cbZvirataD.add(zv);
                 }
                 cbZvirata.getSelectionModel().selectFirst();
-                Odbery od = new Odbery("01-01-2000", -1, -1, "", cbZvirata);
+                Odbery od = new Odbery("2000-12-01", -1, -1, "", cbZvirata);
                 odberyData.add(od);
                 tableViewOdbery.refresh();
                 tableViewOdbery.getSelectionModel().select(od);
@@ -2455,7 +2455,7 @@ public class FXMLAdministratorController implements Initializable {
                 }
                 cbZvirata2.getSelectionModel().selectFirst();
 
-                Vysetreni vys = new Vysetreni(-1, "01-01-2000", "",
+                Vysetreni vys = new Vysetreni(-1, "2000-12-01", "",
                         -1, -1, cbDiagnozy, cbZvirata2);
                 vysetreniData.add(vys);
                 tableViewVysetreni.refresh();
@@ -2489,7 +2489,7 @@ public class FXMLAdministratorController implements Initializable {
                 }
                 cbZvirata3.getSelectionModel().selectFirst();
 
-                Zakroky zak = new Zakroky(-1, "01-01-2000", "",
+                Zakroky zak = new Zakroky(-1, "2000-12-01", "",
                         -1, -1, cbZvirata3, cbOperace);
                 zakrokyData.add(zak);
                 tableViewZakroky.refresh();
@@ -2555,7 +2555,7 @@ public class FXMLAdministratorController implements Initializable {
                 }
                 cbDoktori.getSelectionModel().selectFirst();
 
-                Zvirata zvir = new Zvirata(-1, "", "01-01-2000", 0, "", "", -1, -1, -1, -1, cbMajitele3, cbPohlavi, cbDruhy, cbDoktori);
+                Zvirata zvir = new Zvirata(-1, "", "2000-12-01", 0, "", "", -1, -1, -1, -1, cbMajitele3, cbPohlavi, cbDruhy, cbDoktori);
                 zvirataData.add(zvir);
                 tableViewZvirata.refresh();
                 tableViewZvirata.getSelectionModel().select(zvir);
@@ -3628,7 +3628,6 @@ public class FXMLAdministratorController implements Initializable {
                     Dodavatele dodD = tableViewDodavatele.getSelectionModel().getSelectedItem();
 
                     if (dodD.getNazev().isEmpty()
-                            || dodD.getTelefon().isEmpty()
                             || dodD.getEmail().isEmpty()
                             || dodD.getAdresy().getValue() == null) {
                         throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
@@ -3710,7 +3709,6 @@ public class FXMLAdministratorController implements Initializable {
                             || dokD.getPrijmeni().isEmpty()
                             || dokD.getDatumNarozeni().isEmpty()
                             || dokD.getTelefon().isEmpty()
-                            || dokD.getEmail().isEmpty()
                             || dokD.getHeslo().isEmpty()
                             || dokD.getPrihlasovaciJmeno().isEmpty()
                             || dokD.getDoktori().getValue() == null
@@ -3750,11 +3748,11 @@ public class FXMLAdministratorController implements Initializable {
                         cst.setInt(1, dokD.getIdDoktora());
                         cst.setString(2, dokD.getTitul());
                         cst.setString(3, dokD.getDelkaUvazku());
-                        cst.setString(4, dokD.getDatumNastupu());
+                        cst.setDate(4, Date.valueOf(dokD.getDatumNastupu()));
                         cst.setDouble(5, dokD.getPlat());
                         cst.setString(6, dokD.getJmeno());
                         cst.setString(7, dokD.getPrijmeni());
-                        cst.setString(8, dokD.getDatumNarozeni());
+                        cst.setDate(8, Date.valueOf(dokD.getDatumNarozeni()));
                         cst.setString(9, dokD.getTelefon());
                         cst.setString(10, dokD.getEmail());
                         cst.setInt(11, idAdresy);
@@ -3766,11 +3764,11 @@ public class FXMLAdministratorController implements Initializable {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_DOKTORI(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
                         cst.setString(1, dokD.getTitul());
                         cst.setString(2, dokD.getDelkaUvazku());
-                        cst.setString(3, dokD.getDatumNastupu());
+                        cst.setDate(3, Date.valueOf(dokD.getDatumNastupu()));
                         cst.setDouble(4, dokD.getPlat());
                         cst.setString(5, dokD.getJmeno());
                         cst.setString(6, dokD.getPrijmeni());
-                        cst.setString(7, dokD.getDatumNarozeni());
+                        cst.setDate(7, Date.valueOf(dokD.getDatumNarozeni()));
                         cst.setString(8, dokD.getTelefon());
                         cst.setString(9, dokD.getEmail());
                         cst.setInt(10, idAdresy);
@@ -3815,12 +3813,12 @@ public class FXMLAdministratorController implements Initializable {
                         }
                     }
                     if (jePritomny) {
-                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_DRUHY(?,?,?)}");
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_DRUHY(?,?,?)}");
                         cst.setInt(1, druD.getIdDruhu());
                         cst.setString(2, druD.getDruh());
                         cst.setInt(3, FXMLUvodniController.prihlasenyUzivatel.getId());
                     } else {
-                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_DRUHY(?,?)}");
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_DRUHY(?,?)}");
                         cst.setString(1, druD.getDruh());
                         cst.setInt(2, FXMLUvodniController.prihlasenyUzivatel.getId());
                     }
@@ -3911,16 +3909,16 @@ public class FXMLAdministratorController implements Initializable {
                     if (jePritomny) {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_FAKTURY(?,?,?,?,?,?,?)}");
                         cst.setInt(1, fakD.getIdFaktury());
-                        cst.setString(2, fakD.getDatumVystaveni());
-                        cst.setString(3, fakD.getDatumSplatnosti());
+                        cst.setDate(2, Date.valueOf(fakD.getDatumVystaveni()));
+                        cst.setDate(3, Date.valueOf(fakD.getDatumSplatnosti()));
                         cst.setString(4, fakD.getStav());
                         cst.setInt(5, idMajitele);
                         cst.setInt(6, idTypu);
                         cst.setInt(7, FXMLUvodniController.prihlasenyUzivatel.getId());
                     } else {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_FAKTURY(?,?,?,?,?,?)}");
-                        cst.setString(1, fakD.getDatumVystaveni());
-                        cst.setString(2, fakD.getDatumSplatnosti());
+                        cst.setDate(1, Date.valueOf(fakD.getDatumVystaveni()));
+                        cst.setDate(2, Date.valueOf(fakD.getDatumSplatnosti()));
                         cst.setString(3, fakD.getStav());
                         cst.setInt(4, idMajitele);
                         cst.setInt(5, idTypu);
@@ -4006,7 +4004,6 @@ public class FXMLAdministratorController implements Initializable {
 
                     if (lecD.getNazev().isEmpty()
                             || lecD.getDatumExpirace().isEmpty()
-                            || lecD.getPopis().isEmpty()
                             || lecD.getDodavatele().getValue() == null) {
                         throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
                     }
@@ -4033,7 +4030,7 @@ public class FXMLAdministratorController implements Initializable {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_LECIVA(?,?,?,?,?,?,?)}");
                         cst.setInt(1, lecD.getIdLeku());
                         cst.setString(2, lecD.getNazev());
-                        cst.setString(3, lecD.getDatumExpirace());
+                        cst.setDate(3, Date.valueOf(lecD.getDatumExpirace()));
                         cst.setInt(4, lecD.getPocetSkladem());
                         cst.setString(5, lecD.getPopis());
                         cst.setInt(6, idDodavatele);
@@ -4041,7 +4038,7 @@ public class FXMLAdministratorController implements Initializable {
                     } else {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_LECIVA(?,?,?,?,?,?)}");
                         cst.setString(1, lecD.getNazev());
-                        cst.setString(2, lecD.getDatumExpirace());
+                        cst.setDate(2, Date.valueOf(lecD.getDatumExpirace()));
                         cst.setInt(3, lecD.getPocetSkladem());
                         cst.setString(4, lecD.getPopis());
                         cst.setInt(5, idDodavatele);
@@ -4091,7 +4088,6 @@ public class FXMLAdministratorController implements Initializable {
                             || majD.getPrijmeni().isEmpty()
                             || majD.getDatumNarozeni().isEmpty()
                             || majD.getTelefon().isEmpty()
-                            || majD.getEmail().isEmpty()
                             || majD.getHeslo().isEmpty()
                             || majD.getPrihlasovaciJmeno().isEmpty()
                             || majD.getAdresy().getValue() == null) {
@@ -4119,10 +4115,10 @@ public class FXMLAdministratorController implements Initializable {
                     if (jePritomny) {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_MAJITELE(?,?,?,?,?,?,?,?,?,?,?)}");
                         cst.setInt(1, majD.getIdMajitele());
-                        cst.setString(2, majD.getDatumRegistrace());
+                        cst.setDate(2, Date.valueOf(majD.getDatumRegistrace()));
                         cst.setString(3, majD.getJmeno());
                         cst.setString(4, majD.getPrijmeni());
-                        cst.setString(5, majD.getDatumNarozeni());
+                        cst.setDate(5, Date.valueOf(majD.getDatumNarozeni()));
                         cst.setString(6, majD.getTelefon());
                         cst.setString(7, majD.getEmail());
                         cst.setInt(8, majD.getIdAdresy());
@@ -4131,10 +4127,10 @@ public class FXMLAdministratorController implements Initializable {
                         cst.setInt(11, FXMLUvodniController.prihlasenyUzivatel.getId());
                     } else {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_MAJITELE(?,?,?,?,?,?,?,?,?,?)}");
-                        cst.setString(1, majD.getDatumRegistrace());
+                        cst.setDate(1, Date.valueOf(majD.getDatumRegistrace()));
                         cst.setString(2, majD.getJmeno());
                         cst.setString(3, majD.getPrijmeni());
-                        cst.setString(4, majD.getDatumNarozeni());
+                        cst.setDate(4, Date.valueOf(majD.getDatumNarozeni()));
                         cst.setString(5, majD.getTelefon());
                         cst.setString(6, majD.getEmail());
                         cst.setInt(7, majD.getIdAdresy());
@@ -4207,13 +4203,13 @@ public class FXMLAdministratorController implements Initializable {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_OBJEDNAVKY(?,?,?,?,?)}");
                         cst.setInt(1, objD.getIdObjednavky());
                         cst.setString(2, objD.getPricina());
-                        cst.setString(3, objD.getTermin());
+                        cst.setDate(3, Date.valueOf(objD.getTermin()));
                         cst.setInt(4, idMajitele);
                         cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
                     } else {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_OBJEDNAVKY(?,?,?,?)}");
                         cst.setString(1, objD.getPricina());
-                        cst.setString(2, objD.getTermin());
+                        cst.setDate(2, Date.valueOf(objD.getTermin()));
                         cst.setInt(3, idMajitele);
                         cst.setInt(4, FXMLUvodniController.prihlasenyUzivatel.getId());
                     }
@@ -4254,7 +4250,6 @@ public class FXMLAdministratorController implements Initializable {
                     Odbery odbD = tableViewOdbery.getSelectionModel().getSelectedItem();
 
                     if (odbD.getDatum().isEmpty()
-                            || odbD.getPoznamka().isEmpty()
                             || odbD.getZvirata().getValue() == null) {
                         throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
                     }
@@ -4281,13 +4276,13 @@ public class FXMLAdministratorController implements Initializable {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_ODBERY(?,?,?,?,?)}");
                         cst.setInt(1, odbD.getIdOdberu());
                         cst.setInt(2, odbD.getIdZvirete());
-                        cst.setString(3, odbD.getDatum());
+                        cst.setDate(3, Date.valueOf(odbD.getDatum()));
                         cst.setInt(4, idZvirete);
                         cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
                     } else {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ODBERY(?,?,?,?)}");
                         cst.setInt(1, odbD.getIdZvirete());
-                        cst.setString(2, odbD.getDatum());
+                        cst.setDate(2, Date.valueOf(odbD.getDatum()));
                         cst.setInt(3, idZvirete);
                         cst.setInt(4, FXMLUvodniController.prihlasenyUzivatel.getId());
                     }
@@ -4317,8 +4312,7 @@ public class FXMLAdministratorController implements Initializable {
                     Operace opeD = tableViewOperace.getSelectionModel().getSelectedItem();
 
                     if (opeD.getNazev().isEmpty()
-                            || opeD.getOznaceni().isEmpty()
-                            || opeD.getRiziko().isEmpty()) {
+                            || opeD.getOznaceni().isEmpty()) {
                         throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
                     }
                     boolean jePritomny = false;
@@ -4455,7 +4449,7 @@ public class FXMLAdministratorController implements Initializable {
                         cst.setInt(5, idFaktury);
                         cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
                     } else {
-                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_POLOZKY(?,?,?,?,?)}");
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_POLOZKY(?,?,?,?,?)}");
                         cst.setString(1, polD.getNazev());
                         cst.setInt(2, polD.getPocet());
                         cst.setInt(3, polD.getCena());
@@ -4601,7 +4595,6 @@ public class FXMLAdministratorController implements Initializable {
                     Vysetreni vysD = tableViewVysetreni.getSelectionModel().getSelectedItem();
 
                     if (vysD.getDatum().isEmpty()
-                            || vysD.getPoznamka().isEmpty()
                             || vysD.getDiagnozy().getValue() == null
                             || vysD.getZvirata().getValue() == null) {
                         throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
@@ -4641,14 +4634,14 @@ public class FXMLAdministratorController implements Initializable {
                     if (jePritomny) {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_VYSETRENI(?,?,?,?,?,?)}");
                         cst.setInt(1, vysD.getIdVysetreni());
-                        cst.setString(2, vysD.getDatum());
+                        cst.setDate(2, Date.valueOf(vysD.getDatum()));
                         cst.setString(3, vysD.getPoznamka());
                         cst.setInt(4, idDiagnozy);
                         cst.setInt(5, idZvirete);
                         cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
                     } else {
                         cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_VYSETRENI(?,?,?,?,?)}");
-                        cst.setString(1, vysD.getDatum());
+                        cst.setDate(1, Date.valueOf(vysD.getDatum()));
                         cst.setString(2, vysD.getPoznamka());
                         cst.setInt(3, idDiagnozy);
                         cst.setInt(4, idZvirete);
@@ -4666,12 +4659,262 @@ public class FXMLAdministratorController implements Initializable {
                 break;
             case Zakroky:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Zakroky> zakrokyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZAKROKY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Zakroky zak = new Zakroky(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), null, null);
+                        zakrokyL.add(zak);
+                    }
+                    ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZVIRATA";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4),
+                                rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10),
+                                null, null, null, null);
+                        zvirataL.add(zv);
+                    }
+                    ObservableList<Operace> operaceL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_OPERACE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Operace ope = new Operace(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getDouble(4), rs.getString(5));
+                        operaceL.add(ope);
+                    }
+
+                    Zakroky zakD = tableViewZakroky.getSelectionModel().getSelectedItem();
+
+                    if (zakD.getDatum().isEmpty()
+                            || zakD.getZvirata().getValue() == null
+                            || zakD.getOperace().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Zakroky zakA : zakrokyL) {
+                        if (zakA.getIdZakroku() == zakD.getIdZakroku()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idOperace = -1;
+                    boolean nalezena = false;
+                    for (Operace opeG : operaceL) {
+                        if (opeG.getIdOperace() == zakD.getOperace().getValue().getIdOperace()) {
+                            idOperace = opeG.getIdOperace();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Operace nenalezena");
+                    }
+                    int idZvirete = -1;
+                    boolean nalezena2 = false;
+                    for (Zvirata zviR : zvirataL) {
+                        if (zviR.getIdZvirete() == zakD.getZvirata().getValue().getIdZvirete()) {
+                            idZvirete = zviR.getIdZvirete();
+                            nalezena2 = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena2) {
+                        throw new Exception("Zvire nenalezeno");
+                    }
+                    
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_ZAKROKY(?,?,?,?,?,?)}");
+                        cst.setInt(1, zakD.getIdZakroku());
+                        cst.setDate(2, Date.valueOf(zakD.getDatum()));
+                        cst.setString(3, zakD.getPoznamka());
+                        cst.setInt(4, idZvirete);
+                        cst.setInt(5, idOperace);
+                        cst.setInt(6, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ZAKROKY(?,?,?,?,?,?)}");
+                        cst.setDate(1, Date.valueOf(zakD.getDatum()));
+                        cst.setString(2, zakD.getPoznamka());
+                        cst.setInt(3, idZvirete);
+                        cst.setInt(4, idOperace);
+                        cst.setInt(5, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewZakroky.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
                 break;
             case Zpravy:
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                
                 break;
             case Zvirata:
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                try {
+                    ObservableList<Zvirata> zvirataL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_ZVIRATA";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Zvirata zv = new Zvirata(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4),
+                                rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10),
+                                null, null, null, null);
+                        zvirataL.add(zv);
+                    }
+                    ObservableList<Majitele> majiteleL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_MAJITELE";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Majitele maj = new Majitele(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7),
+                                rs.getInt(8), rs.getString(9), rs.getString(10), null);
+                        majiteleL.add(maj);
+                    }
+                    ObservableList<Pohlavi> pohlaviL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_POHLAVI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Pohlavi poh = new Pohlavi(rs.getInt(1), rs.getString(2));
+                        pohlaviL.add(poh);
+                    }
+                    ObservableList<Druhy> druhyL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DRUHY";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Druhy druh = new Druhy(rs.getInt(1), rs.getString(2));
+                        druhyL.add(druh);
+                    }
+                    ObservableList<Doktori> doktoriL = FXCollections.observableArrayList();
+                    sql = "SELECT * FROM PO_DOKTORI";
+                    pstmt = VeterinarniKlinika.con.prepareStatement(sql);
+                    rs = pstmt.executeQuery();
+
+                    while (rs.next()) {
+                        Doktori dok = new Doktori(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                 rs.getString(4), rs.getInt(5), rs.getString(6), rs.getString(7),
+                                rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getString(12), rs.getString(13), null, rs.getInt(14), null);
+                        doktoriL.add(dok);
+                    }
+
+                    Zvirata zviD = tableViewZvirata.getSelectionModel().getSelectedItem();
+
+                    if (zviD.getJmeno().isEmpty()
+                            || zviD.getDatumNarozeni().isEmpty()
+                            || zviD.getMajitele().getValue() == null
+                            || zviD.getPohlavi().getValue() == null
+                            || zviD.getDruhy().getValue() == null
+                            || zviD.getDoktori().getValue() == null) {
+                        throw new Exception("Formulář není řádně vyplněn, některá pole jsou prázdná !");
+                    }
+                    boolean jePritomny = false;
+                    for (Zvirata zviA : zvirataL) {
+                        if (zviA.getIdZvirete() == zviD.getIdZvirete()) {
+                            jePritomny = true;
+                            break;
+                        }
+                    }
+                    int idMajitele = -1;
+                    boolean nalezena = false;
+                    for (Majitele maJ : majiteleL) {
+                        if (maJ.getIdMajitele() == zviD.getMajitele().getValue().getIdMajitele()) {
+                            idMajitele = maJ.getIdMajitele();
+                            nalezena = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena) {
+                        throw new Exception("Majitel nenalezen");
+                    }
+                    int idPohlavi = -1;
+                    boolean nalezena2 = false;
+                    for (Pohlavi pohL : pohlaviL) {
+                        if (pohL.getIdPohlavi() == zviD.getPohlavi().getValue().getIdPohlavi()) {
+                            idPohlavi = pohL.getIdPohlavi();
+                            nalezena2 = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena2) {
+                        throw new Exception("Pohlavi nenalezeno");
+                    }
+                    int idDruh = -1;
+                    boolean nalezena3 = false;
+                    for (Druhy druH : druhyL) {
+                        if (druH.getIdDruhu() == zviD.getDruhy().getValue().getIdDruhu()) {
+                            idDruh = druH.getIdDruhu();
+                            nalezena3 = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena3) {
+                        throw new Exception("Pohlavi nenalezeno");
+                    }
+                    int idDoktor = -1;
+                    boolean nalezena4 = false;
+                    for (Doktori dokT : doktoriL) {
+                        if (dokT.getIdDoktora() == zviD.getDoktori().getValue().getIdDoktora()) {
+                            idDoktor = dokT.getIdDoktora();
+                            nalezena4 = true;
+                            break;
+                        }
+                    }
+                    if (!nalezena4) {
+                        throw new Exception("Doktor nenalezen");
+                    }
+                    
+                    if (jePritomny) {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_EDIT_ZVIRATA(?,?,?,?,?,?,?,?,?,?,?)}");
+                        cst.setInt(1, zviD.getIdZvirete());
+                        cst.setString(2, zviD.getJmeno());
+                        cst.setDate(3, Date.valueOf(zviD.getDatumNarozeni()));
+                        cst.setDouble(4, zviD.getVaha());
+                        cst.setString(5, zviD.getPoznamka());
+                        cst.setString(6, zviD.getCisloCipu());
+                        cst.setInt(7, idMajitele);
+                        cst.setInt(8, idPohlavi);
+                        cst.setInt(9, idDruh);
+                        cst.setInt(10, idDoktor);
+                        cst.setInt(11, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    } else {
+                        cst = VeterinarniKlinika.con.prepareCall("{CALL PROC_ADD_ZVIRATA(?,?,?,?,?,?,?,?,?,?)}");
+                        cst.setString(1, zviD.getJmeno());
+                        cst.setDate(2, Date.valueOf(zviD.getDatumNarozeni()));
+                        cst.setDouble(3, zviD.getVaha());
+                        cst.setString(4, zviD.getPoznamka());
+                        cst.setString(5, zviD.getCisloCipu());
+                        cst.setInt(6, idMajitele);
+                        cst.setInt(7, idPohlavi);
+                        cst.setInt(8, idDruh);
+                        cst.setInt(9, idDoktor);
+                        cst.setInt(10, FXMLUvodniController.prihlasenyUzivatel.getId());
+                    }
+                    cst.executeUpdate();
+                    tableViewZvirata.refresh();
+                } catch (Exception ex) {
+                    if (!ex.getMessage().isEmpty()) {
+                        Bezpecnost.vypisChybu(ex.getMessage());
+                    } else {
+                        Bezpecnost.vypisChybu("Chybna vstupni pole");
+                    }
+                }
         }
     }
 
@@ -4997,7 +5240,7 @@ public class FXMLAdministratorController implements Initializable {
     }
 
     @FXML
-    private void doktori_plat_edit(TableColumn.CellEditEvent<Doktori, Integer> event) {
+    private void doktori_plat_edit(TableColumn.CellEditEvent<Doktori, Double> event) {
         try {
             tableViewDoktori.getItems().get(event.getTablePosition().getRow()).setPlat(event.getNewValue());
             tableViewDoktori.refresh();
